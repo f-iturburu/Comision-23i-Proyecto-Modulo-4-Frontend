@@ -8,7 +8,7 @@ import Stack from 'react-bootstrap/Stack';
 
 function CreateNewSurvey() {
   const [data,setData] = useState([])
-  console.log(data);
+  console.log('data', data);
   const [show, setShow] = useState(false);
   const [questions, setQuestions] = useState([<CreateQuestionSurvey setData={setData} data={data}/>])
   const handleClose = () => setShow(false);
@@ -46,10 +46,6 @@ function CreateNewSurvey() {
             </Form.Group>
           </Form>
          {questions}
-
-        
-
-  
           </Container>
         </Modal.Body>
         <Modal.Footer>

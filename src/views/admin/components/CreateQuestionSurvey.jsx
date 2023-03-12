@@ -6,11 +6,76 @@ import Button from "react-bootstrap/Button";
 
 
 
-function SingleOptionComponent({data, setData})  {
+function CreateQuestionSurvey({data, setData}) {
+ const [questionType, setQuestionType] = useState("");
+ const questionTypeString = useRef()
+ const [question,setQuestion] = useState("")
+ const [questionAnswers, setQuestionAnswers] = useState()
+ const [object, setObject] = useState({
+    'question': '', 
+    'type':'',
+    'possibleAnswers' : '',
+    'id': crypto.randomUUID()
+ })
+
+useEffect(() =>{
+  const updatedObject = { ...object ,
+        'question': question, 
+        'type':questionTypeString.current?.value,
+        'possibleAnswers' : questionAnswers,
+        }
+
+  setObject(updatedObject)
+
+ },[question,questionAnswers,questionType,questionTypeString])
+
+useEffect(()=>{
+  setData(prevArray =>
+    {
+      const existingObjectIndex = prevArray.findIndex(obj => obj.id === object.id);
+      console.log(existingObjectIndex);
+
+      if (existingObjectIndex === -1)
+        return [...prevArray, object];
+      else
+      {
+        const updatedArray = [...prevArray];
+        updatedArray[existingObjectIndex] = { ...prevArray[existingObjectIndex], ...object };
+        return updatedArray;
+      }
+    });
+ },[object])
+
+
+const componentHandler = (questionTypeString)=>{
+  switch (questionTypeString) {
+   case "singleOption":
+     setQuestionType(<SingleOptionComponent/>)
+     break;
+   case "multipleOptions":
+     setQuestionType(<MultipleOptionsComponent />)
+     break;
+   case "text":
+     setQuestionType(<TextComponent  />)
+     break;
+   case "numbers":
+     setQuestionType(<NumbersComponents />)
+     break;
+   default:
+     break;
+  }
+}
+
+ const SingleOptionComponent =() => {
   const optionsRef = useRef([]);
   const [radioSelectors, setRadioSelectors] = useState([]);
-  const mappedRadioSelectors = radioSelectors.map((i) =>  <div className="d-flex "> 
 
+  useEffect(()=>{
+    setQuestionAnswers(radioSelectors)
+  },[radioSelectors])
+
+
+  const mappedRadioSelectors = radioSelectors.map((i) =><div className="d-flex "> 
     <Form.Check 
   type="radio"
   key={i}
@@ -19,7 +84,7 @@ function SingleOptionComponent({data, setData})  {
   label={i}
 />
 
-<i className="bi bi-trash3 ms-auto" onClick={(e)=>{
+<i key={i + "delete"} className="bi bi-trash3 ms-auto" onClick={(e)=>{
     let elementToSearch = e.target.parentElement.textContent.toString()
     setRadioSelectors(radioSelectors.filter((i)=> i !== elementToSearch))
 }
@@ -36,7 +101,7 @@ function SingleOptionComponent({data, setData})  {
         />
       </Col>
       <Col xs={1}>
-        <Button onClick={() => setRadioSelectors((prevArray) => [...prevArray,optionsRef.current.value,])} variant="outline-primary">+</Button>
+        <Button variant="outline-primary" onClick={() =>setRadioSelectors((prevArray) => [...prevArray,optionsRef.current.value,])}>+</Button>
       </Col>
       
       <Col xs={12}>
@@ -48,22 +113,27 @@ function SingleOptionComponent({data, setData})  {
   );
 }
 
-function MultipleOptionsComponent({data, setData}) {
+const MultipleOptionsComponent = () => {
     const optionsRef = useRef([]);
-    const [radioSelectors, setRadioSelectors] = useState([]);
-    const mappedRadioSelectors = radioSelectors.map((i) =>  <div className="d-flex"> 
+    const [checboxSelectors, setChecboxSelectors] = useState([]);
+
+    useEffect(()=>{
+      setQuestionAnswers(checboxSelectors)
+    },[checboxSelectors])
+
+    const mappedChecboxSelectors = checboxSelectors.map((i) =>  <div className="d-flex"> 
+    
   
       <Form.Check 
     type="checkbox"
     key={i}
-    id="custom-switch"
-    name="radioSelectors"
+    name="checboxSelectors"
     label={i}
   />
   
   <i className="bi bi-trash3 ms-auto" onClick={(e)=>{
       let elementToSearch = e.target.parentElement.textContent.toString()
-      setRadioSelectors(radioSelectors.filter((i)=> i !== elementToSearch))
+      setChecboxSelectors(radioSelectors.filter((i)=> i !== elementToSearch))
   }
   }></i>
     </div>)
@@ -78,19 +148,23 @@ function MultipleOptionsComponent({data, setData}) {
           />
         </Col>
         <Col xs={1}>
-          <Button onClick={() => setRadioSelectors((prevArray) => [...prevArray,optionsRef.current.value,])} variant="outline-primary">+</Button>
+          <Button onClick={() => setChecboxSelectors((prevArray) => [...prevArray,optionsRef.current.value,])} variant="outline-primary">+</Button>
         </Col>
         
         <Col xs={12}>
     <Form className="mt-3">
-       {mappedRadioSelectors}
+       {mappedChecboxSelectors}
     </Form>
         </Col>
       </Row>
     );
 }
 
-function TextComponent() {
+const TextComponent =() => {
+
+  useEffect(()=>{
+    setQuestionAnswers([])
+  },[])
 
 return (
     <Row className="mt-2">
@@ -106,7 +180,11 @@ return (
     )
 }
 
-function NumbersComponents() {
+const NumbersComponents =() => {
+  useEffect(()=>{
+    setQuestionAnswers([])
+  },[])
+
     return (
         <Row className="mt-2">
             <Col xs={6}>
@@ -120,43 +198,6 @@ function NumbersComponents() {
         </Row>
         )
 }
-
-function CreateQuestionSurvey({data, setData}) {
-  const [questionType, setQuestionType] = useState("");
-  const questionTypeString = useRef()
- const [question,setQuestion] = useState("")
-
- const componentHandler = (questionTypeString)=>{
-  console.log(questionTypeString);
-   switch (questionTypeString) {
-    case "singleOption":
-      setQuestionType(<SingleOptionComponent setData={setData} data={data}/>)
-      break;
-    case "multipleOptions":
-      setQuestionType(<MultipleOptionsComponent setData={setData} data={data}/>)
-      break;
-    case "text":
-      setQuestionType(<TextComponent setData={setData} data={data} />)
-      break;
-    case "numbers":
-      setQuestionType(<NumbersComponents setData={setData} data={data}/>)
-      break;
-    default:
-      break;
-   }
- }
-
- useEffect(() =>{
-  setData([...data ,{
-    'question': question, 
-    'type':questionTypeString.current?.value,
-    }])
- },[question,questionTypeString])
-
-// const handleData =()=>{
- 
-// }
-// handleData()
 
   return (
     <Form className="border-top pt-3">
