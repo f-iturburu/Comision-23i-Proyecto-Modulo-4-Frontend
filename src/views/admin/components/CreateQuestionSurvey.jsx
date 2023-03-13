@@ -1,8 +1,9 @@
-import { Form, FormCheck } from "react-bootstrap";
+import { Form, FormCheck, Stack } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
+import AlertDismissible from "../../../layouts/alert";
 
 
 
@@ -33,12 +34,9 @@ useEffect(()=>{
   setData(prevArray =>
     {
       const existingObjectIndex = prevArray.findIndex(obj => obj.id === object.id);
-      console.log(existingObjectIndex);
-
-      if (existingObjectIndex === -1)
+      if (existingObjectIndex === -1){
         return [...prevArray, object];
-      else
-      {
+      } else {
         const updatedArray = [...prevArray];
         updatedArray[existingObjectIndex] = { ...prevArray[existingObjectIndex], ...object };
         return updatedArray;
@@ -69,12 +67,32 @@ const componentHandler = (questionTypeString)=>{
  const SingleOptionComponent =() => {
   const optionsRef = useRef([]);
   const [radioSelectors, setRadioSelectors] = useState([]);
+  const [errorMessage , setErrorMessage] = useState()
+  console.log('Radio Selectors' + '' + radioSelectors);
 
   useEffect(()=>{
     setQuestionAnswers(radioSelectors)
   },[radioSelectors])
 
-
+  const optionsHandler = ()=>{
+    setErrorMessage('')
+    setRadioSelectors((prevArray) =>{
+      const optionFound = prevArray.find((i) => i == optionsRef.current.value)
+      if (optionsRef.current.value == '') {
+        setErrorMessage(<AlertDismissible message={'La opcion ingresada es invalida'} state={true}/>)
+        return [...prevArray]
+      }else if(radioSelectors.length >= 5 ){
+        setErrorMessage(<AlertDismissible message={'Has ingresado demasiadas opciones (máximo 5)'} state={true}  />)
+        return [...prevArray]
+      }else if (optionFound){ 
+        setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
+        return [...prevArray]
+      } else {
+        return[...prevArray,optionsRef.current.value]
+      }
+    } )
+  }
+  
   const mappedRadioSelectors = radioSelectors.map((i) =><div className="d-flex "> 
     <Form.Check 
   type="radio"
@@ -101,11 +119,12 @@ const componentHandler = (questionTypeString)=>{
         />
       </Col>
       <Col xs={1}>
-        <Button variant="outline-primary" onClick={() =>setRadioSelectors((prevArray) => [...prevArray,optionsRef.current.value,])}>+</Button>
+        <Button variant="outline-primary" onClick={optionsHandler}>+</Button>
       </Col>
       
       <Col xs={12}>
-  <Form className="mt-3">
+     {errorMessage}
+  <Form key={data.length} className="mt-3">
      {mappedRadioSelectors}
   </Form>
       </Col>
@@ -133,7 +152,7 @@ const MultipleOptionsComponent = () => {
   
   <i className="bi bi-trash3 ms-auto" onClick={(e)=>{
       let elementToSearch = e.target.parentElement.textContent.toString()
-      setChecboxSelectors(radioSelectors.filter((i)=> i !== elementToSearch))
+      setChecboxSelectors(checboxSelectors.filter((i)=> i !== elementToSearch))
   }
   }></i>
     </div>)
@@ -200,6 +219,7 @@ const NumbersComponents =() => {
 }
 
   return (
+    <Stack>
     <Form className="border-top pt-3">
       <Form.Group className="mb-3">
         <Row>
@@ -222,9 +242,10 @@ const NumbersComponents =() => {
             </Form.Select>
           </Col>
         </Row>
-        {questionType}
       </Form.Group>
     </Form>
+      {questionType}
+    </Stack>
   );
 }
 
