@@ -8,6 +8,7 @@ import Login from "./views/login/login";
 import Register from "./views/register/register";
 import Surveys from "./views/surveys/Surveys";
 
+
 const App = () => {
   return (
     <BrowserRouter>
