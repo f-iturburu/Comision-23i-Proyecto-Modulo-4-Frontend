@@ -6,17 +6,19 @@ import { Container } from "react-bootstrap";
 import CreateQuestionSurvey from "./CreateQuestionSurvey";
 import Stack from 'react-bootstrap/Stack';
 import { DatePicker, Space } from 'antd';
+import AlertDismissible from "../../../layouts/alert";
 
 
 function CreateNewSurvey() {
   const [data,setData] = useState([])
-  console.log('data', data);
+  // console.log('data', data);
   const [show, setShow] = useState(false);
-  const [questions, setQuestions] = useState([<CreateQuestionSurvey setData={setData} data={data}/>])
+  const [SurveyQuestions, setSurveyQuestions] = useState([<CreateQuestionSurvey setData={setData} data={data} />])
+  const [errorMessage , setErrorMessage] = useState()
   const handleClose = () => {
     setShow(false)
     setData([])
-    setQuestions([<CreateQuestionSurvey setData={setData} data={data}/>])
+    setSurveyQuestions([<CreateQuestionSurvey setData={setData} data={data}/>])
   };
   const handleShow = () => setShow(true);
 const [dateBool, setDateBool] = useState(false)
@@ -25,6 +27,18 @@ const stateHandler = ()=> setDateBool(!dateBool)
   const onChange = (date, dateString) => {
     console.log(dateString);
   };
+
+  const componentQuestionsHandler=()=>{
+
+    setSurveyQuestions((prevArray) => {
+  if (prevArray.length >= 7) {
+    setErrorMessage(<AlertDismissible message={'Has superado la cantidad maxima de preguntas para esta encuesta'} state={true}/>)
+    return [...prevArray]
+  }
+  return [...prevArray,<CreateQuestionSurvey setData={setData} data={data} setSurveyQuestions={setSurveyQuestions} SurveyQuestions={SurveyQuestions}/>,]
+})
+}  
+  
   
   return (
     <>
@@ -71,13 +85,14 @@ const stateHandler = ()=> setDateBool(!dateBool)
              </Form.Text>
             </Form.Group>
           </Form>
-         {questions}
+         {SurveyQuestions}
+         {errorMessage}
           </Container>
         </Modal.Body>
         <Modal.Footer>
         <Stack className="container-fluid" direction="horizontal" gap={3}>
-         <Button variant="outline-success" onClick={()=> setQuestions((prevArray) => [...prevArray,<CreateQuestionSurvey setData={setData} data={data}/>,])}>Añadir pregunta</Button>
-         <h5 className="my-auto me-auto">{questions.length}/7</h5>
+         <Button variant="outline-success" onClick={componentQuestionsHandler}>Añadir pregunta</Button>
+         <h5 className="my-auto me-auto">{SurveyQuestions.length}/7</h5>
           <Button className="ms-auto" variant="secondary" onClick={handleClose}>
             Cerrar
           </Button>

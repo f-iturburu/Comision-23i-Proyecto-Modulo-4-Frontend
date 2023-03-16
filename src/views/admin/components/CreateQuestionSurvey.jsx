@@ -7,7 +7,7 @@ import AlertDismissible from "../../../layouts/alert";
 
 
 
-function CreateQuestionSurvey({data, setData}) {
+function CreateQuestionSurvey({data, setData , setSurveyQuestions, SurveyQuestions}) {
  const [questionType, setQuestionType] = useState("");
  const questionTypeString = useRef()
  const [question,setQuestion] = useState("")
@@ -134,11 +134,31 @@ const componentHandler = (questionTypeString)=>{
 
 const MultipleOptionsComponent = () => {
     const optionsRef = useRef([]);
+    const [errorMessage , setErrorMessage] = useState()
     const [checboxSelectors, setChecboxSelectors] = useState([]);
 
     useEffect(()=>{
       setQuestionAnswers(checboxSelectors)
     },[checboxSelectors])
+    const optionsHandler = ()=>{
+      setErrorMessage('')
+      setChecboxSelectors((prevArray) =>{
+        const optionFound = prevArray.find((i) => i == optionsRef.current.value)
+        if (optionsRef.current.value == '') {
+          setErrorMessage(<AlertDismissible message={'La opcion ingresada es invalida'} state={true}/>)
+          return [...prevArray]
+        }else if(checboxSelectors.length >= 5 ){
+          setErrorMessage(<AlertDismissible message={'Has ingresado demasiadas opciones (máximo 5)'} state={true}  />)
+          return [...prevArray]
+        }else if (optionFound){ 
+          setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
+          return [...prevArray]
+        } else {
+          return[...prevArray,optionsRef.current.value]
+        }
+      } )
+    }
+
 
     const mappedChecboxSelectors = checboxSelectors.map((i) =>  <div className="d-flex"> 
     
@@ -167,10 +187,11 @@ const MultipleOptionsComponent = () => {
           />
         </Col>
         <Col xs={1}>
-          <Button onClick={() => setChecboxSelectors((prevArray) => [...prevArray,optionsRef.current.value,])} variant="outline-primary">+</Button>
+          <Button onClick={optionsHandler} variant="outline-primary">+</Button>
         </Col>
         
         <Col xs={12}>
+        {errorMessage}
     <Form className="mt-3">
        {mappedChecboxSelectors}
     </Form>
@@ -186,7 +207,7 @@ const TextComponent =() => {
   },[])
 
 return (
-    <Row className="mt-2">
+    <Row className="mt-2 mb-3">
         <Col xs={6}>
         <Form.Control
                 type="text"
@@ -205,7 +226,7 @@ const NumbersComponents =() => {
   },[])
 
     return (
-        <Row className="mt-2">
+        <Row className="mt-2 mb-3">
             <Col xs={6}>
             <Form.Control
                     type="number"
@@ -218,15 +239,27 @@ const NumbersComponents =() => {
         )
 }
 
+const SurveyQuestionsLength = SurveyQuestions?.length + 1
+
+ const deleteQuestionsHandler = () =>{
+  console.log(SurveyQuestionsLength);
+  setSurveyQuestions((prevArray) =>{
+    const filteredArray = prevArray.splice(2, 1)
+    console.log('Prev array desde delete questions: ', prevArray);
+    return [...filteredArray]
+  })
+ }
+
+
   return (
     <Stack>
     <Form className="border-top pt-3">
       <Form.Group className="mb-3">
         <Row>
-          <Col>
+          <Col xs={'6'}>
             <Form.Control onChange={(e)=> setQuestion(e.target.value)} type="text" placeholder="Pregunta" />
           </Col>
-          <Col>
+          <Col xs={'5'}>
             <Form.Select
             ref={questionTypeString}
               defaultValue={"default"}
@@ -240,6 +273,9 @@ const NumbersComponents =() => {
               <option value="text">Texto</option>
               <option value="numbers">Números</option>
             </Form.Select>
+          </Col>
+          <Col xs={'1'}>
+          <i className="bi bi-trash3 ms-auto" onClick={deleteQuestionsHandler}></i>
           </Col>
         </Row>
       </Form.Group>
