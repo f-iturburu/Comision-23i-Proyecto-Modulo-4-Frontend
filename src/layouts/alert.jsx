@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 
 function AlertDismissible({message , state}) {
-  const [show, setShow] = useState(state);
+  const [show, setShow] = useState(false);
+
+useEffect(()=>{
+ setShow(state)
+  },[])
 
   if (show) {
     return (
-      <Alert className='p-3 mt-3' variant="danger" onClose={() => setShow(false)} dismissible>
+      <Alert className='p-3 mt-3' variant="danger" onClose={() => setShow(false)} >
         <p className='m-0'>
         {message}
         </p>
