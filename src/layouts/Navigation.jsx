@@ -17,7 +17,7 @@ const Navegation = () => {
                 <NavLink className="nav-link" to="/about">
                     Nosotros
                 </NavLink>
-                <NavLink className="nav-link" to="/survays">
+                <NavLink className="nav-link" to="/surveys">
                     Encuestas
                 </NavLink>
                 <NavLink className="nav-link" to="/contact">

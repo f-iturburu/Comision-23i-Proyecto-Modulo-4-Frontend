@@ -5,14 +5,13 @@ import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
 import CreateQuestionSurvey from "./CreateQuestionSurvey";
 import Stack from 'react-bootstrap/Stack';
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { DatePicker, Space } from 'antd';
 import AlertDismissible from "../../../layouts/alert";
 import todayDate from "../../../helpers/todayDate";
 import compareDates from "../../../helpers/compareDates";
 import TooltipQuestionmark from "../../../layouts/tooltip";
 import Swal from 'sweetalert2'
+import Loader from "../../../components/loader/loader";
 
 function CreateNewSurvey() {
   const [category,setCategory] = useState()
@@ -33,6 +32,7 @@ const [emptyQuestionErrorMessage, setEmptyQuestionErrorMessage] = useState()
 const [emptySurveyTitleErrorMessage, setEmptySurveyTitleErrorMessage] = useState()
 const [emptyCategoryErrorMessage,setEmptyCategoryErrorMessage] = useState()
 const [duplicateQuestionsErrorMessage, setDuplicateQuestionsErrorMessage] =useState()
+const [isLoading, setLoading] = useState(false);
 const [submitError, setSubmitError] = useState([['invalidQuestions', true],['duplicateQuestions',true],
 ['invalidDate', true],['surveyTitle', true],['noTypeAssignedToQuestion', true],['noOptionsAssigned',true],
 ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
@@ -294,7 +294,7 @@ setKeyCounter(keyCounter + 1)
 
 
 
-const handleSubmit  = async () =>{ 
+const handleSubmit  = () =>{ 
   const flatSubmitError = submitError.flat(2)
     const filterBool = flatSubmitError.filter((i)=> i == true)
 
@@ -310,16 +310,50 @@ const handleSubmit  = async () =>{
     'questions': data ,
    }
    
-  await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
-    method:'POST' ,
-    headers: {
-      "Content-Type": "application/json",
-      'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MDMwMDI1fQ.0Fj6rnrWj7V32nfxiXzFOxPYkVKHMsQMLyvkg7LD9XE'
-    },
-    body: JSON.stringify(postObject)
-  }).then(res => res.json()).then(body => console.log(body))
-}
+   Swal.fire({
+    title: 'Estas seguro de guardar esta encuesta?',
+    text: "No podras modificar la encuesta una vez guardada",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Guardar',
+    reverseButtons: true
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      setLoading(true)
+      try{
+        const res = await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
+          method:'POST' ,
+          headers: {
+            "Content-Type": "application/json",
+            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MDMwMDI1fQ.0Fj6rnrWj7V32nfxiXzFOxPYkVKHMsQMLyvkg7LD9XE'
+          },
+          body: JSON.stringify(postObject)
+          
+        })
+          if (res.status == 200) {
+           Swal.fire(
+            '',
+             'Tu encuesta ha sido guardada existosamente!',
+             'success'
+           )
+           handleClose()
+          }else if(res.status == 404 || res.status == 400){
+            Swal.fire(
+              '',
+              'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
+              'error'
+            )
+          }
+          setLoading(false)
+        } catch (error){
 
+      }
+    }
+  })
+ }
 }
   
   return (
@@ -408,7 +442,7 @@ const handleSubmit  = async () =>{
             Cerrar
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Guardar
+            {isLoading? <Loader /> : 'Guardar'}
           </Button>
       </Stack>
         </Modal.Footer>
