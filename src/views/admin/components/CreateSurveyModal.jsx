@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
 import CreateQuestionSurvey from "./CreateQuestionSurvey";
 import Stack from 'react-bootstrap/Stack';
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import { DatePicker, Space } from 'antd';
 import AlertDismissible from "../../../layouts/alert";
 import todayDate from "../../../helpers/todayDate";
@@ -30,60 +32,75 @@ const [multipleOrSingleOptionQuestionsErrorMessage , setMultipleOrSingleOptionQu
 const [emptyQuestionErrorMessage, setEmptyQuestionErrorMessage] = useState()
 const [emptySurveyTitleErrorMessage, setEmptySurveyTitleErrorMessage] = useState()
 const [emptyCategoryErrorMessage,setEmptyCategoryErrorMessage] = useState()
+const [duplicateQuestionsErrorMessage, setDuplicateQuestionsErrorMessage] =useState()
 const [submitError, setSubmitError] = useState([['invalidQuestions', true],['duplicateQuestions',true],
 ['invalidDate', true],['surveyTitle', true],['noTypeAssignedToQuestion', true],['noOptionsAssigned',true],
 ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
+console.table(submitError);
 
-// console.table(data)
 
 
 useEffect(()=>{
-setQuestionsErrorMessage()
-const questionRegex = /^[\p{L}0-9? ]{0,70}$/u
+  validateQuestion(data)
+  validateDuplicateQuestions(data)
+  validateDate(dateBool,date)
+  validateQuestionType(data)
+  validateQuestionOptions(data)
+  validateEmptyQuestion(data)
+  validateEmptySurveyTitle(surveyTitle)
+  validateEmptyCategory(category)
+},[data,date,dateBool,surveyTitle,category])
 
+const onChange = (date, dateString) => {
+  setDate(dateString)
+};
+
+const validateQuestion = (data) =>{
+  const questionRegex = /^[\p{L}0-9? ]{0,70}$/u
   if(!data.every(i => questionRegex.test(i.question))){
-    setQuestionsErrorMessage(<AlertDismissible message={'Has ingresado una pregunta  invalida'} state={true}/>)
+    setQuestionsErrorMessage(<AlertDismissible message={'Has ingresado una pregunta invalida'} state={true}/>)
     setSubmitError((prevArray)=>{
       const newArray = prevArray.map((subArray, i) =>
-      i === 0 ? [subArray[0] = 'invalidQuestions', true] : subArray
+      i === 0 ? ['invalidQuestions', true] : subArray
     );
-
     return newArray
     })
   }else{
     setSubmitError((prevArray)=>{
       const newArray = prevArray.map((subArray, i) =>
-      i === 0 ? [subArray[0] = 'invalidQuestions', false] : subArray
+      i === 0 ? ['invalidQuestions', false] : subArray
     );
+    setQuestionsErrorMessage()
     return newArray
     })
-
   } 
-  
+}
+
+const validateDuplicateQuestions = (data) =>{
   const questionsArray = data.map((i)=> i.question)
- const checkDuplicateQuestions = new Set(questionsArray).size !== questionsArray.length
+  const checkDuplicateQuestions = new Set(questionsArray).size !== questionsArray.length
+ 
+   if (checkDuplicateQuestions) {
+    setDuplicateQuestionsErrorMessage(<AlertDismissible message={'Has ingresado una pregunta duplicada'} state={true}/>)
+   setSubmitError((prevArray)=>{
+     const newArray = prevArray.map((subArray, i) =>
+     i === 1 ? [subArray[0] ='duplicateQuestions', true] : subArray
+   );
+   return newArray
+   })
+  }else{
+   setSubmitError((prevArray)=>{
+     const newArray = prevArray.map((subArray, i) =>
+     i === 1 ? [subArray[0] = 'duplicateQuestions', false] : subArray
+   );
+   return newArray
+   })
 
-  if (checkDuplicateQuestions) {
-  setQuestionsErrorMessage(<AlertDismissible message={'Has ingresado una pregunta duplicada'} state={true}/>)
-  setSubmitError((prevArray)=>{
-    const newArray = prevArray.map((subArray, i) =>
-    i === 1 ? [subArray[0] ='duplicateQuestions', true] : subArray
-  );
-  return newArray
-  })
- }else{
-  setSubmitError((prevArray)=>{
-    const newArray = prevArray.map((subArray, i) =>
-    i === 1 ? [subArray[0] = 'duplicateQuestions', false] : subArray
-  );
-  return newArray
-  })
- }
-},[data])
+   setDuplicateQuestionsErrorMessage()
+  }
+}
 
-useEffect(()=>{
-
-  setSubmitErrorMessage()
+const validateDate =(dateBool, date) =>{
   if (dateBool) {
     if (compareDates(todayDate(),date)) {
       setSubmitErrorMessage()
@@ -109,37 +126,12 @@ useEffect(()=>{
     );
     return newArray
     })
+  setSubmitErrorMessage()
     setDate()
   }
-},[date,dateBool])
+}
 
-const onChange = (date, dateString) => {
-  setDate(dateString)
-};
-
-const handleClose = () => {
-  setShow(false)
-  setDateBool(false)
-  setDate()
-  setData([])
-  setSubmitErrorMessage()
-  setSurveyTitle('')
-  setQuestionsErrorMessage()
-  setErrorMessage()
-  setSurveyTitleErrorMessage()
-  setQuestionWithNoTypeErrorMessage()
-  setMultipleOrSingleOptionQuestionsErrorMessage()
-  setEmptyQuestionErrorMessage()
-  setEmptySurveyTitleErrorMessage()
-  setCategory()
-  setEmptyCategoryErrorMessage()
-  setSurveyQuestions([<CreateQuestionSurvey key={0} id={0} setData={setData} data={data} showDeleteState={false}/>])
-  setSubmitError([['invalidQuestions', true],['duplicateQuestions',true],
-  ['invalidDate', true],['surveyTitle', true],['noTypeAssignedToQuestion', true],['noOptionsAssigned',true],
-  ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
-};
-
-const handleSurveyTitle =(value) =>{
+const validateSurveyTitle =(value) =>{
   const surveyTitleRegex = /^[\p{L}0-9? ]{1,55}$/u
   setSurveyTitleErrorMessage()
   if(surveyTitleRegex.test(value) ){
@@ -161,39 +153,7 @@ const handleSurveyTitle =(value) =>{
   }
 }
 
-  const componentQuestionsHandler=()=>{
-    setErrorMessage()
-    setSurveyQuestions((prevArray) => {
-  if (prevArray.length >= 7) {
-    setErrorMessage(<AlertDismissible message={'Has llegado a la cantidad maxima de preguntas para esta encuesta'} state={true}/>)
-    return [...prevArray]
-  }
-  return [...prevArray,<CreateQuestionSurvey key={keyCounter} id={keyCounter} setData={setData} data={data} setSurveyQuestions={setSurveyQuestions} showDeleteState={true}/>,]
-},
-setKeyCounter(keyCounter + 1)
-)}  
-
-// useEffect(()=>{
-//   // console.table(submitError);
-//   const flatSubmitError = submitError.flat(2)
-//   const filterBool = flatSubmitError.filter((i)=> i == true)
-//   // console.log("flat submit error: " , flatSubmitError);
-//   // console.log('Filter bool: ', filterBool);
-  
-//   if (filterBool.length == 0) {
-//     setSubmitReady(true)
-//     console.log('=========================================');
-//    console.log('No hay errores'); 
-//    console.log('=========================================');
-//   }else{
-//     setSubmitReady(false)
-//   }
-  
-//   },[submitError])
-
-
-const handleSubmit = () =>{ 
-
+const validateQuestionType = (data) =>{
   if (data.some((i)=> i.type == 'default')) {
     setSubmitError((prevArray)=>{
       const newArray = prevArray.map((subArray, i) =>
@@ -211,7 +171,10 @@ const handleSubmit = () =>{
     })
     setQuestionWithNoTypeErrorMessage()
   } 
-  
+}
+
+
+const validateQuestionOptions = (data) =>{
   if(data.some((i)=> (i.type == 'singleOption' || i.type == 'multipleOptions') && i.possibleAnswers.length == 0)){
     setSubmitError((prevArray)=>{
       const newArray = prevArray.map((subArray, i) =>
@@ -228,8 +191,10 @@ const handleSubmit = () =>{
     return newArray
     })
     setMultipleOrSingleOptionQuestionsErrorMessage()
-  } 
-  
+  }
+}
+
+const validateEmptyQuestion = () =>{
   if(data.some((i)=> i.question.length == 0)){
     setSubmitError((prevArray)=>{
       const newArray = prevArray.map((subArray, i) =>
@@ -247,7 +212,9 @@ const handleSubmit = () =>{
     })
     setEmptyQuestionErrorMessage()
   } 
-  
+}
+
+const validateEmptySurveyTitle = (surveyTitle)=>{
   if(surveyTitle.length == 0 ){
     setSubmitError((prevArray)=>{
       const newArray = prevArray.map((subArray, i) =>
@@ -265,7 +232,9 @@ const handleSubmit = () =>{
     })
     setEmptySurveyTitleErrorMessage()
   } 
-  
+}
+
+const validateEmptyCategory = (category) =>{
   if(!category){
     setSubmitError((prevArray)=>{
       const newArray = prevArray.map((subArray, i) =>
@@ -283,22 +252,68 @@ const handleSubmit = () =>{
     })
     setEmptyCategoryErrorMessage()
   }
+}
 
-  
-  //   console.table(submitError);
-  // const flatSubmitError = submitError.flat(2)
-  //   const filterBool = flatSubmitError.filter((i)=> i == true)
-  // console.log("flat submit error: " , flatSubmitError);
-  // console.log('Filter bool: ', filterBool);
 
-  // setSubmitError(prev => prev.flat(2).filter((i)=> i == true))
-  
-  console.log('despues de flat filter: ', submitError);
-  if (submitError.length == 0) {
+const handleClose = () => {
+  setShow(false)
+  setDateBool(false)
+  setDate()
+  setData([])
+  setSubmitErrorMessage()
+  setSurveyTitle('')
+  setQuestionsErrorMessage()
+  setDuplicateQuestionsErrorMessage()
+  setErrorMessage()
+  setSurveyTitleErrorMessage()
+  setQuestionWithNoTypeErrorMessage()
+  setMultipleOrSingleOptionQuestionsErrorMessage()
+  setEmptyQuestionErrorMessage()
+  setEmptySurveyTitleErrorMessage()
+  setCategory()
+  setEmptyCategoryErrorMessage()
+  setSurveyQuestions([<CreateQuestionSurvey key={0} id={0} setData={setData} data={data} showDeleteState={false}/>])
+  setSubmitError([['invalidQuestions', true],['duplicateQuestions',true],
+  ['invalidDate', true],['surveyTitle', true],['noTypeAssignedToQuestion', true],['noOptionsAssigned',true],
+  ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
+};
+
+
+
+  const componentQuestionsHandler=()=>{
+    setErrorMessage()
+    setSurveyQuestions((prevArray) => {
+  if (prevArray.length >= 7) {
+    setErrorMessage(<AlertDismissible message={'Has llegado a la cantidad maxima de preguntas para esta encuesta'} state={true}/>)
+    return [...prevArray]
+  }
+  return [...prevArray,<CreateQuestionSurvey key={keyCounter} id={keyCounter} setData={setData} data={data} setSurveyQuestions={setSurveyQuestions} showDeleteState={true}/>,]
+},
+setKeyCounter(keyCounter + 1)
+)}  
+
+
+
+const handleSubmit = () =>{ 
+  const flatSubmitError = submitError.flat(2)
+    const filterBool = flatSubmitError.filter((i)=> i == true)
+
+  if (filterBool.length == 0) {
     console.log('=========================================');
    console.log('No hay errores'); 
    console.log('=========================================');
+
+   const postObject = {
+    'name': surveyTitle ,
+    'categories': category,
+    'endDate': date,
+    'questions': data ,
+   }
+   
+   console.log(postObject);
+   console.table(data);
 }
+
 }
   
   return (
@@ -355,7 +370,7 @@ const handleSubmit = () =>{
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>Ingrese el titulo de su encuesta</Form.Label>
-              <Form.Control type="text" placeholder="" onChange={(e)=> handleSurveyTitle(e.target.value)} />
+              <Form.Control type="text" placeholder="" onChange={(e)=> validateSurveyTitle(e.target.value)} />
               <Form.Text muted>
         El titulo debe tener un maximo de 55 caracteres y no puede contener caracteres especiales. 
              </Form.Text>
@@ -367,18 +382,18 @@ const handleSubmit = () =>{
           </Container>
         </Modal.Body>
         <Modal.Footer>
-        <div className="container-fluid ">
-          <div className="me-auto w-50">
-            {questionsErrorMessage}
+       
+          <div className="container-fluid p-0 mb-2 d-flex flex-wrap d">
+          {questionsErrorMessage}
+          {duplicateQuestionsErrorMessage}
           {submitErrorMessage}    
           {questionWithNoTypeErrorMessage}
           {multipleOrSingleOptionQuestionsErrorMessage}
           {emptyQuestionErrorMessage}
           {emptySurveyTitleErrorMessage}
           {emptyCategoryErrorMessage}
-            
           </div>
-        </div>
+   
       
         <Stack className="container-fluid" direction="horizontal" gap={3}>
          <Button variant="outline-success" onClick={componentQuestionsHandler}>Añadir pregunta</Button>

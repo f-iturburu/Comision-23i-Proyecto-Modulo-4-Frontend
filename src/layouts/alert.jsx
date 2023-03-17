@@ -10,7 +10,7 @@ useEffect(()=>{
 
   if (show) {
     return (
-      <Alert className='p-3 mt-3' variant="danger" onClose={() => setShow(false)} >
+      <Alert className='p-1 m-1'  variant="danger" onClose={() => setShow(false)} >
         <p className='m-0'>
         {message}
         </p>

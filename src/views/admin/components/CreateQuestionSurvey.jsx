@@ -9,14 +9,14 @@ import TooltipQuestionmark from "../../../layouts/tooltip";
 
 
 function CreateQuestionSurvey({id, data, setData , setSurveyQuestions, showDeleteState}) {
- const [questionType, setQuestionType] = useState("");
+ const [questionType, setQuestionType] = useState([]);
  const questionTypeString = useRef()
  const [question,setQuestion] = useState("")
- const [questionAnswers, setQuestionAnswers] = useState()
+ const [questionAnswers, setQuestionAnswers] = useState([])
  const [object, setObject] = useState({
     'question': '', 
     'type':'',
-    'possibleAnswers' : '',
+    'possibleAnswers' : [],
     'id': crypto.randomUUID(),
     'key': id
  })
@@ -76,7 +76,6 @@ const componentHandler = (questionTypeString)=>{
 
   const optionsHandler = ()=>{
     setErrorMessage()
-    
     const optionsRegex = /^[\p{L}0-9? ]{1,30}$/u
     setRadioSelectors((prevArray) =>{
       const optionFound = prevArray.find((i) => i == optionsRef.current.value)
@@ -269,7 +268,6 @@ const NumbersComponents =() => {
  }
 
   return (
-    
     <Stack>
     <Form className="border-top border-dark pt-3">
       <Form.Group className="mb-3">
