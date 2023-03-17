@@ -4,19 +4,21 @@ import Col from "react-bootstrap/Col";
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import AlertDismissible from "../../../layouts/alert";
+import TooltipQuestionmark from "../../../layouts/tooltip";
 
 
 
-function CreateQuestionSurvey({data, setData}) {
- const [questionType, setQuestionType] = useState("");
+function CreateQuestionSurvey({id, data, setData , setSurveyQuestions, showDeleteState}) {
+ const [questionType, setQuestionType] = useState([]);
  const questionTypeString = useRef()
  const [question,setQuestion] = useState("")
- const [questionAnswers, setQuestionAnswers] = useState()
+ const [questionAnswers, setQuestionAnswers] = useState([])
  const [object, setObject] = useState({
     'question': '', 
     'type':'',
-    'possibleAnswers' : '',
-    'id': crypto.randomUUID()
+    'possibleAnswers' : [],
+    'id': crypto.randomUUID(),
+    'key': id
  })
 
 useEffect(() =>{
@@ -27,7 +29,6 @@ useEffect(() =>{
         }
 
   setObject(updatedObject)
-
  },[question,questionAnswers,questionType,questionTypeString])
 
 useEffect(()=>{
@@ -68,17 +69,17 @@ const componentHandler = (questionTypeString)=>{
   const optionsRef = useRef([]);
   const [radioSelectors, setRadioSelectors] = useState([]);
   const [errorMessage , setErrorMessage] = useState()
-  console.log('Radio Selectors' + '' + radioSelectors);
 
   useEffect(()=>{
     setQuestionAnswers(radioSelectors)
   },[radioSelectors])
 
   const optionsHandler = ()=>{
-    setErrorMessage('')
+    setErrorMessage()
+    const optionsRegex = /^[\p{L}0-9? ]{1,30}$/u
     setRadioSelectors((prevArray) =>{
       const optionFound = prevArray.find((i) => i == optionsRef.current.value)
-      if (optionsRef.current.value == '') {
+      if (!optionsRegex.test(optionsRef.current.value)) {
         setErrorMessage(<AlertDismissible message={'La opcion ingresada es invalida'} state={true}/>)
         return [...prevArray]
       }else if(radioSelectors.length >= 5 ){
@@ -110,7 +111,10 @@ const componentHandler = (questionTypeString)=>{
   </div>)
 
   return (
-    <Row className="mt-2">
+    <Row className="mt-1">
+        <Form.Text className="mb-2"  muted>
+      El usuario podra seleccionar solo una de las opciones proporcionadas.
+             </Form.Text>
       <Col xs={5}>
         <Form.Control
           ref={optionsRef}
@@ -119,7 +123,10 @@ const componentHandler = (questionTypeString)=>{
         />
       </Col>
       <Col xs={1}>
-        <Button variant="outline-primary" onClick={optionsHandler}>+</Button>
+      <TooltipQuestionmark  message={'La opcion debe tener entre 1 y 30 caracteres y no puede contener caracteres especiales.'} item={<i className="bi bi-question-circle"></i>}/>
+      </Col>
+      <Col xs={1}>
+        <Button variant="outline-primary" onClick={optionsHandler}><i className="bi bi-plus-lg"></i></Button>
       </Col>
       
       <Col xs={12}>
@@ -134,15 +141,35 @@ const componentHandler = (questionTypeString)=>{
 
 const MultipleOptionsComponent = () => {
     const optionsRef = useRef([]);
+    const [errorMessage , setErrorMessage] = useState()
     const [checboxSelectors, setChecboxSelectors] = useState([]);
 
     useEffect(()=>{
       setQuestionAnswers(checboxSelectors)
     },[checboxSelectors])
+    const optionsHandler = ()=>{
+      setErrorMessage('')
+      
+      const optionsRegex = /^[\p{L}0-9? ]{1,30}$/u
+      setChecboxSelectors((prevArray) =>{
+        const optionFound = prevArray.find((i) => i == optionsRef.current.value)
+        if (!optionsRegex.test(optionsRef.current.value)) {
+          setErrorMessage(<AlertDismissible message={'La opcion ingresada es invalida'} state={true}/>)
+          return [...prevArray]
+        }else if(checboxSelectors.length >= 5 ){
+          setErrorMessage(<AlertDismissible message={'Has ingresado demasiadas opciones (máximo 5)'} state={true}  />)
+          return [...prevArray]
+        }else if (optionFound){ 
+          setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
+          return [...prevArray]
+        } else {
+          return[...prevArray,optionsRef.current.value]
+        }
+      } )
+    }
+
 
     const mappedChecboxSelectors = checboxSelectors.map((i) =>  <div className="d-flex"> 
-    
-  
       <Form.Check 
     type="checkbox"
     key={i}
@@ -158,19 +185,27 @@ const MultipleOptionsComponent = () => {
     </div>)
   
     return (
-      <Row className="mt-2">
+      <Row className="mt-1">
+         <Form.Text className="mb-2"  muted>
+      El usuario podra seleccionar una o mas de las opciones proporcionadas.
+             </Form.Text>
         <Col xs={5}>
           <Form.Control
+          
             ref={optionsRef}
             type="text"
             placeholder="Agregar opción"
           />
         </Col>
         <Col xs={1}>
-          <Button onClick={() => setChecboxSelectors((prevArray) => [...prevArray,optionsRef.current.value,])} variant="outline-primary">+</Button>
+      <TooltipQuestionmark  message={'La opcion debe tener entre 1 y 30 caracteres y no puede contener caracteres especiales.'} item={<i className="bi bi-question-circle"></i>}/>
+      </Col>
+        <Col xs={1}>
+          <Button onClick={optionsHandler} variant="outline-primary"><i className="bi bi-plus-lg"></i></Button>
         </Col>
         
         <Col xs={12}>
+        {errorMessage}
     <Form className="mt-3">
        {mappedChecboxSelectors}
     </Form>
@@ -186,10 +221,11 @@ const TextComponent =() => {
   },[])
 
 return (
-    <Row className="mt-2">
+    <Row className="mt-2 mb-3">
         <Col xs={6}>
         <Form.Control
                 type="text"
+                disabled
                 placeholder="Texto de respuesta"
               />    
         </Col>
@@ -205,11 +241,12 @@ const NumbersComponents =() => {
   },[])
 
     return (
-        <Row className="mt-2">
+        <Row className="mt-2 mb-3">
             <Col xs={6}>
             <Form.Control
                     type="number"
                     placeholder="Ingrese un valor númerico"
+                    disabled
                   />    
             </Col>
             <Col xs={6}>
@@ -218,15 +255,30 @@ const NumbersComponents =() => {
         )
 }
 
+ const deleteQuestionsHandler = () =>{
+  setSurveyQuestions((prevArray) =>{
+      let filteredSurveyQuestionsArray = prevArray.filter((i) => i.key !== id.toString() );
+    return [...filteredSurveyQuestionsArray]
+  })
+
+  setData((prevArray) =>{
+     let filteredData = prevArray.filter((i)=> i.key !== id)
+     return [...filteredData]
+  })
+ }
+
   return (
     <Stack>
-    <Form className="border-top pt-3">
+    <Form className="border-top border-dark pt-3">
       <Form.Group className="mb-3">
         <Row>
-          <Col>
-            <Form.Control onChange={(e)=> setQuestion(e.target.value)} type="text" placeholder="Pregunta" />
+          <Col xs={'5'}>
+            <Form.Control onChange={(e)=>setQuestion(e.target.value)} type="text" placeholder="Pregunta" />
           </Col>
-          <Col>
+          <Col xs={'1'}>
+          <TooltipQuestionmark  message={'La pregunta debe ser de entre 1 y 70 caracteres, no puede contener caracteres especiales salvo "?"'} item={<i className="bi bi-question-circle"></i>}/>
+          </Col>
+          <Col xs={'5'}>
             <Form.Select
             ref={questionTypeString}
               defaultValue={"default"}
@@ -235,12 +287,15 @@ const NumbersComponents =() => {
               <option disabled hidden value="default">
                 Selecciona el tipo de respuesta
               </option>
-              <option value="singleOption">Una opción</option>
-              <option value="multipleOptions">Varias opciones</option>
+              <option value="singleOption">Opción única</option>
+              <option value="multipleOptions">Opción multiple</option>
               <option value="text">Texto</option>
               <option value="numbers">Números</option>
             </Form.Select>
           </Col>
+          {showDeleteState? <Col xs={'1'}>
+          <i className="bi bi-trash3 ms-auto" onClick={deleteQuestionsHandler}></i>
+          </Col>: <div></div>}    
         </Row>
       </Form.Group>
     </Form>

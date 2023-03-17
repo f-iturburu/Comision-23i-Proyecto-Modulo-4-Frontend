@@ -1,3 +1,8 @@
 .ant-picker-dropdown{
     z-index: 5000;
 }
+
+.bi{
+    height: auto !important;
+    width: 3rem !important;
+}

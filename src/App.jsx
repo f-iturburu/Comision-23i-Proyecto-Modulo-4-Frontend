@@ -4,13 +4,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./layouts/Navigation";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import About from "./views/about/About";
-import Admin from "./views/admin/Admin";
 import Contact from "./views/contact/Contact";
 import Error404 from "./views/error404/Error404";
 import Home from "./views/home/Home";
 import Login from "./views/login/login";
 import Register from "./views/register/register";
-import Surveys from "./views/surveys/Surveys";
+import AdminView from "./views/admin/admin";
 
 
 const App = () => {
@@ -40,11 +39,13 @@ const App = () => {
 
       <main>
        <Routes>
-         <Route exact path="/" element= {<Home/>}/>
+         <Route exact path="" element= {<Home/>}/>
          <Route exact path="/about" element= {<About/>}/>
+
          <Route element={<ProtectedRoute isAllowed={!!user} />}>
-           <Route exact path="/surveys" element= {<Surveys/>}/>
+           <Route exact path="/surveys" element= {<AdminView/>}/>
         </Route>
+
          <Route exact path="/contact" element= {<Contact/>}/>
          <Route
           path="/admin"
@@ -65,6 +66,8 @@ const App = () => {
        </Routes>
      </main>
     </BrowserRouter>
+
+
   )
 };
 
