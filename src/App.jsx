@@ -54,7 +54,7 @@ const App = () => {
               redirectTo="/login"
               isAllowed={!!user && user.roles.includes("admin")}
             >
-              <Admin />
+              <AdminView/>
             </ProtectedRoute>
           }
         />
