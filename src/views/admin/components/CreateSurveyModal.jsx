@@ -294,7 +294,7 @@ setKeyCounter(keyCounter + 1)
 
 
 
-const handleSubmit = () =>{ 
+const handleSubmit  = async () =>{ 
   const flatSubmitError = submitError.flat(2)
     const filterBool = flatSubmitError.filter((i)=> i == true)
 
@@ -310,8 +310,14 @@ const handleSubmit = () =>{
     'questions': data ,
    }
    
-   console.log(postObject);
-   console.table(data);
+  await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
+    method:'POST' ,
+    headers: {
+      "Content-Type": "application/json",
+      'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MDMwMDI1fQ.0Fj6rnrWj7V32nfxiXzFOxPYkVKHMsQMLyvkg7LD9XE'
+    },
+    body: JSON.stringify(postObject)
+  }).then(res => res.json()).then(body => console.log(body))
 }
 
 }
