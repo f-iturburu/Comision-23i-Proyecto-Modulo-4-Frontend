@@ -32,8 +32,7 @@ useEffect(() =>{
  },[question,questionAnswers,questionType,questionTypeString])
 
 useEffect(()=>{
-  setData(prevArray =>
-    {
+  setData(prevArray =>{
       const existingObjectIndex = prevArray.findIndex(obj => obj.id === object.id);
       if (existingObjectIndex === -1){
         return [...prevArray, object];
