@@ -314,11 +314,11 @@ const handleSubmit  = () =>{
   }).then(async (result) => {
     if (result.isConfirmed){
       setLoading(true)
-       await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/questions',{
+       await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
         method:'POST' ,
         headers: {
           "Content-Type": "application/json",
-          'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTc2MjQ3fQ.AR7PXqETqCZ44DYMcw0GBarpYmDd9RS09u8YlIc9oeY'
+          'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
         },
         body: JSON.stringify(postObject)
         
@@ -330,7 +330,9 @@ const handleSubmit  = () =>{
            )
            handleClose()
            setFetchApi(true)
+           setLoading(false)
       }).catch(error=>{
+        console.log(error.message);
         Swal.fire(
             '',
             'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
