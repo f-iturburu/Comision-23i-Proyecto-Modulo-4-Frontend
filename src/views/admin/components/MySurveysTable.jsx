@@ -11,8 +11,10 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
 
   useEffect(()=>{
     if(fetchApi){
-        fetchMySurveys()
-        setFetchApi(false)
+        fetchMySurveys().then(()=>{
+          setDeleteLoading(false);
+          setFetchApi(false)
+        })
     }
 },[fetchApi])
 
@@ -69,10 +71,23 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
 
   const handleDeleteSurvey =(record)=>{
     setDeleteLoading(true)
+    console.log(record._id);
+    console.log(typeof record._id);
+    Swal.fire({
+      title: 'Estas seguro que deses eliminar esta encuesta?',
+      text: "Esta acción es irreversible",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar',
+      reverseButtons: true
+    }).then(async (result) => {
     deleteSurvey(record._id)
     .then(res => res.json()).then(() =>{
         setFetchApi(true)
-        // setLoading(false);
+        
     }).catch((error)=>{
         setDeleteLoading(false);
         console.log(error.message);
@@ -82,15 +97,17 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
             'error'
           )
     })
+  })
   }
-
+  
+  
   const deleteSurvey = (id)=>{
     return fetch (`https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/${id}`,{
         method:'DELETE',
         headers:{
             'Content-Type': 'application/json',
-            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk2NzY1fQ.Phxc08ouMr7N6crHuqunlxdIG5SssaOdbmDAVYTvKyY'
-        },
+            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
+        }
     })
   }
 
