@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from 'react-router-dom';
 
 
-const Navegation = () => {
+const Navigation = () => {
     return (      
       <Navbar className='bg-light' expand="lg">
          <Container>
@@ -31,4 +31,4 @@ const Navegation = () => {
     );
 };
 
-export default Navegation;
+export default Navigation;

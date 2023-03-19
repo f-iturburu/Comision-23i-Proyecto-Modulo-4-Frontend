@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navegation from "./layouts/Navigation";
+import Navigation from "./layouts/Navigation";
 import About from "./views/about/About";
 import Contact from "./views/contact/Contact";
 import Home from "./views/home/Home";
@@ -12,7 +12,7 @@ import AdminView from "./views/admin/admin";
 const App = () => {
   return (
     <BrowserRouter>
-      <Navegation/>
+      <Navigation/>
       <main>
        <Routes>
          <Route exact path="" element= {<Home/>}/>
