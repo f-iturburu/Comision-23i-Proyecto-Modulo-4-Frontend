@@ -13,7 +13,7 @@ import TooltipQuestionmark from "../../../layouts/tooltip";
 import Swal from 'sweetalert2'
 import Loader from "../../../components/loader/loader";
 
-function CreateNewSurvey() {
+function CreateNewSurvey({setFetchApi}) {
   const [category,setCategory] = useState()
   const [surveyTitle, setSurveyTitle] = useState('')
   const [surveyTitleErrorMessage, setSurveyTitleErrorMessage] = useState()
@@ -36,7 +36,7 @@ const [isLoading, setLoading] = useState(false);
 const [submitError, setSubmitError] = useState([['invalidQuestions', true],['duplicateQuestions',true],
 ['invalidDate', true],['surveyTitle', true],['noTypeAssignedToQuestion', true],['noOptionsAssigned',true],
 ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
-console.table(submitError);
+
 
 
 
@@ -254,7 +254,6 @@ const validateEmptyCategory = (category) =>{
   }
 }
 
-
 const handleClose = () => {
   setShow(false)
   setDateBool(false)
@@ -278,8 +277,6 @@ const handleClose = () => {
   ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
 };
 
-
-
   const componentQuestionsHandler=()=>{
     setErrorMessage()
     setSurveyQuestions((prevArray) => {
@@ -292,17 +289,11 @@ const handleClose = () => {
 setKeyCounter(keyCounter + 1)
 )}  
 
-
-
 const handleSubmit  = () =>{ 
   const flatSubmitError = submitError.flat(2)
-    const filterBool = flatSubmitError.filter((i)=> i == true)
+  const filterBool = flatSubmitError.filter((i)=> i == true)
 
   if (filterBool.length == 0) {
-    console.log('=========================================');
-   console.log('No hay errores'); 
-   console.log('=========================================');
-
    const postObject = {
     'name': surveyTitle ,
     'categories': category,
@@ -321,36 +312,33 @@ const handleSubmit  = () =>{
     confirmButtonText: 'Guardar',
     reverseButtons: true
   }).then(async (result) => {
-    if (result.isConfirmed) {
+    if (result.isConfirmed){
       setLoading(true)
-      try{
-        const res = await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
-          method:'POST' ,
-          headers: {
-            "Content-Type": "application/json",
-            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MDMwMDI1fQ.0Fj6rnrWj7V32nfxiXzFOxPYkVKHMsQMLyvkg7LD9XE'
-          },
-          body: JSON.stringify(postObject)
-          
-        })
-          if (res.status == 200) {
-           Swal.fire(
+       await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/questions',{
+        method:'POST' ,
+        headers: {
+          "Content-Type": "application/json",
+          'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTc2MjQ3fQ.AR7PXqETqCZ44DYMcw0GBarpYmDd9RS09u8YlIc9oeY'
+        },
+        body: JSON.stringify(postObject)
+        
+      }).then(res=> res.json()).then(body=>{
+        Swal.fire(
             '',
              'Tu encuesta ha sido guardada existosamente!',
              'success'
            )
            handleClose()
-          }else if(res.status == 404 || res.status == 400){
-            Swal.fire(
-              '',
-              'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
-              'error'
-            )
-          }
+           setFetchApi(true)
+      }).catch(error=>{
+        Swal.fire(
+            '',
+            'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
+            'error'
+          )
+          setFetchApi(false)
           setLoading(false)
-        } catch (error){
-
-      }
+      })
     }
   })
  }
@@ -358,7 +346,7 @@ const handleSubmit  = () =>{
   
   return (
     <>
-      <div className="w-100 d-flex justify-content-center mt-5">
+      <div className="w-100 d-flex justify-content-end mt-5 mb-3">
         <Button variant="primary" onClick={()=> setShow(true)}>
           Agregar nueva encuesta
         </Button>
