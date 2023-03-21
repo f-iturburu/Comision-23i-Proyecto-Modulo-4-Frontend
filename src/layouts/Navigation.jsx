@@ -9,6 +9,7 @@ import Login from "../views/login/login";
 
 const Navigation =
 
+
   ({ loggedUser, setLoggedUser }) => {
     /* const logout = ()=>{
     localStorage.removeItem("user-token");
@@ -58,6 +59,7 @@ const Navigation =
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
     );
   };
 

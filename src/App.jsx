@@ -9,6 +9,7 @@ import Error404 from "./views/error404/Error404";
 import Home from "./views/home/Home";
 import Login from "./views/login/login";
 import Register from "./views/register/register";
+import Survey from "./views/survey/survey";
 import AdminView from "./views/admin/admin";
 
 
@@ -45,8 +46,8 @@ const App = () => {
          <Route element={<ProtectedRoute isAllowed={!!user} />}>
            <Route exact path="/surveys" element= {<AdminView/>}/>
         </Route>
-
-         <Route exact path="/contact" element= {<Contact/>}/>
+         <Route exact path="/survey/:id" element= {<Survey/>}/>
+           
          <Route
           path="/admin"
           element={
