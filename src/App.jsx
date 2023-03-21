@@ -15,6 +15,8 @@ import AdminView from "./views/admin/admin";
 const App = () => {
  /*  const [loggedUser, setLoggedUser] = useState({}); */ // como deberia ser con el usuario logueado
 
+ const URL = process.env.REACT_APP_API_ROLLINGSURVEYS;
+
  //simulación de login de usuario
  const [user, setUser] = useState(null);
 
