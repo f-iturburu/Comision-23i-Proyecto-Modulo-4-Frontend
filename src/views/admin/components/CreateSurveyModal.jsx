@@ -277,7 +277,7 @@ const handleClose = () => {
   ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
 };
 
-  const componentQuestionsHandler=()=>{
+const componentQuestionsHandler=()=>{
     setErrorMessage()
     setSurveyQuestions((prevArray) => {
   if (prevArray.length >= 7) {
@@ -332,7 +332,6 @@ const handleSubmit  = () =>{
            setFetchApi(true)
            setLoading(false)
       }).catch(error=>{
-        console.log(error.message);
         Swal.fire(
             '',
             'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',

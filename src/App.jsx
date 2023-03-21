@@ -6,6 +6,7 @@ import Contact from "./views/contact/Contact";
 import Home from "./views/home/Home";
 import Login from "./views/login/login";
 import Register from "./views/register/register";
+import Survey from "./views/survey/survey";
 import AdminView from "./views/admin/admin";
 
 
@@ -21,7 +22,7 @@ const App = () => {
          <Route exact path="/contact" element= {<Contact/>}/>
          <Route exact path="/login" element= {<Login/>}/>
          <Route exact path="/register" element= {<Register/>}/>
-
+         <Route exact path="/survey/:id" element= {<Survey/>}/>
        </Routes>
      </main>
     </BrowserRouter>

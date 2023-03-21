@@ -23,7 +23,7 @@ const Navigation = () => {
                 <NavLink className="nav-link" to="/contact">
                     Contacto
                 </NavLink>
-                <Button>sing in</Button>
+                <Button>Sign in</Button>
               </Nav>    
             </Navbar.Collapse>               
          </Container>
