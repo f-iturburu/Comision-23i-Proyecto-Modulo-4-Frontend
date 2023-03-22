@@ -12,7 +12,6 @@ import Register from "./views/register/register";
 import Survey from "./views/survey/survey";
 import AdminView from "./views/admin/admin";
 
-
 const App = () => {
  /*  const [loggedUser, setLoggedUser] = useState({}); */ // como deberia ser con el usuario logueado
 

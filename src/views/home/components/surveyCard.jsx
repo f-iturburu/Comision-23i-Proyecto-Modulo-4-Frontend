@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 
 function SurveyCard({surveyTitle,surveyCategory, id,  surveyEndDate}) {
   return (
-    <Col xs={'12'} md={'6'}>
+    <div className='w-50 m-auto'>
+      
+
     <Card className='mb-2' >
       <Card.Body>
         <Card.Title>{surveyTitle}</Card.Title>
@@ -23,7 +25,9 @@ function SurveyCard({surveyTitle,surveyCategory, id,  surveyEndDate}) {
         </div>
       </Card.Body>
     </Card>
-    </Col>
+
+    
+  </div>
   );
 }
 

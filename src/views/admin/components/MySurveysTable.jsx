@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Table, Switch, Button } from 'antd';
 import Swal from 'sweetalert2'
 import { DeleteOutlined } from '@ant-design/icons';
-
+import { Link } from "react-router-dom";
 
 const SurveysTable = ({fetchApi, setFetchApi}) => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [data, setData] = useState([]);
+  
 
   useEffect(()=>{
     if(fetchApi){
@@ -30,7 +31,6 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
     .then(body => {
       setData(body) 
     })
-
   }
 
   const handleSwitchChange = (checked, record) => {
@@ -112,9 +112,13 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
   const columns = [
     {
       title: 'Nombre de la encuesta',
-      dataIndex: 'name',
       key: 'name',
       sorter: (a, b) => a.name.localeCompare(b.name),
+      render(record){
+        return  <Link to={`/survey/${record._id}`}>
+        {record.name}
+        </Link>
+      }
     },
     {
       title: 'Categorias',
