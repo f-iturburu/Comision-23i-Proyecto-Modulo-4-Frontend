@@ -42,16 +42,16 @@ useEffect(()=>{
         };
       
 
-        const pageSize = 6;
+        const pageSize = 4;
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         const currentPageSurveys = surveysComponents.slice(startIndex, endIndex);
     return (
-        <div className='container mt-5'>        
-        <Row>
+        <div className='container mt-5 '>        
+        <div className=' d-flex flex-column'>
             {currentPageSurveys}
-        </Row>
-
+        </div>
+<div className='d-flex justify-content-end me-5'>
         <Pagination
         current={currentPage}
         pageSize={pageSize}
@@ -59,6 +59,8 @@ useEffect(()=>{
         onChange={(page) => setCurrentPage(page)}
         className="ms-auto"
       />
+  
+</div>
         </div>
     );
 };
