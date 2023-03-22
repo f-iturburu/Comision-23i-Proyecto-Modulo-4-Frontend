@@ -13,12 +13,12 @@ import AdminView from "./views/admin/admin";
 
 
 const App = () => {
- /*  const [loggedUser, setLoggedUser] = useState({}); */ // como deberia ser con el usuario logueado
+  const [loggedUser, setLoggedUser] = useState({}); // como deberia ser con el usuario logueado
 
- const URL = process.env.REACT_APP_API_ROLLINGSURVEYS;
+// const URL = process.env.REACT_APP_API_ROLLINGSURVEYS;
 
- //simulación de login de usuario
- const [user, setUser] = useState(null);
+ //simulación de login de usuario desconectado para conectar la api
+ /* const [user, setUser] = useState(null);
 
   const login2 = () =>
     setUser({
@@ -26,25 +26,27 @@ const App = () => {
       name: "Lucas",
       roles: ["admin"], // si esta vacio o nulo es usuario común sino cargar admin
     });
-  const logout = () => setUser(null);
+  const logout = () => setUser(null); */
 
  
 
   return (
     <BrowserRouter>
-      <Navigation  /* loggedUser={loggedUser} setLoggedUser={setLoggedUser} */ />
-      {user ? (
+      <Navigation  loggedUser={loggedUser} setLoggedUser={setLoggedUser} />
+      
+     {//desconectado para conectar api
+     /*  {user ? (
         <button onClick={logout}>Logout</button>
       ) : (
         <button onClick={login2}>Login</button>
-      )}
+      )} */}
 
       <main>
        <Routes>
          <Route exact path="" element= {<Home/>}/>
          <Route exact path="/about" element= {<About/>}/>
 
-         <Route element={<ProtectedRoute isAllowed={!!user} />}>
+         <Route element={<ProtectedRoute token={!!loggedUser} />}>
            <Route exact path="/surveys" element= {<AdminView/>}/>
         </Route>
 
@@ -54,15 +56,15 @@ const App = () => {
           element={
             <ProtectedRoute
               redirectTo="/login"
-              isAllowed={!!user && user.roles.includes("admin")}
+              token={!!loggedUser /* && loggedUser.roles.includes("1") */}
             >
               <AdminView/>
             </ProtectedRoute>
           }
         />
          {/* <Route exact path="/admin" element={<Admin />} /> */}
-         <Route exact path="/login" element= {<Login /* setLoggedUser={setLoggedUser} *//>}/>
-         <Route exact path="/register" element= {<Register /* setLoggedUser={setLoggedUser} *//>}/>
+         <Route exact path="/login" element= {<Login setLoggedUser={setLoggedUser}/>}/>
+         <Route exact path="/register" element= {<Register setLoggedUser={setLoggedUser}/>}/>
          <Route exact path="*" element={<Error404 />} />
 
        </Routes>

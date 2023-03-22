@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 // cambiar cuando se obtenga el token
 
-/*const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children }) => {
   const token = JSON.parse(localStorage.getItem("user-token")) || null;
 
   if (!token) {
@@ -9,10 +9,10 @@ import { Navigate, Outlet } from "react-router-dom";
   } else {
     return children;
   }
-}; */
+};
 
 
-const ProtectedRoute = ({
+/* const ProtectedRoute = ({
   isAllowed,
   redirectTo = "/login",
   children,
@@ -23,5 +23,5 @@ const ProtectedRoute = ({
 
   return children ? children : <Outlet />;
 };
-
+ */
 export default ProtectedRoute;

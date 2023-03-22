@@ -10,6 +10,7 @@ const Login =  ({ setLoggedUser }) => {
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const URL = process.env.VITE_APP_API_ROLLINGSURVEYS_LOGIN; //agregado p/ conectar api
   
 
   
@@ -29,16 +30,7 @@ const Login =  ({ setLoggedUser }) => {
 
     //Envio los datos
     try {
-      /* const res = await fetch(`${URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: inputs.email,
-          password: inputs.password,
-        }),
-      }); */
+      
        const res = await axios.post(`${URL}/login`, {
         email: inputs.email,
         password: inputs.password,
