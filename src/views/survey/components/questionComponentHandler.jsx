@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, InputNumber,Radio  } from 'antd';
+import { Form, Input, Button, InputNumber,Radio, Checkbox } from 'antd';
 
 const QuestionComponent = ({question, data, setData}) => {
   const [form] = Form.useForm();
@@ -97,9 +97,27 @@ const QuestionComponent = ({question, data, setData}) => {
       </>
 
     case "multipleOptions":
-     return  <>
+      const checkboxButtons = question.possibleAnswers?.map((i)=>  <Checkbox  key={i} value={i}>{i}</Checkbox>)
+ 
+      return <>
       <h5>{question.question}</h5>
-      
+      <Form form={form} >
+      <Form.Item
+       style={{width:'50%'}}
+        name="Valor numerico"
+        rules={[
+          {
+            required: true ,
+          },
+        ]}
+        hasFeedback
+
+      >  
+      <Checkbox.Group name={question._id}>
+        {radioButtons}
+       </Checkbox.Group>
+        </Form.Item>
+        </Form>
       </>
 
     default:
