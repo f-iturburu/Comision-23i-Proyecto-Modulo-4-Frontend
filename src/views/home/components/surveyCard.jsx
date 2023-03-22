@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 function SurveyCard({surveyTitle,surveyCategory, id,  surveyEndDate}) {
   return (
     <div className='w-50 m-auto'>
+<Link className="mb-2 text-decoration-none text-dark" to={`/survey/${id}`}>
     <Card className='mb-2 card' >
       <Card.Body>
         <Card.Title>{surveyTitle}</Card.Title>
@@ -15,16 +16,11 @@ function SurveyCard({surveyTitle,surveyCategory, id,  surveyEndDate}) {
           bulk of the card's content.
         </Card.Text>
         <div className='d-flex'>
-        <Card.Subtitle className="mb-2 text-muted">{surveyEndDate ? surveyEndDate.slice(0,10) : ''}</Card.Subtitle>
-         <Link className="mb-2 text-muted ms-auto" to={`/survey/${id}`}>
-                   Responder
-                </Link>
-            
+        <Card.Subtitle className="mb-2 text-muted">{surveyEndDate ? surveyEndDate.slice(0,10) : ''}</Card.Subtitle>         
         </div>
       </Card.Body>
     </Card>
-
-    
+    </Link>
   </div>
   );
 }
