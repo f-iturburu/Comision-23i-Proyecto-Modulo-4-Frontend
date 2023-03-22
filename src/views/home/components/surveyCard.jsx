@@ -6,9 +6,7 @@ import { Link } from "react-router-dom";
 function SurveyCard({surveyTitle,surveyCategory, id,  surveyEndDate}) {
   return (
     <div className='w-50 m-auto'>
-      
-
-    <Card className='mb-2' >
+    <Card className='mb-2 card' >
       <Card.Body>
         <Card.Title>{surveyTitle}</Card.Title>
         <Badge pill bg="primary">{surveyCategory}</Badge>

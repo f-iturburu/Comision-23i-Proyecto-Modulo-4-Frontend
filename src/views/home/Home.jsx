@@ -48,18 +48,19 @@ useEffect(()=>{
         const currentPageSurveys = surveysComponents.slice(startIndex, endIndex);
     return (
         <div className='container mt-5 '>        
-        <div className=' d-flex flex-column'>
+        <div className=' d-flex flex-column justify-content-center'>
             {currentPageSurveys}
         </div>
-<div className='d-flex justify-content-end me-5'>
+<div className='d-flex w-100 justify-content-center mb-4'>
+  <div>
         <Pagination
         current={currentPage}
         pageSize={pageSize}
         total={surveysComponents.length}
         onChange={(page) => setCurrentPage(page)}
         className="ms-auto"
-      />
-  
+      />   
+  </div>
 </div>
         </div>
     );
