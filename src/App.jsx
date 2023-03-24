@@ -1,6 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 import Navigation from "./layouts/Navigation";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import About from "./views/about/About";
@@ -12,14 +16,13 @@ import Register from "./views/register/register";
 import AdminView from "./views/admin/admin";
 import Surveys from "./views/surveys/Surveys";
 
-
 const App = () => {
   const [loggedUser, setLoggedUser] = useState({}); // como deberia ser con el usuario logueado
 
-// const URL = process.env.REACT_APP_API_ROLLINGSURVEYS;
+  // const URL = process.env.REACT_APP_API_ROLLINGSURVEYS;
 
- //simulación de login de usuario desconectado para conectar la api
- /* const [user, setUser] = useState(null);
+  //simulación de login de usuario desconectado para conectar la api
+  /* const [user, setUser] = useState(null);
 
   const login2 = () =>
     setUser({
@@ -29,51 +32,79 @@ const App = () => {
     });
   const logout = () => setUser(null); */
 
- 
-
   return (
     <BrowserRouter>
-      <Navigation  loggedUser={loggedUser} setLoggedUser={setLoggedUser} />
-      
-     {//desconectado para conectar api
-     /*  {user ? (
+      <Navigation
+        loggedUser={loggedUser}
+        setLoggedUser={setLoggedUser}
+      />
+
+      {
+        //desconectado para conectar api
+        /*  {user ? (
         <button onClick={logout}>Logout</button>
       ) : (
         <button onClick={login2}>Login</button>
-      )} */}
+      )} */
+      }
 
       <main>
-       <Routes>
-         <Route exact path="/" element= {<Home/>}/>
-         <Route exact path="/about" element= {<About/>}/>
-
-         <Route element={<ProtectedRoute token={!!loggedUser} />}>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/about" element={<About />} />
+          <Route
+            path="/surveys"
+            element={
+              <ProtectedRoute
+                redirectTo="/login"
+                token={
+                  !!loggedUser /* && loggedUser.role.includes("97ef6616832542a88d5a4aecf9528234") */
+                }>
+                <AdminView />
+              </ProtectedRoute>
+            }
+          />
+          {/*  <Route element={<ProtectedRoute token={!!loggedUser} />}>
            <Route exact path="/surveys" element= {<Surveys/>}/>
-        </Route>
+        </Route> */}
 
-         <Route exact path="/contact" element= {<Contact/>}/>
-         <Route
-          path="/admin"
-          element={
-            <ProtectedRoute
-              redirectTo="/login"
-              token={!!loggedUser  /* && loggedUser.role.includes("97ef6616832542a88d5a4aecf9528234") */}
-            >
-              <AdminView/>
-            </ProtectedRoute>
-          }
-        />
-         {/* <Route exact path="/admin" element={<Admin />} /> */}
-         <Route exact path="/login" element= {<Login setLoggedUser={setLoggedUser}/>}/>
-         <Route exact path="/register" element= {<Register setLoggedUser={setLoggedUser}/>}/>
-         <Route exact path="*" element={<Error404 />} />
-
-       </Routes>
-     </main>
+          <Route
+            exact
+            path="/contact"
+            element={<Contact />}
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute
+                redirectTo="/login"
+                token={
+                  !!loggedUser && loggedUser?.role?.includes("97ef6616832542a88d5a4aecf9528234")
+                }>
+                <AdminView />
+              </ProtectedRoute>
+            }
+          />
+          {/* <Route exact path="/admin" element={<Admin />} /> */}
+          <Route
+            exact
+            path="/login"
+            element={
+              <Login setLoggedUser={setLoggedUser} />
+            }
+          />
+          <Route
+            exact
+            path="/register"
+            element={
+              <Register setLoggedUser={setLoggedUser} />
+            }
+          />
+          <Route exact path="*" element={<Error404 />} />
+        </Routes>
+      </main>
     </BrowserRouter>
-
-
-  )
+  );
 };
 
-export default App
+export default App;

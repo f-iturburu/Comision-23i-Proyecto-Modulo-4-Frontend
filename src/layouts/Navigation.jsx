@@ -46,7 +46,7 @@ const Navigation =
                 <Link className="nav-link" to="/login">
                   Login
                 </Link>
-               )};
+               )}
             </Nav>
           </Navbar.Collapse>
         </Container>
