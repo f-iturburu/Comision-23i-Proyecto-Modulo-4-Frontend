@@ -10,6 +10,7 @@ import Home from "./views/home/Home";
 import Login from "./views/login/login";
 import Register from "./views/register/register";
 import AdminView from "./views/admin/admin";
+import Surveys from "./views/surveys/Surveys";
 
 
 const App = () => {
@@ -43,11 +44,11 @@ const App = () => {
 
       <main>
        <Routes>
-         <Route exact path="" element= {<Home/>}/>
+         <Route exact path="/" element= {<Home/>}/>
          <Route exact path="/about" element= {<About/>}/>
 
          <Route element={<ProtectedRoute token={!!loggedUser} />}>
-           <Route exact path="/surveys" element= {<AdminView/>}/>
+           <Route exact path="/surveys" element= {<Surveys/>}/>
         </Route>
 
          <Route exact path="/contact" element= {<Contact/>}/>
@@ -56,7 +57,7 @@ const App = () => {
           element={
             <ProtectedRoute
               redirectTo="/login"
-              token={!!loggedUser /* && loggedUser.roles.includes("1") */}
+              token={!!loggedUser  /* && loggedUser.role.includes("97ef6616832542a88d5a4aecf9528234") */}
             >
               <AdminView/>
             </ProtectedRoute>

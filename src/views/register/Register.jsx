@@ -8,6 +8,7 @@ const Register = ({ setLoggedUser }) => {
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const URL = import.meta.env.VITE_APP_API_ROLLINGSURVEYS_USER;
   
 
   const handleChange = (event) => {
@@ -26,22 +27,29 @@ const Register = ({ setLoggedUser }) => {
 
     //Envio los datos para guardarlos
     const newUser = {
-      name: inputs.name,
+      username: inputs.name,
       email: inputs.email,
       password: inputs.password,
     };
     try {
+      const res = await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/user`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newUser),
+          });
       
-      const res = await axios.post(`${URL}/register`, newUser);
-      console.log(res);
+      /* const res = await axios.post(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/user`, newUser);
+      console.log(res); */
       if (res.status === 201) {
         Swal.fire("Created!", "Your user has been created.", "success");
-        // const data = await res.json(); // si es con fetch
-        const data = res.data 
+        const data = await res.json(); // si es con fetch
+        //const data = res.data 
         console.log(data);
         localStorage.setItem("user-token", JSON.stringify(data));
         setLoggedUser(data);
-        navigate("/product/table");
+        navigate("/login");
       }
     } catch (error) {
       //console.log(error);

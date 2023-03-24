@@ -10,10 +10,10 @@ import Login from "../views/login/login";
 const Navigation =
 
   ({ loggedUser, setLoggedUser }) => {
-    /* const logout = ()=>{
+    const logout = ()=>{
     localStorage.removeItem("user-token");
     setLoggedUser({})
-    navigate("/")}; */
+    navigate("/")};
 
     return (
       <Navbar className="bg-light" expand="lg">
@@ -31,29 +31,22 @@ const Navigation =
               <NavLink className="nav-link" to="/contact">
                 Contacto
               </NavLink>
-              <Link className="nav-link" to="/admin"> Manage Surveys 
-              </Link>
-             {/*  {loggedUser ? (
-        <button onClick={logout}>Logout</button>
-      ) : (
-        <button onClick={Login}>Login</button>
-      )} */}
-             {/*  {loggedUser.token ? (
+              {loggedUser.token ? (
                 <>
-                  <Button variant="dark" onClick={logout}>
-                    Log out
-                  </Button>
                   <Link
                     className="nav-link"
                     to="/admin">
-                    Manage Products
+                    Manage Surveys
                   </Link>
+                  <Button variant="dark" onClick={logout}>
+                    Log out
+                  </Button>
                 </>
-              ) : ( */}
+              ) : (
                 <Link className="nav-link" to="/login">
                   Login
                 </Link>
-              {/* )} */}
+               )};
             </Nav>
           </Navbar.Collapse>
         </Container>
