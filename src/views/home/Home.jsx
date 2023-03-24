@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import SurveyCard from './components/surveyCard';
 import { Pagination } from 'antd';
+import css from './Home.css';
 
 const Home = () => {
 const [surveys,setSurveys] = useState()
@@ -58,7 +59,7 @@ useEffect(()=>{
         pageSize={pageSize}
         total={surveysComponents.length}
         onChange={(page) => setCurrentPage(page)}
-        className="ms-auto"
+        className="ms-auto pagNum"
       />   
   </div>
 </div>

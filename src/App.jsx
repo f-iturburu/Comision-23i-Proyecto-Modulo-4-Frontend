@@ -12,6 +12,7 @@ import Register from "./views/register/register";
 import Survey from "./views/survey/survey";
 import AdminView from "./views/admin/admin";
 
+
 const App = () => {
  /*  const [loggedUser, setLoggedUser] = useState({}); */ // como deberia ser con el usuario logueado
 
@@ -30,24 +31,18 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Navigation  /* loggedUser={loggedUser} setLoggedUser={setLoggedUser} */ />
-      {user ? (
-        <button onClick={logout}>Logout</button>
-      ) : (
-        <button onClick={login2}>Login</button>
-      )}
-
+      <Navigation /* loggedUser={loggedUser} setLoggedUser={setLoggedUser} */ />
       <main>
        <Routes>
          <Route exact path="" element= {<Home/>}/>
          <Route exact path="/about" element= {<About/>}/>
 
          <Route element={<ProtectedRoute isAllowed={!!user} />}>
-           <Route exact path="/surveys" element= {<AdminView/>}/>
         </Route>
+           <Route exact path="/surveys" element= {<AdminView/>}/>
          <Route exact path="/survey/:id" element= {<Survey/>}/>
            
-         <Route
+         {/* <Route
           path="/admin"
           element={
             <ProtectedRoute
@@ -57,7 +52,7 @@ const App = () => {
               <AdminView/>
             </ProtectedRoute>
           }
-        />
+        /> */}
          {/* <Route exact path="/admin" element={<Admin />} /> */}
          <Route exact path="/login" element= {<Login /* setLoggedUser={setLoggedUser} *//>}/>
          <Route exact path="/register" element= {<Register /* setLoggedUser={setLoggedUser} *//>}/>

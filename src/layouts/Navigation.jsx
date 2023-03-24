@@ -6,6 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Login from "../views/login/login";
+import css from "./navigaton.css"
 
 const Navigation =
 
@@ -17,22 +18,22 @@ const Navigation =
     navigate("/")}; */
 
     return (
-      <Navbar className="bg-light" expand="lg">
+      <Navbar className="nav" expand="lg">
         <Container>
-          <Navbar.Brand href="/">Home</Navbar.Brand>
+          <Navbar.Brand href="/" className="nav-link text-light">Home</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar.nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav>
-              <NavLink className="nav-link" to="/about">
+              <NavLink className="nav-link text-light" to="/about">
                 Nosotros
               </NavLink>
-              <NavLink className="nav-link" to="/surveys">
+              <NavLink className="nav-link text-light" to="/surveys">
                 Encuestas
               </NavLink>
-              <NavLink className="nav-link" to="/contact">
+              <NavLink className="nav-link text-light" to="/contact">
                 Contacto
               </NavLink>
-              <Link className="nav-link" to="/admin"> Manage Surveys 
+              <Link className="nav-link text-light" to="/admin"> Manage Surveys 
               </Link>
              {/*  {loggedUser ? (
         <button onClick={logout}>Logout</button>
@@ -51,7 +52,7 @@ const Navigation =
                   </Link>
                 </>
               ) : ( */}
-                <Link className="nav-link" to="/login">
+                <Link className="nav-link text-light" to="/login"> 
                   Login
                 </Link>
               {/* )} */}

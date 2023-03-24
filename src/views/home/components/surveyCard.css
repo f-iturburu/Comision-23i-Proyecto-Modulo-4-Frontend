@@ -1,0 +1,36 @@
+/* .card:hover {
+  transform: scale(1.05);
+  transition-duration: 0.5s;
+  border: 1px solid black;
+} */
+
+.card{
+  color:rgb(255, 255, 255); 
+  background: rgb(54, 54, 54) !important;
+  border: 1px solid rgba(104, 104, 104, 0.5);
+  border-radius: 1.5rem;
+  padding: 0.2rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+.card-body{
+  background-color: rgb(36, 36, 54); 
+}
+
+.card:hover {
+  transform: scale(1.05);
+  transition-duration: 0.5s;
+  border: 1px solid black;
+
+}
+
+.categoryPill{
+    background-color: #c1a2ff;
+}
+
+.cardTitle {
+  font-size: 2.2rem !important;
+}
+
+
+
