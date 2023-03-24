@@ -14,7 +14,8 @@ import Home from "./views/home/Home";
 import Login from "./views/login/login";
 import Register from "./views/register/register";
 import AdminView from "./views/admin/admin";
-import Surveys from "./views/surveys/Surveys";
+import Surveys from "./views/surveys/surveys";
+import Footer from "./layouts/Footer";
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState({}); // como deberia ser con el usuario logueado
@@ -58,9 +59,9 @@ const App = () => {
               <ProtectedRoute
                 redirectTo="/login"
                 token={
-                  !!loggedUser /* && loggedUser.role.includes("97ef6616832542a88d5a4aecf9528234") */
+                  !!loggedUser && loggedUser?.role?.includes("97ef6616832542a88d5a4aecf9528234")
                 }>
-                <AdminView />
+                <Surveys/>
               </ProtectedRoute>
             }
           />
@@ -85,7 +86,6 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          {/* <Route exact path="/admin" element={<Admin />} /> */}
           <Route
             exact
             path="/login"
@@ -103,6 +103,7 @@ const App = () => {
           <Route exact path="*" element={<Error404 />} />
         </Routes>
       </main>
+      <Footer/>
     </BrowserRouter>
   );
 };
