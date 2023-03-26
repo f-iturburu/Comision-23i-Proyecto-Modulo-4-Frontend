@@ -8,8 +8,11 @@ import axios from "axios";
 
 const Login =  ({ setLoggedUser }) => {
   const [inputs, setInputs] = useState({});
+  console.log(inputs.email, inputs.password);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const URL = import.meta.env.VITE_APP_API_ROLLINGSURVEYS_LOGIN; //agregado p/ conectar api
+
 
   
 
@@ -23,29 +26,34 @@ const Login =  ({ setLoggedUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputs);
+  
     //Valido los campos
 
     //Envio los datos
     try {
-      /* const res = await fetch(`${URL}/login`, {
+       const res = await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: inputs.email,
+          user: inputs.email,
           password: inputs.password,
+
         }),
-      }); */
-       const res = await axios.post(`${URL}/login`, {
+    
+      }); 
+
+    
+      
+      /*  const res = await axios.post(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/login`, {
         email: inputs.email,
         password: inputs.password,
-      });
+      }); */
       if (res.status === 200) {
         Swal.fire("Logged!", "Your user has been logged.", "success");
-        //const data = await res.json(); //si es con fetch
-        const data = res.data
+        const data = await res.json(); //si es con fetch
+        //const data = res.data
         console.log(data);
         //guadamos en localstorage el token y la información del user
         localStorage.setItem("user-token", JSON.stringify(data));
