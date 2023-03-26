@@ -3,6 +3,7 @@ import { Alert, Container, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+//import { validateEmail, validatePasword, validateUsername } from "../../helpers/validateFields";
 
 const Register = ({ setLoggedUser }) => {
   const [inputs, setInputs] = useState({});
@@ -22,8 +23,16 @@ const Register = ({ setLoggedUser }) => {
   //Funcion para crear el producto
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //console.log(inputs);
+    console.log(inputs);
     //Valido los campos
+    /* if (
+        !validateUsername(inputs.name) ||
+        !validateEmail(inputs.email) ||
+        !validatePasword(inputs.password) 
+      ) {
+        Swal.fire("Oop!!", "Some data is invalid", "Error");
+        return;
+      } */
 
     //Envio los datos para guardarlos
     const newUser = {

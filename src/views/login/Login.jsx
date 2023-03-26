@@ -8,7 +8,7 @@ import axios from "axios";
 
 const Login =  ({ setLoggedUser }) => {
   const [inputs, setInputs] = useState({});
-  console.log(inputs.email, inputs.password);
+  //console.log(inputs.email, inputs.password);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const URL = import.meta.env.VITE_APP_API_ROLLINGSURVEYS_LOGIN; //agregado p/ conectar api
