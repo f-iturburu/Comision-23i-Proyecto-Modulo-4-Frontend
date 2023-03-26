@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom';
-import QuestionComponent from "./components/questionComponentHandler";
-import { Button } from 'antd';
 import MultiStepForm from "./components/useMultiStepForm";
+import Loader from "../../components/loader/loader";
 
 const Survey = () =>{
     const [data, setData] = useState()
-
+    const [loading, setLoading] = useState()
     const {id} = useParams()
+
     useEffect(()=>{
-        fetchApi()
+      setLoading(true)
+        fetchApi().then(()=>{
+          setLoading(false)
+        })
     },[])
 
 
@@ -28,9 +31,8 @@ const Survey = () =>{
   }
 
     return <>
-    <h1>{data?.name}</h1>
-    <div className="container">
-    <MultiStepForm questions={data?.surveyQuestions}/>    
+    <div className="container mt-5">
+   {loading? <Loader /> : <MultiStepForm questions={data?.surveyQuestions} surveyTitle={data?.name} surveyDescription={data?.description}/> }
     </div>
     </>
 }
