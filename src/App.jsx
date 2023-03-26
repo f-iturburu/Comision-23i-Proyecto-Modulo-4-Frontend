@@ -13,9 +13,11 @@ import Error404 from "./views/error404/Error404";
 import Home from "./views/home/Home";
 import Login from "./views/login/login";
 import Register from "./views/register/register";
+import Survey from "./views/survey/survey";
 import AdminView from "./views/admin/admin";
 import Surveys from "./views/surveys/surveys";
 import Footer from "./layouts/Footer";
+
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState({}); // como deberia ser con el usuario logueado
@@ -104,6 +106,7 @@ const App = () => {
         </Routes>
       </main>
       <Footer/>
+
     </BrowserRouter>
   );
 };

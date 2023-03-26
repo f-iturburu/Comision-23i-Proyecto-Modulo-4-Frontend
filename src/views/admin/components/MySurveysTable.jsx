@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Table, Switch, Button } from 'antd';
 import Swal from 'sweetalert2'
 import { DeleteOutlined } from '@ant-design/icons';
-
+import { Link } from "react-router-dom";
 
 const SurveysTable = ({fetchApi, setFetchApi}) => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [data, setData] = useState([]);
+  
 
   useEffect(()=>{
     if(fetchApi){
@@ -30,13 +31,12 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
     .then(body => {
       setData(body) 
     })
-
   }
 
   const handleSwitchChange = (checked, record) => {
     setLoading(true);
         updateData(record._id, checked)
-        .then(res => res.json()).then(() => {
+        .then(res => res.json()).then(() =>{
           setLoading(false);
           setData(
             data.map((prevArray) => {
@@ -46,9 +46,7 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
               return prevArray;
             })
           );
-        })
-    .catch((error)=>{
-
+        }).catch((error)=>{
         setLoading(false);
         Swal.fire(
             '',
@@ -70,9 +68,6 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
   };
 
   const handleDeleteSurvey =(record)=>{
-    setDeleteLoading(true)
-    console.log(record._id);
-    console.log(typeof record._id);
     Swal.fire({
       title: 'Estas seguro que deses eliminar esta encuesta?',
       text: "Esta acción es irreversible",
@@ -84,22 +79,25 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
       confirmButtonText: 'Eliminar',
       reverseButtons: true
     }).then(async (result) => {
-    deleteSurvey(record._id)
-    .then(res => res.json()).then(() =>{
-        setFetchApi(true)
+      if (result.isConfirmed) {
         
-    }).catch((error)=>{
-        setDeleteLoading(false);
-        console.log(error.message);
-        Swal.fire(
-            '',
-            'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
-            'error'
-          )
-    })
+        setDeleteLoading(true)
+         await deleteSurvey(record._id)
+        .then(res => res.json()).then(() =>{
+            setFetchApi(true)
+          }).catch((error)=>{
+              setDeleteLoading(false);
+              console.log(error.message);
+              Swal.fire(
+                  '',
+                  'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
+                  'error'
+                )
+          })
+      }
+        
   })
   }
-  
   
   const deleteSurvey = (id)=>{
     return fetch (`https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/${id}`,{
@@ -114,9 +112,13 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
   const columns = [
     {
       title: 'Nombre de la encuesta',
-      dataIndex: 'name',
       key: 'name',
       sorter: (a, b) => a.name.localeCompare(b.name),
+      render(record){
+        return  <Link to={`/survey/${record._id}`}>
+        {record.name}
+        </Link>
+      }
     },
     {
       title: 'Categorias',
@@ -151,6 +153,18 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
             )
   
         } 
+        ,
+      filters: [
+        {
+          text: 'Active',
+          value: true,
+        },
+        {
+          text: 'Inactive',
+          value: false,
+        },
+      ],
+      onFilter: (value, record) => record.published === value,
       },
       {
         title: 'Acciones',
@@ -169,7 +183,6 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
 
   return (
     <Table columns={columns}  dataSource={data} pagination={{pageSize: 10}}>
-
     </Table>
   );
 };

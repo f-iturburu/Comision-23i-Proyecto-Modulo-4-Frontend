@@ -12,6 +12,7 @@ import compareDates from "../../../helpers/compareDates";
 import TooltipQuestionmark from "../../../layouts/tooltip";
 import Swal from 'sweetalert2'
 import Loader from "../../../components/loader/loader";
+import SpinnerLoader from "../../../components/spinner/spinner";
 
 function CreateNewSurvey({setFetchApi}) {
   const [category,setCategory] = useState()
@@ -173,7 +174,6 @@ const validateQuestionType = (data) =>{
   } 
 }
 
-
 const validateQuestionOptions = (data) =>{
   if(data.some((i)=> (i.type == 'singleOption' || i.type == 'multipleOptions') && i.possibleAnswers.length == 0)){
     setSubmitError((prevArray)=>{
@@ -277,7 +277,7 @@ const handleClose = () => {
   ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
 };
 
-  const componentQuestionsHandler=()=>{
+const componentQuestionsHandler=()=>{
     setErrorMessage()
     setSurveyQuestions((prevArray) => {
   if (prevArray.length >= 7) {
@@ -332,7 +332,6 @@ const handleSubmit  = () =>{
            setFetchApi(true)
            setLoading(false)
       }).catch(error=>{
-        console.log(error.message);
         Swal.fire(
             '',
             'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
@@ -432,7 +431,7 @@ const handleSubmit  = () =>{
             Cerrar
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            {isLoading? <Loader /> : 'Guardar'}
+            {isLoading? <SpinnerLoader /> : 'Guardar'}
           </Button>
       </Stack>
         </Modal.Footer>
