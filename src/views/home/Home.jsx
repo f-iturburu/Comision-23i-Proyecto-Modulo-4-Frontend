@@ -33,6 +33,7 @@ useEffect(()=>{
               surveyTitle={i.name}
               surveyCategory={i.categories[0]}
               id={i._id}
+              surveyDescription={i.description}
               surveyEndDate={i?.endDate}
               />
             )).reverse());
