@@ -31,7 +31,7 @@ const Login =  ({ setLoggedUser }) => {
 
     //Envio los datos
     try {
-       const res = await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/login`, {
+       /* const res = await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,18 +42,18 @@ const Login =  ({ setLoggedUser }) => {
 
         }),
     
-      }); 
+      });  */
 
     
       
-      /*  const res = await axios.post(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/login`, {
-        email: inputs.email,
+       const res = await axios.post(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/login`, {
+        user: inputs.email,
         password: inputs.password,
-      }); */
+      });
       if (res.status === 200) {
         Swal.fire("Logged!", "Your user has been logged.", "success");
-        const data = await res.json(); //si es con fetch
-        //const data = res.data
+        //const data = await res.json(); //si es con fetch
+        const data = res.data
         console.log(data);
         //guadamos en localstorage el token y la información del user
         localStorage.setItem("user-token", JSON.stringify(data));

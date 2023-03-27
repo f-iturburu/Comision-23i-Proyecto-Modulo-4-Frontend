@@ -41,27 +41,27 @@ const Register = ({ setLoggedUser }) => {
       password: inputs.password,
     };
     try {
-      const res = await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/user`, {
+      /* const res = await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/user`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(newUser),
-          });
+          }); */
       
-      /* const res = await axios.post(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/user`, newUser);
-      console.log(res); */
+      const res = await axios.post(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/user`, newUser);
+      console.log(res);
       if (res.status === 201) {
         Swal.fire("Created!", "Your user has been created.", "success");
-        const data = await res.json(); // si es con fetch
-        //const data = res.data 
+        //const data = await res.json(); // si es con fetch
+        const data = res.data 
         console.log(data);
         localStorage.setItem("user-token", JSON.stringify(data));
         setLoggedUser(data);
         navigate("/login");
       }
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       setError(true);
       error.response.data?.message && setErrorMessage(error.response.data?.message)
     }
@@ -82,6 +82,7 @@ const Register = ({ setLoggedUser }) => {
               value={inputs.name || ""}
               onChange={(e) => handleChange(e)}
             />
+            <div className="alert alert-light p-1">El username puede ser alfanumerico y debe tener entre 6 y 25 caracteres</div>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email*</Form.Label>
@@ -92,6 +93,7 @@ const Register = ({ setLoggedUser }) => {
               value={inputs.email || ""}
               onChange={(e) => handleChange(e)}
             />
+            <div className="alert alert-light p-1">Debe ingresar un email válido</div>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password*</Form.Label>
@@ -102,6 +104,7 @@ const Register = ({ setLoggedUser }) => {
               value={inputs.password || ""}
               onChange={(e) => handleChange(e)}
             />
+            <div className="alert alert-light p-1">El password debe tener de 6 a 30 caracteres y contener al menos una letra, un número y un signo</div>
           </Form.Group>
           <Link to="/login" className="btn-primary text-decoration-none">
             Back to login
