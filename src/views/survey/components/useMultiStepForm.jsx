@@ -68,7 +68,6 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
         setSubmitLoading(true);
 
          try{
-  
             const res = await axios.post(`${URL}/allAnswers/${id}`,submitObject,{
               headers:{
                 "Content-Type": "application/json",

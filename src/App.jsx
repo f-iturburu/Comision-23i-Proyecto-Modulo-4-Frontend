@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Navigation from "./layouts/Navigation";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import ProtectedAdminRoute from "./routes/ProtectedAdminRoutes";
 import About from "./views/about/About";
 import Contact from "./views/contact/Contact";
 import Error404 from "./views/error404/Error404";
@@ -13,9 +14,12 @@ import Home from "./views/home/Home";
 import Login from "./views/login/Login";
 import Register from "./views/register/register";
 import Survey from "./views/survey/survey";
+import MySurveys from "./views/mySurveys/mySurveys";
 import AdminView from "./views/admin/admin";
+import SurveyDetails from "./surveyDetails/surveyDetails";
 import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
 import Footer from "./layouts/Footer";
+
 
 const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
 const USER_LOGIN_KEY = import.meta.env.VITE_USER_LOGIN_KEY;
@@ -47,7 +51,7 @@ const App = () => {
             path="/survey/newsurvey"
             element={
               <ProtectedRoute>
-                <CreateNewSurveyForm/>
+                <CreateNewSurveyForm URL={URL} token={token}/>
               </ProtectedRoute>
             }
           />
@@ -58,13 +62,30 @@ const App = () => {
             element={<Contact />}
           />
           <Route
-            path="/admin"
+            path="/mysurveys"
             element={
               <ProtectedRoute>
-                <AdminView />
+                <MySurveys URL={URL} token={token}/>
               </ProtectedRoute>
             }
           />
+            <Route
+            path="/survey/details/:id"
+            element={
+              <ProtectedRoute>
+                <SurveyDetails URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <AdminView />
+              </ProtectedAdminRoute>
+            }
+          />
+
           <Route
             exact
             path="/login"

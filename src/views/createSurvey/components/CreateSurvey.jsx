@@ -11,9 +11,9 @@ import compareDates from "../../../helpers/compareDates";
 import TooltipQuestionmark from "../../../layouts/tooltip";
 import Swal from 'sweetalert2'
 import SpinnerLoader from "../../../components/spinner/spinner";
-import { redirect } from "react-router-dom";
+import axios from "axios";
 
-function CreateNewSurveyForm() {
+function CreateNewSurveyForm({URL, token}) {
   const [category,setCategory] = useState()
   const [surveyTitle, setSurveyTitle] = useState('')
   const [surveyDescription, setSurveyDescription] = useState('')
@@ -39,8 +39,6 @@ const [isLoading, setLoading] = useState(false);
 const [submitError, setSubmitError] = useState([['invalidQuestions', true],['duplicateQuestions',true],
 ['invalidDate', true],['surveyTitle', true],['noTypeAssignedToQuestion', true],['noOptionsAssigned',true],
 ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true],['surveyDescription',true],['emptySurveyDescription',true]])
-
-
 
 
 useEffect(()=>{
@@ -337,31 +335,59 @@ const handleSubmit  = () =>{
   }).then(async (result) => {
     if (result.isConfirmed){
       setLoading(true)
-       await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
-        method:'POST' ,
-        headers: {
-          "Content-Type": "application/json",
-          'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
-        },
-        body: JSON.stringify(postObject)
-        
-      }).then(res=> res.json()).then(body=>{
-        Swal.fire(
-            '',
-             'Tu encuesta ha sido guardada existosamente!',
-             'success'
-           )
-           setLoading(false) 
-           redirect("/surveys")
 
-      }).catch(error=>{
+      try{
+          const res = await axios.post(`${URL}/survey/question`,postObject,{
+            headers:{
+              "Content-Type": "application/json",
+              'auth-token': token.token
+            }
+          })
+          if (res.status == 200) {
+            Swal.fire(
+              '',
+               'Tu encuesta ha sido guardada existosamente!',
+               'success'
+             )
+             setTimeout(()=>{
+              window.location.href='/mysurveys'
+            }, 1000 )
+          }
+      }catch(error){
         Swal.fire(
-            '',
-            'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
-            'error'
-          )
-          setLoading(false)
-      })
+          '',
+          'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
+          'error'
+        )
+        setLoading(false)
+      }
+
+      //  await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
+      //   method:'POST' ,
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
+      //   },
+      //   body: JSON.stringify(postObject)
+        
+      // }).then(res=> res.json()).then(body=>{
+      //   Swal.fire(
+      //       '',
+      //        'Tu encuesta ha sido guardada existosamente!',
+      //        'success'
+      //      )
+      //      setTimeout(()=>{
+      //       window.location.href='/mysurveys'
+      //     }, 1000 )
+      // }).catch(error=>{
+      //   Swal.fire(
+      //       '',
+      //       'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
+      //       'error'
+      //     )
+      //     setLoading(false)
+      // })
+
     }
   })
  }

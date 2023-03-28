@@ -29,23 +29,25 @@ const Navigation = ({adminLoginKey,userLoginKey }) => {
               <NavLink className="nav-link me-auto" to="/contact">
                 Contacto
               </NavLink>
-              {token?.role == adminLoginKey ?  <>
-                <NavLink className="nav-link" to="/adminpanel">
-                    Admin
-                </NavLink>
-               </> : <>
-               </>}
               {token?.token ? (
                 <> 
                   <NavLink
                     className="nav-link"
-                    to="/admin">
+                    to="/mysurveys">
                     Mis encuestas
                   </NavLink>            
                 </>
               ) : (
              null
-               )}       
+               )}     
+
+                 {token?.role == adminLoginKey ?  <>
+                <NavLink className="nav-link" to="/admin">
+                    Admin
+                </NavLink>
+               </> : <>
+               </>}
+
             </Nav>
 
             <Nav>
