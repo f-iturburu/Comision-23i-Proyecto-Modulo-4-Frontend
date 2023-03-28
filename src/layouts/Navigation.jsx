@@ -5,57 +5,62 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Login from "../views/login/login";
 import css from "./navigaton.css"
+import { useNavigate } from "react-router-dom";
 
-const Navigation =
+const Navigation = ({adminLoginKey,userLoginKey }) => {
+  let token = JSON.parse(localStorage.getItem("user-token"))
 
-
-  ({ loggedUser, setLoggedUser }) => {
-    /* const logout = ()=>{
+  const navigate = useNavigate();
+  
+    const logout = ()=>{
     localStorage.removeItem("user-token");
-    setLoggedUser({})
-    navigate("/")}; */
+    navigate("/")};
 
     return (
       <Navbar className="nav" expand="lg">
         <Container>
-          <Navbar.Brand href="/" className="nav-link text-light">Home</Navbar.Brand>
+
+          <Navbar.Brand href="/" >Home</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar.nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav>
-              <NavLink className="nav-link text-light" to="/about">
-                Nosotros
+          <Navbar.Collapse>
+            <Nav className="me-auto">
+              <NavLink className="nav-link" to="/about">
+                Sobre Nosotros
               </NavLink>
-              <NavLink className="nav-link text-light" to="/surveys">
-                Encuestas
-              </NavLink>
-              <NavLink className="nav-link text-light" to="/contact">
+              <NavLink className="nav-link me-auto" to="/contact">
                 Contacto
               </NavLink>
-              <Link className="nav-link text-light" to="/admin"> Manage Surveys 
-              </Link>
-             {/*  {loggedUser ? (
-        <button onClick={logout}>Logout</button>
-      ) : (
-        <button onClick={Login}>Login</button>
-      )} */}
-             {/*  {loggedUser.token ? (
-                <>
-                  <Button variant="dark" onClick={logout}>
-                    Log out
-                  </Button>
-                  <Link
+              {token?.role == adminLoginKey ?  <>
+                <NavLink className="nav-link" to="/adminpanel">
+                    Admin
+                </NavLink>
+               </> : <>
+               </>}
+              {token?.token ? (
+                <> 
+                  <NavLink
                     className="nav-link"
                     to="/admin">
-                    Manage Products
-                  </Link>
+                    Mis encuestas
+                  </NavLink>            
                 </>
-              ) : ( */}
-                <Link className="nav-link text-light" to="/login"> 
-                  Login
-                </Link>
-              {/* )} */}
+              ) : (
+             null
+               )}       
+            </Nav>
+
+            <Nav>
+           {token?.token? 
+             <li class="nav-item dropdown ">
+             <a class="nav-link dropdown-toggle fs-5 " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <i class="bi bi-person-circle"></i>
+             </a>
+             <ul class="dropdown-menu dropdown-menu-end">
+               <li ><Link className="nav-link" to="/userdashboard">Opciones</Link></li>
+               <li> <NavLink className="nav-link" onClick={logout}>Cerrar sesión <i class="bi bi-box-arrow-in-left"></i></NavLink></li>
+             </ul>
+           </li> : <NavLink className="nav-link" to="/login">Ingresar <i class="bi bi-box-arrow-in-right"></i></NavLink>}
             </Nav>
           </Navbar.Collapse>
         </Container>

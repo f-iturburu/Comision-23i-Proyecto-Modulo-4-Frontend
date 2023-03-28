@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, InputNumber,Radio, Checkbox } from 'antd';
 
-const QuestionComponent = ({question, data, setData}) => {
+
+
+const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surveyDescription}) => {
   const [form] = Form.useForm();
+
   const [questionObject, setQuestionObject] =useState({
     'idQuestion': question?._id,
     'answers': []
   })
-
-  const handleData = (values) => {
-    const updatedObject = { ...questionObject ,
-      'idQuestion' : question._id , 
-      'answers': values, 
-      }
-      setQuestionObject(updatedObject)
-  };
 
   useEffect(()=>{
     setData(prevArray =>{
@@ -29,96 +24,179 @@ const QuestionComponent = ({question, data, setData}) => {
     });
   },[questionObject])
   
+  const TextComponent = ()=>{
+    const [isAnswerValid, setIsAnswerValid] = useState(false);
+
+    const handleData = (values) => {
+      const regex = /^[a-zA-Z\s\p{P}]{2,30}$/
+      const isValid = regex.test(values);
+      if (isValid) {
+        const updatedObject = { ...questionObject ,
+          'idQuestion' : question._id , 
+          'answers': [values], 
+          }
+          setButtonDisabled(false)
+          setIsAnswerValid(!isValid);
+          setQuestionObject(updatedObject)
+  
+      }else{
+        setIsAnswerValid(!isValid);
+        setButtonDisabled(true)
+      }
+    };
+
+    return (
+      <Form form={form} >
+      <div className='w-100 text-center pt-3'>
+      <h3>{surveyTitle}</h3>
+      <h5>{surveyDescription}</h5>
+      </div>
+    <h5>{question.question}</h5>
+    <Form.Item 
+     style={{width:'50%'}}
+      name={'text'+ question.question}
+      rules={[
+        {
+          required: true,
+          message: 'Ingrese una respuesta',
+        },
+      ]}
+      validateStatus={isAnswerValid ? 'error' : ''}
+      help={isAnswerValid && 'La respuesta debe ser de entre 2 y 30 caracteres, no se admiten caracteres especiales.'}
+      hasFeedback
+    >
+      <Input placeholder="Ingrese su respuesta"  onChange={(e)=> handleData(e.target.value)}/>
+      </Form.Item>
+      </Form>
+    )
+    }
+
+  const NumberComponent = () =>{
+    const [isAnswerValid, setIsAnswerValid] = useState(false);
+
+    const handleData = (values) => {
+     const regex = /^[0-9]{1,5}$/
+     const isValid = regex.test(values);
+     if (isValid) {
+       const updatedObject = { ...questionObject ,
+         'idQuestion' : question._id , 
+         'answers': [values], 
+         }
+         setButtonDisabled(false)
+         setIsAnswerValid(!isValid);
+         setQuestionObject(updatedObject)
+     }else{
+      setIsAnswerValid(!isValid);
+      setButtonDisabled(true)
+     }
+    };
+
+      return (
+        <Form form={form} initialValues={0}>
+        <div className='w-100 text-center pt-3'>
+              <h3>{surveyTitle}</h3>
+              <h5>{surveyDescription}</h5>
+              </div>
+        <h5>{question.question}</h5>
+            <Form.Item
+
+              name={"Numbers"+ question.question}
+             rules={[
+                {
+                  required: true,
+                  message: 'Ingrese una respuesta',
+                  },
+              ]}
+      validateStatus={isAnswerValid ? 'error' : ''}
+      help={isAnswerValid && 'Solo se admiten números de entre 1 y 5 digitos'}
+      hasFeedback
+      
+            >
+            <Input style={{width:"30%"}} placeholder="Ingrese un valor númerico" min={1} onChange={(e)=> handleData(e.target.value)}/>
+              </Form.Item>
+              </Form>
+      )
+    }
+
+  const SingleOptionComponent = () =>{ 
+    const [isAnswerValid, setIsAnswerValid] = useState(false);
+
+    const handleData = (values) => {
+      const updatedObject = { ...questionObject ,
+        'idQuestion' : question._id , 
+        'answers': [values], 
+        }
+        setQuestionObject(updatedObject)
+        setButtonDisabled(false)
+    };
+
+    const radioButtons = question.possibleAnswers?.map((i)=>  <Radio style={{marginLeft:'0'}} key={i} value={i}>{i}</Radio>)
+    return (
+       <Form form={form} >
+         <div className='w-100 text-center pt-3'>
+           <h3>{surveyTitle}</h3>
+           <h5>{surveyDescription}</h5>
+         </div>
+         <h5>{question.question}</h5>
+    <Form.Item  
+     style={{width:'50%'}}
+      name={"Radio"+ question.question}
+    >  
+    <Radio.Group style={{display:'flex', flexDirection: 'column'}} name={question._id} onChange={(e)=> handleData(e.target.value)} >
+      {radioButtons}
+     </Radio.Group>
+      </Form.Item>
+      </Form>)
+  }
+
+  const MultipleOptionsComponent = () =>{
+    const [isAnswerValid, setIsAnswerValid] = useState(false);
+
+    const handleData = (values) => {
+      if (values.length > 0) {
+        const updatedObject = { ...questionObject ,
+          'idQuestion' : question._id , 
+          'answers': values, 
+          }
+          setQuestionObject(updatedObject)
+          setButtonDisabled(false)
+      }else{
+        setButtonDisabled(true)
+      }
+    };
+    
+    const checkboxButtons = question.possibleAnswers?.map((i)=> <Checkbox style={{marginLeft:'0'}} key={i} value={i}>{i}</Checkbox>)
+    const CheckboxGroup = Checkbox.Group;
+    return(
+    <Form  form={form} >
+    <div className='w-100 text-center pt-3'>
+      <h3>{surveyTitle}</h3>
+      <h5>{surveyDescription}</h5>
+      </div>
+      <h5>{question.question}</h5>
+    <Form.Item
+     style={{width:'50%'}}
+      name={"Checkbox"+ question.question}
+    >  
+    <CheckboxGroup style={{display:'flex', flexDirection: 'column'}} name={question._id} onChange={(e)=> handleData(e)} >
+      {checkboxButtons}
+     </CheckboxGroup>
+      </Form.Item>
+      </Form>)
+  }
   
   switch (question? question.type : null) {
     case "text":
-      return <>
-      <h5>{question.question}</h5>
-      <Form form={form} >
-      <Form.Item
-       style={{width:'50%'}}
-        name="Respuesta"
-        rules={[
-          {
-            required: true ,
-          },
-        ]}
-        hasFeedback
+      return  TextComponent()
 
-      >
-        <Input placeholder="Ingrese su respuesta"  onChange={(e)=> handleData(e.target.value)}/>
-        </Form.Item>
-        </Form>
-   </>
-   
     case "numbers":
-      return <>
-      <h5>{question.question}</h5>
-  <Form form={form} >
-      <Form.Item
-       style={{width:'50%'}}
-        name="Valor numerico"
-        rules={[
-          {
-            required: true ,
-          },
-        ]}
-        hasFeedback
-
-      >
-      <InputNumber min={1} max={10000} defaultValue={0} onChange={(e)=> handleData(e.target.value)}/>
-        </Form.Item>
-        </Form>
-      </> 
-      
+      return NumberComponent()
 
     case "singleOption":
-      const radioButtons = question.possibleAnswers?.map((i)=>  <Radio key={i} value={i}>{i}</Radio>)
- 
-      return <>
-      <h5>{question.question}</h5>
-      <Form form={form} >
-      <Form.Item
-       style={{width:'50%'}}
-        name="Valor numerico"
-        rules={[
-          {
-            required: true ,
-          },
-        ]}
-        hasFeedback
-
-      >  
-      <Radio.Group name={question._id}>
-        {radioButtons}
-       </Radio.Group>
-        </Form.Item>
-        </Form>
-      </>
+      return SingleOptionComponent()
 
     case "multipleOptions":
-      const checkboxButtons = question.possibleAnswers?.map((i)=>  <Checkbox  key={i} value={i}>{i}</Checkbox>)
- 
-      return <>
-      <h5>{question.question}</h5>
-      <Form form={form} >
-      <Form.Item
-       style={{width:'50%'}}
-        name="Valor numerico"
-        rules={[
-          {
-            required: true ,
-          },
-        ]}
-        hasFeedback
-
-      >  
-      <Checkbox.Group name={question._id}>
-        {radioButtons}
-       </Checkbox.Group>
-        </Form.Item>
-        </Form>
-      </>
+        return MultipleOptionsComponent()
 
     default:
       break;  
@@ -126,3 +204,4 @@ const QuestionComponent = ({question, data, setData}) => {
 };
 
 export default QuestionComponent
+

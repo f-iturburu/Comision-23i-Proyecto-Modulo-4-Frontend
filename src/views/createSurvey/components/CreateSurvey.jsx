@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { Container } from "react-bootstrap";
 import CreateQuestionSurvey from "./CreateQuestionSurvey";
@@ -11,15 +10,16 @@ import todayDate from "../../../helpers/todayDate";
 import compareDates from "../../../helpers/compareDates";
 import TooltipQuestionmark from "../../../layouts/tooltip";
 import Swal from 'sweetalert2'
-import Loader from "../../../components/loader/loader";
 import SpinnerLoader from "../../../components/spinner/spinner";
+import { redirect } from "react-router-dom";
 
-function CreateNewSurvey({setFetchApi}) {
+function CreateNewSurveyForm() {
   const [category,setCategory] = useState()
   const [surveyTitle, setSurveyTitle] = useState('')
+  const [surveyDescription, setSurveyDescription] = useState('')
+  const [surveyDescriptionCounter, setSurveyDescriptionCounter] = useState(0)
   const [surveyTitleErrorMessage, setSurveyTitleErrorMessage] = useState()
   const [data,setData] = useState([])
-  const [show, setShow] = useState(false);
   const [keyCounter, setKeyCounter] = useState(1)
   const [SurveyQuestions, setSurveyQuestions] = useState([<CreateQuestionSurvey key={0} id={0} setData={setData} data={data} showDeleteState={false}/>])
   const [errorMessage , setErrorMessage] = useState()
@@ -33,10 +33,12 @@ const [emptyQuestionErrorMessage, setEmptyQuestionErrorMessage] = useState()
 const [emptySurveyTitleErrorMessage, setEmptySurveyTitleErrorMessage] = useState()
 const [emptyCategoryErrorMessage,setEmptyCategoryErrorMessage] = useState()
 const [duplicateQuestionsErrorMessage, setDuplicateQuestionsErrorMessage] =useState()
+const [surveyDescriptionErrorMessage, setSurveyDescriptionErrorMessage] = useState()
+const [emptySurveyDescriptionErrorMessage,setEmptySurveyDescriptionErrorMessage] = useState()
 const [isLoading, setLoading] = useState(false);
 const [submitError, setSubmitError] = useState([['invalidQuestions', true],['duplicateQuestions',true],
 ['invalidDate', true],['surveyTitle', true],['noTypeAssignedToQuestion', true],['noOptionsAssigned',true],
-['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
+['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true],['surveyDescription',true],['emptySurveyDescription',true]])
 
 
 
@@ -50,14 +52,15 @@ useEffect(()=>{
   validateEmptyQuestion(data)
   validateEmptySurveyTitle(surveyTitle)
   validateEmptyCategory(category)
-},[data,date,dateBool,surveyTitle,category])
+  validateEmptySurveyDescription(surveyDescription)
+},[data,date,dateBool,surveyTitle,category,surveyDescription])
 
 const onChange = (date, dateString) => {
   setDate(dateString)
 };
 
 const validateQuestion = (data) =>{
-  const questionRegex = /^[\p{L}0-9? ]{0,70}$/u
+  const questionRegex = /^[a-zA-Z\s\d\p{P}]{0,45}$/
   if(!data.every(i => questionRegex.test(i.question))){
     setQuestionsErrorMessage(<AlertDismissible message={'Has ingresado una pregunta invalida'} state={true}/>)
     setSubmitError((prevArray)=>{
@@ -133,7 +136,7 @@ const validateDate =(dateBool, date) =>{
 }
 
 const validateSurveyTitle =(value) =>{
-  const surveyTitleRegex = /^[\p{L}0-9? ]{1,55}$/u
+  const surveyTitleRegex = /^[a-zA-Z\s\d\p{P}]{0,55}$/
   setSurveyTitleErrorMessage()
   if(surveyTitleRegex.test(value) ){
     setSurveyTitle(value)
@@ -194,7 +197,7 @@ const validateQuestionOptions = (data) =>{
   }
 }
 
-const validateEmptyQuestion = () =>{
+const validateEmptyQuestion = (data) =>{
   if(data.some((i)=> i.question.length == 0)){
     setSubmitError((prevArray)=>{
       const newArray = prevArray.map((subArray, i) =>
@@ -254,29 +257,48 @@ const validateEmptyCategory = (category) =>{
   }
 }
 
-const handleClose = () => {
-  setShow(false)
-  setDateBool(false)
-  setDate()
-  setData([])
-  setSubmitErrorMessage()
-  setSurveyTitle('')
-  setQuestionsErrorMessage()
-  setDuplicateQuestionsErrorMessage()
-  setErrorMessage()
-  setSurveyTitleErrorMessage()
-  setQuestionWithNoTypeErrorMessage()
-  setMultipleOrSingleOptionQuestionsErrorMessage()
-  setEmptyQuestionErrorMessage()
-  setEmptySurveyTitleErrorMessage()
-  setCategory()
-  setEmptyCategoryErrorMessage()
-  setSurveyQuestions([<CreateQuestionSurvey key={0} id={0} setData={setData} data={data} showDeleteState={false}/>])
-  setSubmitError([['invalidQuestions', true],['duplicateQuestions',true],
-  ['invalidDate', true],['surveyTitle', true],['noTypeAssignedToQuestion', true],['noOptionsAssigned',true],
-  ['emptyQuestion',true],['emptySurveyTitle',true],['emptyCategory',true]])
-};
+const validateSurveyDescription = (value)=>{
+  const surveyDescriptionRegex = /^[a-zA-Z\s\d\p{P}]{0,220}$/
+  setSurveyDescriptionErrorMessage()
+  setSurveyDescriptionCounter(value.length)
+  if (surveyDescriptionRegex.test(value)) {
+    setSurveyDescription(value)
+    setSubmitError((prevArray)=>{
+      const newArray = prevArray.map((subArray, i) =>
+      i === 9 ? [subArray[0] ='surveyDescription', false] : subArray
+    );
+    return newArray
+    })
+  }else{
+    setSurveyDescriptionErrorMessage(<AlertDismissible message={'La descripcion ingresada es invalida'} state={true}/>)
+    setSubmitError((prevArray)=>{
+      const newArray = prevArray.map((subArray, i) =>
+      i === 9 ? [subArray[0] ='surveyDescription', true] : subArray
+    );
+    return newArray
+    })
+  }
+ }
 
+ const validateEmptySurveyDescription = (surveyDescription) =>{
+  setEmptySurveyDescriptionErrorMessage()
+  if(surveyDescription.length == 0 ){
+    setEmptySurveyDescriptionErrorMessage(<AlertDismissible message={'Ingrese una descripcion a la encuesta'} state={true}/>)
+    setSubmitError((prevArray)=>{
+      const newArray = prevArray.map((subArray, i) =>
+      i === 10 ? [subArray[0] ='emptySurveyDescription', true] : subArray
+    );
+    return newArray
+    })
+ }else{
+  setSubmitError((prevArray)=>{
+    const newArray = prevArray.map((subArray, i) =>
+    i === 10 ? [subArray[0] ='emptySurveyDescription', false] : subArray
+  );
+  return newArray
+  })
+ }
+}
 const componentQuestionsHandler=()=>{
     setErrorMessage()
     setSurveyQuestions((prevArray) => {
@@ -296,6 +318,7 @@ const handleSubmit  = () =>{
   if (filterBool.length == 0) {
    const postObject = {
     'name': surveyTitle ,
+    'description': surveyDescription ,
     'categories': category,
     'endDate': date,
     'questions': data ,
@@ -328,16 +351,15 @@ const handleSubmit  = () =>{
              'Tu encuesta ha sido guardada existosamente!',
              'success'
            )
-           handleClose()
-           setFetchApi(true)
-           setLoading(false)
+           setLoading(false) 
+           redirect("/surveys")
+
       }).catch(error=>{
         Swal.fire(
             '',
             'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
             'error'
           )
-          setFetchApi(false)
           setLoading(false)
       })
     }
@@ -346,25 +368,8 @@ const handleSubmit  = () =>{
 }
   
   return (
-    <>
-      <div className="w-100 d-flex justify-content-end mt-5 mb-3">
-        <Button variant="primary" onClick={()=> setShow(true)}>
-          Agregar nueva encuesta
-        </Button>
-      </div>
-
-      <Modal
-        size="lg"
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Agregar nueva encuesta</Modal.Title>
-        </Modal.Header>
-        <Modal.Body> 
-          <Container>
+    <>  
+          <Container className="mt-5 mb-3 p-4 border border-1 border-dark rounded-4">
           <Form.Select
            className="w-50 mb-2"
               defaultValue={"default"}
@@ -405,21 +410,31 @@ const handleSubmit  = () =>{
              </Form.Text>
              {surveyTitleErrorMessage}
             </Form.Group>
+            <Form.Group className="mb-3">
+            <Form.Label>Ingrese una descripción de su encuesta</Form.Label>
+             <Form.Control as="textarea" rows={2} onChange={(e)=> validateSurveyDescription(e.target.value)}/>
+             <div className="d-flex">
+             <Form.Text muted>
+       La descripción debe tener un maximo de 220 caracteres y no puede contener caracteres especiales. 
+             </Form.Text>
+             <Form.Text className="ms-auto ms-3" muted>
+                  {surveyDescriptionCounter}/220
+             </Form.Text>
+             </div>
+             {surveyDescriptionErrorMessage}
+             </Form.Group>
           </Form>
          {SurveyQuestions}
          {errorMessage}
-          </Container>
-        </Modal.Body>
-        <Modal.Footer>
-       
           <div className="container-fluid p-0 mb-2 d-flex flex-wrap d">
+          {emptySurveyTitleErrorMessage}
+          {emptySurveyDescriptionErrorMessage}
           {questionsErrorMessage}
           {duplicateQuestionsErrorMessage}
           {submitErrorMessage}    
           {questionWithNoTypeErrorMessage}
           {multipleOrSingleOptionQuestionsErrorMessage}
           {emptyQuestionErrorMessage}
-          {emptySurveyTitleErrorMessage}
           {emptyCategoryErrorMessage}
           </div>
    
@@ -427,17 +442,16 @@ const handleSubmit  = () =>{
         <Stack className="container-fluid" direction="horizontal" gap={3}>
          <Button variant="outline-success" onClick={componentQuestionsHandler}>Añadir pregunta</Button>
          <h5 className="my-auto me-auto">{SurveyQuestions.length}/7</h5>
-          <Button className="ms-auto" variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
           <Button variant="primary" onClick={handleSubmit}>
             {isLoading? <SpinnerLoader /> : 'Guardar'}
           </Button>
       </Stack>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
+          </Container>
+       
+          </>
+
+)
 }
 
-export default CreateNewSurvey;
+
+export default CreateNewSurveyForm;

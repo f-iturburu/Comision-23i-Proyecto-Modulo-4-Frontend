@@ -88,7 +88,6 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
             setFetchApi(true)
           }).catch((error)=>{
               setDeleteLoading(false);
-              console.log(error.message);
               Swal.fire(
                   '',
                   'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
