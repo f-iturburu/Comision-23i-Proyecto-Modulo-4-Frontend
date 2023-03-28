@@ -4,12 +4,16 @@ import QuestionComponent from "./questionComponentHandler";
 import { Row, Col } from "react-bootstrap";
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import axios from "axios";
+import AlertDismissible from "../../../layouts/alert";
+
 const { Step } = Steps;
 
-const MultiStepForm = ({ questions, surveyTitle,surveyDescription }) => {
+const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,formDisabled }) => {
   const {id} = useParams()
   const [data, setData] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [submitButtonDisabled,setSubmitButtonDisabled] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false);
   const [anonymousResponse, setAnonymousResponse] = useState(false);
   const questionsForm = questions;
@@ -20,6 +24,13 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription }) => {
     if (currentStep == data.length) {
       setButtonDisabled(true);
     } else {
+      setButtonDisabled(false);
+    }
+
+    if (formDisabled) {
+      if (currentStep == questions?.length -1){
+        return setSubmitButtonDisabled(true);
+      }
       setButtonDisabled(false);
     }
   }, [currentStep]);
@@ -41,7 +52,6 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription }) => {
       userAnswers: data,
     };
     setSubmitLoading(true);
-    console.log(submitObject);
 
     Swal.fire({
       title: 'Estas seguro que deseas enviar esta respuesta?',
@@ -56,31 +66,34 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription }) => {
     }).then(async (result)=>{
       if (result.isConfirmed) {
         setSubmitLoading(true);
-        await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/allAnswers/${id}`,{
-          method:'POST' ,
-          headers: {
-            "Content-Type": "application/json",
-            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
-          },
-          body: JSON.stringify(submitObject)
-          
-        }).then(res => res.json()).then(body =>{
-          console.log(body);
-          Swal.fire(
-            '',
-             'Tu respuesta ha sido enviada existosamente!',
-             'success'
-           )
-           setSubmitLoading(false);
-        }).catch(error =>{
-          console.log(error);
+
+         try{
+  
+            const res = await axios.post(`${URL}/allAnswers/${id}`,submitObject,{
+              headers:{
+                "Content-Type": "application/json",
+                "auth-token":token.token
+              }
+            })
+
+            if (res.status == 200) {
+              Swal.fire(
+                '',
+                 'Tu respuesta ha sido enviada existosamente!',
+                 'success'
+               )
+               setSubmitButtonDisabled(true)
+               setButtonDisabled(false)
+               setSubmitLoading(false);
+            }
+         }catch(error){
           Swal.fire(
             '',
             'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
             'error'
           )
           setSubmitLoading(false);
-        })
+         }
       }
       setSubmitLoading(false);
     })
@@ -89,7 +102,7 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription }) => {
   
 
   return (
-    <Form form={form}>
+    <Form form={form} disabled={formDisabled}>
       <div className="row">
         <div className="col-1 col-md-12">
           <Steps current={currentStep}>
@@ -111,14 +124,14 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription }) => {
         </div>
       </div>
 
-      <div className="d-flex">
+      <div className="d-md-flex border-top pt-3">
         <div>
           <Checkbox onChange={anonymousResponseHandler}>
             Responder esta encuesta de forma anonima
           </Checkbox>
         </div>
 
-        <div className="steps-action ms-auto">
+        <div className="steps-action ms-auto mt-3 mt-md-0">
           {currentStep > 0 && (
             <Button
               style={{ margin: "0 8px" }}
@@ -142,7 +155,7 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription }) => {
           {currentStep === questionsForm?.length - 1 && (
             <Button
               type="primary"
-              disabled={buttonDisabled}
+              disabled={buttonDisabled?  buttonDisabled : submitButtonDisabled}
               loading={submitLoading}
               onClick={() => onFinish()}
             >
@@ -151,6 +164,9 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription }) => {
           )}
         </div>
       </div>
+        <div className="mt-2">
+          {formDisabled? <AlertDismissible message={'Ya has respondido a esta encuesta'} state={true}/> : null}
+        </div>
     </Form>
   );
 };

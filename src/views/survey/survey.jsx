@@ -2,10 +2,13 @@ import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom';
 import MultiStepForm from "./components/useMultiStepForm";
 import Loader from "../../components/loader/loader";
+import axios from "axios";
 
-const Survey = () =>{
+const Survey = ({URL,token}) =>{
     const [data, setData] = useState()
     const [loading, setLoading] = useState()
+    const [error,setError] = useState(false)
+    const [formDisabled,setFormDisabled] = useState(false)
     const {id} = useParams()
 
     useEffect(()=>{
@@ -17,22 +20,40 @@ const Survey = () =>{
 
 
   const fetchApi = async ()=>{
-    await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/${id}/answers/me`,{
-        method:'GET' ,
-        headers: {
-          "Content-Type": "application/json",
-          'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5NDM1MTEyfQ.bJuK16EyPFbJkfliX48-357nkk5RdrECjjkANUexUDo'
-        }
-    })
-    .then(res => res.json())
-    .then(body => {
-      setData(body) 
-    })
+    setError(false)
+    setFormDisabled(false)
+    try{
+          const res = await axios.get(`${URL}/survey/${id}/answers/me`,{
+          headers:{
+            "Content-Type": "application/json",
+            'auth-token': token.token
+          },
+        })
+          if (res.status == 200) {
+            const data = res.data; 
+            setData(data) 
+            if (data.surveyQuestions[0].userAnswers.length > 0) {
+              setFormDisabled(true)
+            }
+          
+          }
+    }catch(error){
+      setError(true)
+    }
+  }
+
+  const RenderHandler =() =>{
+      if(error){
+      return <h1>Error</h1>
+    } else if (loading){
+        return <Loader />
+    }
+   return <MultiStepForm questions={data?.surveyQuestions} surveyTitle={data?.name} surveyDescription={data?.description} URL={URL} token={token} formDisabled={formDisabled}/>
   }
 
     return <>
     <div className="container mt-5">
-   {loading? <Loader /> : <MultiStepForm questions={data?.surveyQuestions} surveyTitle={data?.name} surveyDescription={data?.description}/> }
+      <RenderHandler />
     </div>
     </>
 }
