@@ -1,3 +1,7 @@
+*{
+  font-family: "Montserrat", sans-serif;
+}
+
 .ant-picker-dropdown {
   z-index: 5000;
 }
@@ -6,16 +10,6 @@
   height: auto !important;
   width: 3rem !important;
 }
-/*  #root {
-  background: rgb(2, 0, 36);
-  background: linear-gradient(
-    358deg,
-    rgba(8, 2, 131, 0.596) 0%,
-    rgb(3, 124, 172) 20%,
-    rgba(0, 212, 255, 1) 100%
-  );
-  overflow: hidden;
-}  */
 
  #root {
     background-color: #000000;
@@ -31,3 +25,9 @@
 .anticon-left {
     color: white;
 }
+
+.ant-pagination-item {
+  background: #915AFA !important;
+  border-radius: px solid black !important;
+}
+

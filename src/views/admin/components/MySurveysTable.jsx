@@ -3,6 +3,7 @@ import { Table, Switch, Button } from 'antd';
 import Swal from 'sweetalert2'
 import { DeleteOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import css from "./MySurveysTable.css"
 
 const SurveysTable = ({fetchApi, setFetchApi}) => {
   const [loading, setLoading] = useState(false);
@@ -170,7 +171,7 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
         title: 'Acciones',
         render: (record) =>{
            return  (
-            <Button type="primary" danger icon={<DeleteOutlined />} loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
+            <Button className='botonBorrar' type="primary"  loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
                 Eliminar
             </Button>
             )
