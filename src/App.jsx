@@ -15,7 +15,7 @@ import Login from "./views/login/login";
 import Register from "./views/register/register";
 import AdminView from "./views/admin/admin";
 import Surveys from "./views/surveys/surveys";
-import Footer from "./layouts/Footer";
+import Footer from "./layouts/footer/Footer";
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState({}); // como deberia ser con el usuario logueado
