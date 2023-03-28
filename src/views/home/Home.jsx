@@ -3,8 +3,10 @@ import { Input, Space, Button, Dropdown } from 'antd';
 import Row from 'react-bootstrap/Row';
 import SurveyCard from './components/surveyCard';
 import { Pagination } from 'antd';
+import css from './Home.css';
 import axios from 'axios';
 import Loader from '../../components/loader/loader';
+
 
 const { Search } = Input;
 
@@ -140,7 +142,7 @@ useEffect(()=>{
         pageSize={pageSize}
         total={surveysComponents.length}
         onChange={(page) => setCurrentPage(page)}
-        className="ms-auto"
+        className="ms-auto pagNum"
       />   
   </div>
 </div>

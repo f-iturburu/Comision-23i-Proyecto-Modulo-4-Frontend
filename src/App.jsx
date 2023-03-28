@@ -16,7 +16,6 @@ import Survey from "./views/survey/survey";
 import AdminView from "./views/admin/admin";
 import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
 import Footer from "./layouts/Footer";
-
 const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
 const USER_LOGIN_KEY = import.meta.env.VITE_USER_LOGIN_KEY;
 const URL = import.meta.env.VITE_BASE_API_URL;
