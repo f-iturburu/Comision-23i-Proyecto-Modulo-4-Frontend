@@ -153,7 +153,6 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
     const [isAnswerValid, setIsAnswerValid] = useState(false);
 
     const handleData = (values) => {
-      console.log(values);
       if (values.length > 0) {
         const updatedObject = { ...questionObject ,
           'idQuestion' : question._id , 
