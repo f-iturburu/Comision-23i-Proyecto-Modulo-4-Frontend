@@ -10,7 +10,6 @@ const SurveysTable = ({URL, token}) => {
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [data, setData] = useState([]);
   const [fetchApi, setFetchApi] = useState(true)
-  console.log(data);
 
   useEffect(()=>{
     if (fetchApi) {
