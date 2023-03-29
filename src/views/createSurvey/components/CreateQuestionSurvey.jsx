@@ -275,7 +275,7 @@ const NumbersComponents =() => {
             <Form.Control onChange={(e)=>setQuestion(e.target.value)} type="text" placeholder="Pregunta" />
           </Col>
           <Col xs={'1'}>
-          <TooltipQuestionmark  message={'La pregunta debe ser de entre 1 y 70 caracteres, no puede contener caracteres especiales salvo "?"'} item={<i className="bi bi-question-circle"></i>}/>
+          <TooltipQuestionmark  message={'La pregunta debe ser de entre 1 y 45 caracteres, no puede contener caracteres.'} item={<i className="bi bi-question-circle"></i>}/>
           </Col>
           <Col xs={'5'}>
             <Form.Select

@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 //import { validateEmail, validatePasword, validateUsername } from "../../helpers/validateFields";
 
-const Register = ({ setLoggedUser }) => {
+const Register = ({}) => {
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -17,24 +17,11 @@ const Register = ({ setLoggedUser }) => {
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
-  //useNavigate
   const navigate = useNavigate();
 
-  //Funcion para crear el producto
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputs);
-    //Valido los campos
-    /* if (
-        !validateUsername(inputs.name) ||
-        !validateEmail(inputs.email) ||
-        !validatePasword(inputs.password) 
-      ) {
-        Swal.fire("Oop!!", "Some data is invalid", "Error");
-        return;
-      } */
 
-    //Envio los datos para guardarlos
     const newUser = {
       username: inputs.name,
       email: inputs.email,
@@ -49,19 +36,14 @@ const Register = ({ setLoggedUser }) => {
             body: JSON.stringify(newUser),
           }); */
       
-      const res = await axios.post(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/user`, newUser);
-      console.log(res);
+
       if (res.status === 201) {
         Swal.fire("Created!", "Your user has been created.", "success");
-        //const data = await res.json(); // si es con fetch
-        const data = res.data 
-        console.log(data);
+        const data = await res.json(); 
         localStorage.setItem("user-token", JSON.stringify(data));
-        setLoggedUser(data);
         navigate("/login");
       }
     } catch (error) {
-      console.log(error);
       setError(true);
       error.response.data?.message && setErrorMessage(error.response.data?.message)
     }

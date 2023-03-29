@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -7,67 +6,55 @@ import {
 } from "react-router-dom";
 import Navigation from "./layouts/Navigation";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import ProtectedAdminRoute from "./routes/ProtectedAdminRoutes";
 import About from "./views/about/About";
 import Contact from "./views/contact/Contact";
 import Error404 from "./views/error404/Error404";
 import Home from "./views/home/Home";
-import Login from "./views/login/login";
-import Register from "./views/register/register";
+import Login from "./views/login/Login";
+// import Register from "./views/register/register";
+import Survey from "./views/survey/survey";
+import MySurveys from "./views/mySurveys/mySurveys";
 import AdminView from "./views/admin/admin";
-import Surveys from "./views/surveys/surveys";
-import Footer from "./layouts/footer/Footer";
+import SurveyDetails from "./surveyDetails/surveyDetails";
+import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
+import Footer from "./layouts/Footer";
+
+
+const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
+const USER_LOGIN_KEY = import.meta.env.VITE_USER_LOGIN_KEY;
+const URL = import.meta.env.VITE_BASE_API_URL;
 
 const App = () => {
-  const [loggedUser, setLoggedUser] = useState({}); // como deberia ser con el usuario logueado
-
-  // const URL = process.env.REACT_APP_API_ROLLINGSURVEYS;
-
-  //simulación de login de usuario desconectado para conectar la api
-  /* const [user, setUser] = useState(null);
-
-  const login2 = () =>
-    setUser({
-      id: 1,
-      name: "Lucas",
-      roles: ["admin"], // si esta vacio o nulo es usuario común sino cargar admin
-    });
-  const logout = () => setUser(null); */
+ const token = JSON.parse(localStorage.getItem("user-token")) || []
 
   return (
     <BrowserRouter>
       <Navigation
-        loggedUser={loggedUser}
-        setLoggedUser={setLoggedUser}
+        adminLoginKey={ADMIN_LOGIN_KEY}
+        userLoginKey={USER_LOGIN_KEY}
       />
-
-      {
-        //desconectado para conectar api
-        /*  {user ? (
-        <button onClick={logout}>Logout</button>
-      ) : (
-        <button onClick={login2}>Login</button>
-      )} */
-      }
 
       <main>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home URL={URL}/>} />
           <Route exact path="/about" element={<About />} />
           <Route
-            path="/surveys"
+            path="/survey/:id"
             element={
-              <ProtectedRoute
-                redirectTo="/login"
-                token={
-                  !!loggedUser && loggedUser?.role?.includes("97ef6616832542a88d5a4aecf9528234")
-                }>
-                <Surveys/>
+              <ProtectedRoute>
+                <Survey URL={URL} token={token}/>
               </ProtectedRoute>
             }
           />
-          {/*  <Route element={<ProtectedRoute token={!!loggedUser} />}>
-           <Route exact path="/surveys" element= {<Surveys/>}/>
-        </Route> */}
+            <Route
+            path="/survey/newsurvey"
+            element={
+              <ProtectedRoute>
+                <CreateNewSurveyForm URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             exact
@@ -75,29 +62,42 @@ const App = () => {
             element={<Contact />}
           />
           <Route
-            path="/admin"
+            path="/mysurveys"
             element={
-              <ProtectedRoute
-                redirectTo="/login"
-                token={
-                  !!loggedUser && loggedUser?.role?.includes("97ef6616832542a88d5a4aecf9528234")
-                }>
-                <AdminView />
+              <ProtectedRoute>
+                <MySurveys URL={URL} token={token}/>
               </ProtectedRoute>
             }
           />
+            <Route
+            path="/survey/details/:id"
+            element={
+              <ProtectedRoute>
+                <SurveyDetails URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <AdminView />
+              </ProtectedAdminRoute>
+            }
+          />
+
           <Route
             exact
             path="/login"
             element={
-              <Login setLoggedUser={setLoggedUser} />
+              <Login URL={URL} />
             }
           />
           <Route
             exact
             path="/register"
             element={
-              <Register setLoggedUser={setLoggedUser} />
+              <Login URL={URL}/>
             }
           />
           <Route exact path="*" element={<Error404 />} />

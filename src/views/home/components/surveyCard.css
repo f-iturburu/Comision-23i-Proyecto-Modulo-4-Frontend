@@ -1,0 +1,41 @@
+/* .card:hover {
+  transform: scale(1.05);
+  transition-duration: 0.5s;
+  border: 1px solid black;
+} */
+
+.card{
+  border-radius: 2rem !important;
+  color:rgb(255, 255, 255); 
+  background: rgb(54, 54, 54) !important;
+  border: 1px solid rgba(104, 104, 104, 0.5);
+  padding: 0.2rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+.card-body{
+  background-color: rgb(36, 36, 54); 
+  border-radius: 2rem;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  transition-duration: 0.5s;
+  border: 1px solid black;
+}
+
+.categoryPill{
+    background-color: #7f42f8;
+}
+
+.categoryPill:hover{
+  background-color: #ff4655;
+  transition: all .2s ease;
+}
+
+.cardTitle {
+  font-size: 2.2rem !important;
+}
+
+
+
