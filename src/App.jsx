@@ -12,7 +12,7 @@ import Contact from "./views/contact/Contact";
 import Error404 from "./views/error404/Error404";
 import Home from "./views/home/Home";
 import Login from "./views/login/Login";
-import Register from "./views/register/register";
+// import Register from "./views/register/register";
 import Survey from "./views/survey/survey";
 import MySurveys from "./views/mySurveys/mySurveys";
 import AdminView from "./views/admin/admin";
@@ -97,7 +97,7 @@ const App = () => {
             exact
             path="/register"
             element={
-              <Register />
+              <Login URL={URL}/>
             }
           />
           <Route exact path="*" element={<Error404 />} />
