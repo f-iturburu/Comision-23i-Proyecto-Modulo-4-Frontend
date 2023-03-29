@@ -1,34 +1,67 @@
 import React from "react";
+import "./FooterStyles.css";
+
 import ItemsContainer from "./ItemsContainer";
 import SocialIcons from "./SocialIcons";
 import { Icons } from "./Menus";
 
 
-/* const Footer = () => {
-  return (
-    
-    <div>
-      <div className="bg-light py-4">
-        <p className="m-0 fs-5 text-center">
-          Rolling Surveys. All rights reserved &copy;
-        </p>
-      </div>
-    </div>
-  );
-}; */
-
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white">
-      <ItemsContainer />
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10
-      text-center pt-2 text-gray-400 text-sm pb-8"
-      >
-        <span>© 2023 Rolling Surveys. All rights reserved.</span>
-        <SocialIcons Icons={Icons} />
+    <>
+      <div className="footer">
+        <div className="top">
+          <div>
+            <h1>Rolling Surveys</h1>
+            <p>Creando datos para vos</p>
+          </div>
+          <div>
+            <a href="https://fontawesome.com/">
+              <i className="fa-brands fa-facebook-square"></i>
+            </a>
+            <a href="https://fontawesome.com/">
+              <i className="fa-brands fa-instagram-square"></i>
+            </a>
+            <a href="https://fontawesome.com/">
+              <i className="fa-brands fa-behance-square"></i>
+            </a>
+            <a href="https://fontawesome.com/">
+              <i className="fa-brands fa-twitter-square"></i>
+            </a>
+          </div>
+        </div>
+
+        <div className="bottom">
+          <div>
+            <h4>Project</h4>
+            <a href="https://fontawesome.com/">Changelog</a>
+            <a href="https://fontawesome.com/">Status</a>
+            <a href="https://fontawesome.com/">License</a>
+            <a href="https://fontawesome.com/">All Versions</a>
+          </div>
+          <div>
+            <h4>Community</h4>
+            <a href="https://fontawesome.com/">GitHub</a>
+            <a href="https://fontawesome.com/">Issues</a>
+            <a href="https://fontawesome.com/">Project</a>
+            <a href="https://fontawesome.com/"> Twitter</a>
+          </div>
+          <div>
+            <h4>Help</h4>
+            <a href="https://fontawesome.com/">Support</a>
+            <a href="https://fontawesome.com/">Troubleshooting</a>
+            <a href="https://fontawesome.com/">Contact Us</a>
+          </div>
+          <div>
+            <h4>Others</h4>
+            <a href="https://fontawesome.com/">Terms of Service</a>
+            <a href="https://fontawesome.com/">Privacy Policy</a>
+            <a href="https://fontawesome.com/">License</a>
+          </div>
+        </div>
       </div>
-    </footer>
+    </>
   );
 };
+
 export default Footer;
