@@ -1,66 +1,158 @@
 import React, { useEffect, useState } from 'react';
+import { Input, Space, Button, Dropdown } from 'antd';
 import Row from 'react-bootstrap/Row';
 import SurveyCard from './components/surveyCard';
 import { Pagination } from 'antd';
+import css from './Home.css';
+import axios from 'axios';
+import Loader from '../../components/loader/loader';
 
-const Home = () => {
+
+const { Search } = Input;
+
+const Home = ({URL}) => {
 const [surveys,setSurveys] = useState()
 const [surveysComponents,setSurveysComponents] = useState([])
 const [currentPage, setCurrentPage] = useState(1);
+const [searchName, setSearchName] = useState("")
+const [searchCategories, setSearchCategories] =useState([])
+const [loading,setLoading] = useState(false)
     
 useEffect(()=>{
-    fetchApi()
-    },[])
-
+  setLoading(true)
+    fetchApi().then(()=>{
+      setLoading(false)
+    })      
+    },[searchName,searchCategories])
 
     const fetchApi = async () =>{
-        try {
-            const response = await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/surveys/active', {
-              method: 'POST',
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                name: "",
-                categories: []
-              })
-            });
-      
-            const data = await response.json();
-            setSurveys(data);
-            setSurveysComponents(data.map((i) => (
-              <SurveyCard
-              surveyTitle={i.name}
-              surveyCategory={i.categories[0]}
-              id={i._id}
-              surveyEndDate={i?.endDate}
-              />
-            )).reverse());
-          } catch (error) {
-            console.error(error);
+      try{
+        let searchBody = {
+          name: searchName,
+          categories: searchCategories
+        }
+        const res = await axios.post(`${URL}/surveys/active`,searchBody)
+        if (res.status == 200) {
+          const data = res.data; 
+          setSurveys(data);
+          setSurveysComponents(data.map((i) => (
+            <SurveyCard
+            surveyTitle={i.name}
+            surveyCategory={i.categories[0]}
+            id={i._id}
+            surveyDescription={i.description}
+            surveyEndDate={i?.endDate}
+            />
+          )).reverse());
+        }
+      }catch(error){
+         console.log(error);
+      }
+    } 
+    
+    const items = [
+      {
+        key: '0',
+        label:(<div onClick={()=> setSearchCategories([])}>
+        Todas
+        </div>)
+      },
+      {
+        key: '1',
+        label:(<div onClick={()=> setSearchCategories(['Encuesta de satisfacción del cliente'])}>
+        Encuesta de satisfacción del cliente
+        </div>)
+      },
+      {
+        key: '2',
+        label: (<div onClick={()=> setSearchCategories(['Encuesta demografica'])}>
+        Encuesta demografica
+        </div>)
+      },
+      {
+        key: '3',
+        label:(<div onClick={()=> setSearchCategories(['Encuesta academica'])}>
+        Encuesta academica
+        </div>)
+      },
+      {
+        key: '4',
+        label:  (<div onClick={()=> setSearchCategories(['Encuesta medica'])}>
+        Encuesta medica
+        </div>)
+      },
+      {
+        key: '5',
+        label: (<div onClick={()=> setSearchCategories(['Gastronomia'])}>
+        Gastronomia
+        </div>)
+      },
+      {
+        key: '6',
+        label: (<div onClick={()=> setSearchCategories(['Deporte'])}>
+        Deporte
+        </div>)
+      },
+      {
+        key: '7',
+        label:(<div onClick={()=> setSearchCategories(['Economía'])}>
+        Economía
+        </div>),
+      },
+      {
+        key: '8',
+        label: (<div onClick={()=> setSearchCategories(['Política'])}>
+          Política
+        </div>),
+      },
+    ];
+
+        const onSearch = (value) => {
+          if(value.length== 0 ){
+            setSearchName("")
+          }else{
+            setSearchName(value)
           }
         };
-      
-
-        const pageSize = 6;
+        const pageSize = 4;
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         const currentPageSurveys = surveysComponents.slice(startIndex, endIndex);
-    return (
-        <div className='container mt-5'>        
-        <Row>
-            {currentPageSurveys}
-        </Row>
 
+    return   <>
+       <div className='container mt-3'> 
+        <div className='d-md-flex mb-3 justify-content-center'>
+           <Search
+           className='w-50'
+      placeholder="Buscar por nombre"
+      onSearch={onSearch}
+    />    
+     <Dropdown menu={{ items }} placement="bottom" className='ms-3'>
+        <Button>Buscar por categoria</Button>
+      </Dropdown>
+      </div>
+      {loading? <Loader />  :  <>
+       <div className=' d-flex flex-column justify-content-center'>
+            {currentPageSurveys}
+        </div>
+<div className='d-flex w-100 justify-content-center mb-3'>
+  <div>
         <Pagination
         current={currentPage}
         pageSize={pageSize}
         total={surveysComponents.length}
         onChange={(page) => setCurrentPage(page)}
-        className="ms-auto"
-      />
-        </div>
-    );
+        className="ms-auto pagNum"
+      />   
+  </div>
+</div>
+</>}
+ </div>
+ </>  
+    
+    
+ 
+    
 };
 
 export default Home;

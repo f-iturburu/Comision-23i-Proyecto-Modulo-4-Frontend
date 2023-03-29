@@ -1,69 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { Alert, Container, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "antd";
+import AlertDismissible from "../../layouts/alert";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-
-
-const Login =  ({ setLoggedUser }) => {
+function Login ({ URL }) {
   const [inputs, setInputs] = useState({});
-  //console.log(inputs.email, inputs.password);
-  const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const URL = import.meta.env.VITE_APP_API_ROLLINGSURVEYS_LOGIN; //agregado p/ conectar api
-
-
-  
+  const [loginLoading, setLoginLoading] = useState(false)
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
-  //useNavigate
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    //Valido los campos
-
-    //Envio los datos
+    setErrorMessage()
+    //! VALIDAR TODO
     try {
-       const res = await fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user: inputs.email,
-          password: inputs.password,
+      setLoginLoading(true)
+      const res = await axios.post(`${URL}/login`,{
+       user: inputs.email,
+       password: inputs.password,
+      })
 
-        }),
-    
-      }); 
-
-    
-      
-      /*  const res = await axios.post(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/login`, {
-        email: inputs.email,
-        password: inputs.password,
-      }); */
       if (res.status === 200) {
-        Swal.fire("Logged!", "Your user has been logged.", "success");
-        const data = await res.json(); //si es con fetch
-        //const data = res.data
-        console.log(data);
-        //guadamos en localstorage el token y la información del user
+        Swal.fire("", "Has ingresado correctamente.", "success");
+        const data = res.data; 
         localStorage.setItem("user-token", JSON.stringify(data));
-        setLoggedUser(data);
-        navigate("/");
+        setTimeout(()=>{
+          window.location.href='/'
+        }, 1000 )
       }
-    } catch (error) {
-      console.log(error);
-      setError(true);
-      error.response?.data.message && setErrorMessage(error.response.data?.message)
+    } catch (error){ 
+      setLoginLoading(false)
+      setErrorMessage(<AlertDismissible message={'Lo sentimos, ha ocurrido un error, intente de nuevo mas tarde.'} state={true}/>)
     }
   };
 
@@ -72,7 +50,7 @@ const Login =  ({ setLoggedUser }) => {
       <Container className="py-5">
         <h1>Login</h1>
         <hr />
-        <Form className="my-5" onSubmit={handleSubmit}>
+        <Form className="my-5">
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email*</Form.Label>
             <Form.Control
@@ -97,20 +75,24 @@ const Login =  ({ setLoggedUser }) => {
             to="/register"
             className="btn-primary text-decoration-none"
           >
-            Register new user
+            No tienes una cuenta? Registrate!
           </Link>
           <div className="text-center">
-            <button className="btn-yellow">Send</button>
+          {/* <Button variant="primary" onClick={handleSubmit}>Ingresar</Button> */}
+
+          <Button
+              type="primary"
+              loading={loginLoading}
+              onClick={handleSubmit}
+            >
+              Ingresar
+            </Button>
           </div>
         </Form>
-        {error ? (
-        <Alert variant="danger" onClick={() => setError(false)} dismissible>
           {errorMessage}
-        </Alert>
-      ) : null}
       </Container>
     </div>
   );
 };
 
-export default Login;
+export default Login

@@ -1,8 +1,37 @@
-.ant-picker-dropdown{
-    z-index: 5000;
+*{
+  font-family: "Montserrat", sans-serif;
 }
 
-.bi{
-    height: auto !important;
-    width: 3rem !important;
+.ant-picker-dropdown {
+  z-index: 5000;
 }
+
+.bi {
+  height: auto !important;
+  width: 3rem !important;
+}
+.containerTable{
+  max-width: 100vw !important;
+  overflow-x: auto;
+}
+
+ #root {
+    background-color: #000000;
+    opacity: 0.8;
+    background-image: radial-gradient(#ffffff17 2px, #000000 2px);
+    background-size: 40px 40px;
+  }  
+
+.anticon-right{
+    color: white;
+}
+
+.anticon-left {
+    color: white;
+}
+
+.ant-pagination-item {
+  background: #915AFA !important;
+  border-radius: px solid black !important;
+}
+

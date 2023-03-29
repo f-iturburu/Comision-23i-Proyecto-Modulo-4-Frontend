@@ -1,16 +1,7 @@
-import { useState } from "react";
-import CreateNewSurvey from "./components/CreateSurveyModal";
-import SurveysTable from "./components/MySurveysTable";
+import AdminSurveysTable from "./components/adminSurveysTable"
 
 function AdminView() {
-   const [fetchApi, setFetchApi] = useState(true)
-
-   return (
-      <div className="container">
-         <CreateNewSurvey setFetchApi={setFetchApi} />
-         <SurveysTable fetchApi={fetchApi} setFetchApi={setFetchApi} />
-      </div>
-   )
+    return <h1>AdminView</h1>
 }
 
 export default AdminView

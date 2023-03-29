@@ -2,69 +2,76 @@ import React, { useEffect, useState } from 'react';
 import { Table, Switch, Button } from 'antd';
 import Swal from 'sweetalert2'
 import { DeleteOutlined } from '@ant-design/icons';
+import { Link } from "react-router-dom";
+import axios from 'axios';
 
-
-const SurveysTable = ({fetchApi, setFetchApi}) => {
+const SurveysTable = ({URL, token}) => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [data, setData] = useState([]);
+  const [fetchApi, setFetchApi] = useState(true)
 
   useEffect(()=>{
-    if(fetchApi){
-        fetchMySurveys().then(()=>{
-          setDeleteLoading(false);
-          setFetchApi(false)
-        })
+    if (fetchApi) {
+      fetchMySurveys().then(()=>{
+        setDeleteLoading(false);
+        setFetchApi(false)
+      })   
+      
     }
 },[fetchApi])
 
   const fetchMySurveys = async ()=>{
-    await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/surveys',{
-        method:'GET' ,
-        headers: {
+    try {
+      const res = await axios.get(`${URL}/surveys`,{
+        headers:{
           "Content-Type": "application/json",
-          'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTc2MjQ3fQ.AR7PXqETqCZ44DYMcw0GBarpYmDd9RS09u8YlIc9oeY'
+          'auth-token': token.token
         }
-    })
-    .then(res => res.json())
-    .then(body => {
-      setData(body) 
-    })
-
-  }
-
-  const handleSwitchChange = (checked, record) => {
-    setLoading(true);
-        updateData(record._id, checked)
-        .then(res => res.json()).then(() =>{
-          setLoading(false);
-          setData(
-            data.map((prevArray) => {
-              if (prevArray._id === record._id) {
-                return { ...prevArray, published: checked };
-              }
-              return prevArray;
-            })
-          );
-        }).catch((error)=>{
-        setLoading(false);
-        Swal.fire(
-            '',
-            'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
-            'error'
-          )
       })
-  };
 
-  const updateData = (id, published) => {
-    return fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/${id}/published`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTc2MjQ3fQ.AR7PXqETqCZ44DYMcw0GBarpYmDd9RS09u8YlIc9oeY'
-      },
-      body: JSON.stringify({ published: published }),
-    });
+      if (res.status == 200) {
+        const data = res.data; 
+        setData(data) 
+      }
+    } catch (error) {
+      console.log(error);
+    }
+ }
+
+  const handleSwitchChange = async (checked, record) => {
+    setLoading(true);
+    const patchObj = {
+      'published': checked
+    }
+    try {
+      const res = await axios.patch(`${URL}/survey/${record._id}/published`,patchObj,{
+        headers:{
+          'Content-Type': 'application/json',
+          'auth-token': token.token
+        }
+      })
+
+      if (res.status == 200) {
+        setLoading(false);
+        setData(
+          data.map((prevArray) => {
+            if (prevArray._id === record._id) {
+              return { ...prevArray, published: checked };
+            }
+            return prevArray;
+          })
+        );
+
+      }
+    } catch (error) {
+      setLoading(false);
+      Swal.fire(
+          '',
+          'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
+          'error'
+        )
+    }
   };
 
   const handleDeleteSurvey =(record)=>{
@@ -80,47 +87,56 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
       reverseButtons: true
     }).then(async (result) => {
       if (result.isConfirmed) {
-        
         setDeleteLoading(true)
-         await deleteSurvey(record._id)
-        .then(res => res.json()).then(() =>{
+        try {
+          const res = await axios.delete(`${URL}/survey/${record._id}`,{
+            headers:{
+              'Content-Type': 'application/json',
+              'auth-token': token.token
+            }
+          })
+
+          if (res.status == 200) {
             setFetchApi(true)
-          }).catch((error)=>{
-              setDeleteLoading(false);
-              console.log(error.message);
+          }
+        } catch (error) {
+          setDeleteLoading(false);
               Swal.fire(
                   '',
                   'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
                   'error'
                 )
-          })
+        }
       }
         
   })
   }
   
-  const deleteSurvey = (id)=>{
-    return fetch (`https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/${id}`,{
-        method:'DELETE',
-        headers:{
-            'Content-Type': 'application/json',
-            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
-        }
-    })
-  }
-
   const columns = [
     {
       title: 'Nombre de la encuesta',
-      dataIndex: 'name',
       key: 'name',
       sorter: (a, b) => a.name.localeCompare(b.name),
+      render(record){
+        return  <Link to={`/survey/${record._id}`}>
+        {record.name}
+        </Link>
+      }
     },
     {
       title: 'Categorias',
       dataIndex: 'categories',
       key: 'categories',
       sorter: (a, b) => a.categories[0].localeCompare(b.categories[0]),
+    },
+    {
+      title: 'Fecha de subida',
+      dataIndex: 'createDate',
+      key: 'createDate',
+      sorter: (a, b) => a.createDate?.localeCompare(b?.createDate),
+      render: (record) =>{
+              return record.slice(0,10)      
+      }
     },
     {
         title: 'Fecha de finalización',
@@ -163,23 +179,39 @@ const SurveysTable = ({fetchApi, setFetchApi}) => {
       onFilter: (value, record) => record.published === value,
       },
       {
-        title: 'Acciones',
+        title: 'Eliminar',
         render: (record) =>{
-           return  (
+           return  <div className='d-flex justify-content-center'>
             <Button type="primary" danger icon={<DeleteOutlined />} loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
                 Eliminar
             </Button>
-            )
+            </div>
+            
   
         } 
+      },
+      {
+        title: 'Informacion detallada',
+        key: `name`,
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        render(record){
+          return  <div className='d-flex justify-content-center'>
+            <Link  to={`/survey/details/${record._id}`}>
+            <i class="bi bi-graph-down"></i>
+        </Link>
+          </div>
+        
+        }
       },
 
   ];
 
 
   return (
+    <div className='containerTable'>
     <Table columns={columns}  dataSource={data} pagination={{pageSize: 10}}>
     </Table>
+    </div>
   );
 };
 
