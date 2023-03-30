@@ -5,7 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import css from "./navigaton.css"
+import css from "./navigation.css"
 import { useNavigate } from "react-router-dom";
 
 const Navigation = ({adminLoginKey,userLoginKey }) => {

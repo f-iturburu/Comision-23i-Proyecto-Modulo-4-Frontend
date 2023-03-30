@@ -1,8 +1,5 @@
 import { useState } from "react";
 import SurveysTable from "./components/MySurveysTable";
-
-import css from "./admin.css"
-
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 
