@@ -67,7 +67,7 @@ function Login ({ URL }) {
             <Form.Label>Password*</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Ej: Ingrese su password"
+              placeholder="Ingrese su contraseña"
               name="password"
               ref= {passwordInput}   
             />
