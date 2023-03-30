@@ -361,33 +361,6 @@ const handleSubmit  = () =>{
         )
         setLoading(false)
       }
-
-      //  await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
-      //   method:'POST' ,
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
-      //   },
-      //   body: JSON.stringify(postObject)
-        
-      // }).then(res=> res.json()).then(body=>{
-      //   Swal.fire(
-      //       '',
-      //        'Tu encuesta ha sido guardada existosamente!',
-      //        'success'
-      //      )
-      //      setTimeout(()=>{
-      //       window.location.href='/mysurveys'
-      //     }, 1000 )
-      // }).catch(error=>{
-      //   Swal.fire(
-      //       '',
-      //       'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
-      //       'error'
-      //     )
-      //     setLoading(false)
-      // })
-
     }
   })
  }
