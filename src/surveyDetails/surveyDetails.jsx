@@ -5,8 +5,6 @@ import QuestionComponentSurveyDetails from "./components/questionComponentSurvey
 import Loader from '../components/loader/loader'
 import { Container } from "react-bootstrap";
 
-
-
 function SurveyDetails({ URL, token }) {
   const [data, setData] = useState();
   const [components,setComponents] = useState()

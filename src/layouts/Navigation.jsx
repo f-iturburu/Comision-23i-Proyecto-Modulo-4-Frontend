@@ -40,16 +40,13 @@ const Navigation = ({adminLoginKey,userLoginKey }) => {
               ) : (
              null
                )}     
-
                  {token?.role == adminLoginKey ?  <>
                 <NavLink className="nav-link" to="/admin">
                     Admin
                 </NavLink>
                </> : <>
                </>}
-
             </Nav>
-
             <Nav>
            {token?.token? 
              <li class="nav-item dropdown ">
@@ -60,7 +57,10 @@ const Navigation = ({adminLoginKey,userLoginKey }) => {
                <li ><Link className="nav-link" to="/userdashboard">Opciones</Link></li>
                <li> <NavLink className="nav-link" onClick={logout}>Cerrar sesión <i class="bi bi-box-arrow-in-left"></i></NavLink></li>
              </ul>
-           </li> : <NavLink className="nav-link" to="/login">Ingresar <i class="bi bi-box-arrow-in-right"></i></NavLink>}
+           </li> : <>
+           <NavLink className="nav-link" to="/login"><Button variant="outline-primary">Ingresar <i class="bi bi-box-arrow-in-right"></i></Button></NavLink>     
+           <NavLink className="nav-link" to="/signup"><Button variant="primary">Registrase <i class="bi bi-clipboard2-data-fill"></i></Button></NavLink>     
+           </>}
             </Nav>
           </Navbar.Collapse>
         </Container>
