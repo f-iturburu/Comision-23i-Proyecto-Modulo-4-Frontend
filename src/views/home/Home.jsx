@@ -5,6 +5,7 @@ import SurveyCard from './components/surveyCard';
 import { Pagination } from 'antd';
 import axios from 'axios';
 import Loader from '../../components/loader/loader';
+import CarouselHome from './components/carousel';
 
 const { Search } = Input;
 
@@ -118,6 +119,7 @@ useEffect(()=>{
         const currentPageSurveys = surveysComponents.slice(startIndex, endIndex);
 
     return   <>
+        <CarouselHome />
        <div className='container mt-3'> 
         <div className='d-md-flex mb-3 justify-content-center'>
            <Search

@@ -156,7 +156,6 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     destructuring = destructuring.map((i)=> i[0].answers)
 
     const userAnswersArray = destructuring.flat(1)
-    console.log(userAnswersArray);
     const CheckboxButtons = data.map((i)=> <Checkbox className="ms-0" key={i.type} value={i.type}>{i.type}</Checkbox>)
 
    for (let i = 0; i < data.length; i++) {
