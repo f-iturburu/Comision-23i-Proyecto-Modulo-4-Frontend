@@ -18,7 +18,7 @@ import MySurveys from "./views/mySurveys/mySurveys";
 import AdminView from "./views/admin/admin";
 import SurveyDetails from "./surveyDetails/surveyDetails";
 import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
-import Footer from "./layouts/Footer";
+import Footer from "./layouts/footer/Footer";
 
 
 const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
