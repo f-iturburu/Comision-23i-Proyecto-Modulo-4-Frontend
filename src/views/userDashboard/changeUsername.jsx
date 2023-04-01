@@ -97,7 +97,7 @@ const ChangeUsernameComponent = ({URL,token}) =>{
           type={showPassword? 'text': 'password'}
           aria-label="password"
         />
-        <Button  variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
+        <Button disabled={disabled} variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
       </InputGroup>
       <div className='mt-2 mb-2'>
         {errorMessage}
