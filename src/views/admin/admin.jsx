@@ -1,7 +1,11 @@
+import { Container } from "react-bootstrap"
 import AdminSurveysTable from "./components/adminSurveysTable"
 
-function AdminView() {
-    return <h1>AdminView</h1>
+function AdminView({URL, token}) {
+    return <Container className="mt-4">
+        <AdminSurveysTable URL={URL} token={token}/>
+    </Container>
+    
 }
 
 export default AdminView

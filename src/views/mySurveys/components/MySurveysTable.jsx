@@ -3,15 +3,17 @@ import { Table, Switch, Button } from "antd";
 import Swal from "sweetalert2";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import todayDate from '../../../helpers/todayDate';
+import compareDates from '../../../helpers/compareDates';
+import axios from 'axios';
 
 const SurveysTable = ({ URL, token }) => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [data, setData] = useState([]);
   const [fetchApi, setFetchApi] = useState(true);
-
-  useEffect(() => {
+  
+  useEffect(()=>{
     if (fetchApi) {
       fetchMySurveys().then(() => {
         setDeleteLoading(false);
@@ -138,14 +140,13 @@ const SurveysTable = ({ URL, token }) => {
         a.categories[0].localeCompare(b.categories[0]),
     },
     {
-      title: "Fecha de subida",
-      dataIndex: "createDate",
-      key: "createDate",
-      sorter: (a, b) =>
-        a.createDate?.localeCompare(b?.createDate),
-      render: (record) => {
-        return record.slice(0, 10);
-      },
+      title: 'Fecha de creacion',
+      dataIndex: 'createDate',
+      key: 'createDate',
+      sorter: (a, b) => a.createDate?.localeCompare(b?.createDate),
+      render: (record) =>{
+              return record.slice(0,10)      
+      }
     },
     {
       title: "Fecha de finalización",
@@ -160,25 +161,40 @@ const SurveysTable = ({ URL, token }) => {
           return "No fue asignada";
         }
       },
-    },
-    {
-      title: "Estado de publicación",
-      key: "published",
-      sorter: (a, b) =>
-        a.published
-          .toString()
-          .localeCompare(b.published.toString()),
-      render: (record) => {
-        return (
-          <Switch
-            checked={record.published}
-            onChange={(checked) =>
-              handleSwitchChange(checked, record)
+      {
+        title: 'Estado de publicación',
+        key: 'published',
+        sorter: (a, b) => a.published.toString().localeCompare(b.published.toString()),
+        render: (record) =>{
+
+          if (record.endDate) {
+            if (compareDates(record.endDate.slice(0,10),todayDate())) {
+               return  (<Switch
+                checked={false}
+                disabled={true}
+              />
+             )
+            }else{
+              return  (
+                <Switch
+                  checked={record.published}
+                  onChange={(checked) =>handleSwitchChange(checked, record)}
+                  loading={loading }
+                />
+              )
             }
-            loading={loading}
-          />
-        );
-      },
+          }else{
+            return  (
+               <Switch
+                 checked={record.published}
+                 onChange={(checked) =>handleSwitchChange(checked, record)}
+                 loading={loading }
+               />
+             )
+
+          }
+        } 
+        ,
       filters: [
         {
           text: "Active",
@@ -189,36 +205,28 @@ const SurveysTable = ({ URL, token }) => {
           value: false,
         },
       ],
-      onFilter: (value, record) =>
-        record.published === value,
-    },
-    {
-      title: "Eliminar",
-      render: (record) => {
-        return (
-          <div className="d-flex justify-content-center">
-            <Button
-              type="primary"
-              danger
-              icon={<DeleteOutlined />}
-              loading={deleteLoading}
-              onClick={() => handleDeleteSurvey(record)}>
-              Eliminar
-            </Button>
-          </div>
-        );
+      onFilter: (value, record) => record.published === value,
       },
-    },
-    {
-      title: "Informacion detallada",
-      key: `name`,
-      sorter: (a, b) => a.name.localeCompare(b.name),
-      render(record) {
-        return (
-          <div className="d-flex justify-content-center">
-            <Link to={`/survey/details/${record._id}`}>
-              <i className="bi bi-graph-down"></i>
-            </Link>
+      {
+        title: 'Eliminar',
+        render: (record) =>{
+           return  <div className='d-flex justify-content-center'>
+            <Button type="primary" danger loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
+                Eliminar <i class="bi bi-trash3 ms-2"></i>
+            </Button>
+            </div>
+        } 
+      },
+      {
+        title: 'Informacion detallada',
+        key: `name`,
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        render(record){
+          return  <div className='d-flex justify-content-center'>
+            <Link  to={`/survey/details/${record._id}`}>
+            <Button type='primary'> Detalles <i className="bi bi-graph-down ms-2"></i>
+            </Button>
+        </Link>
           </div>
         );
       },

@@ -12,13 +12,15 @@ import Contact from "./views/contact/Contact";
 import Error404 from "./views/error404/Error404";
 import Home from "./views/home/Home";
 import Login from "./views/login/Login";
-import Register from "./views/register/register";
+import SignUp from "./views/signUp/signUp";
 import Survey from "./views/survey/survey";
 import MySurveys from "./views/mySurveys/mySurveys";
 import AdminView from "./views/admin/admin";
-import SurveyDetails from "./surveyDetails/surveyDetails";
+import SurveyDetails from "./views/surveyDetails/surveyDetails";
 import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
-import Footer from "./layouts/footer/Footer";
+import Footer from "./layouts/Footer";
+import UserDashboard from "./views/userDashboard/userDashboard";
+
 
 
 const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
@@ -78,10 +80,18 @@ const App = () => {
             }
           />
             <Route
+            path="/userdashboard"
+            element={
+              <ProtectedRoute>
+                <UserDashboard URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
             path="/admin"
             element={
               <ProtectedAdminRoute>
-                <AdminView />
+                <AdminView URL={URL} token={token}/>
               </ProtectedAdminRoute>
             }
           />
@@ -95,9 +105,9 @@ const App = () => {
           />
           <Route
             exact
-            path="/register"
+            path="/signup"
             element={
-              <Login URL={URL}/>
+              <SignUp URL={URL}/>
             }
           />
           <Route exact path="*" element={<Error404 />} />

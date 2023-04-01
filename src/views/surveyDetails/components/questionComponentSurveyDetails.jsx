@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { Form, Input, Button, InputNumber,Radio, Checkbox, Table, Switch } from 'antd';
 import { Pie } from "@ant-design/plots";
+import { Column } from '@ant-design/plots';
 
 const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
 
   const [form] = Form.useForm();
  
   const TextComponent =() =>{
+
     const columns = [
       {
         title: 'Usuario',
@@ -18,6 +20,14 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
          }else{
           return <p>{record.email}</p>
          }
+        }
+      },
+      {
+        title: 'Fecha de respuesta',
+        key: 'createdAt',
+        sorter: (a, b) => a?.answerDate.localeCompare(b?.answerDate),
+        render: (record) =>{
+                return record.answerDate.slice(0,10)    
         }
       },
       {
@@ -48,6 +58,56 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
   }
 
   const NumbersComponent =()=>{
+    const data = []
+
+    const userAnswersArray = []
+    let destructuring = question.userAnswers.map((i)=> i.userAnswer)
+  
+    for (let i = 0; i < destructuring.length; i++) {
+       destructuring[i].map((i)=>{
+        return userAnswersArray.push(i.answers)
+      });
+    }
+
+  const flatAnswers = userAnswersArray.flat(1)
+  const uniqueAnswers = [...new Set(flatAnswers)]
+  flatAnswers.map((i)=>{data.push({value: i , matchingAnswers: 0})})
+
+   for (let i = 0; i < data.length; i++) {
+       for (let j = 0; j < userAnswersArray.length; j++) {
+        if (data[i].value ==  userAnswersArray[j]) {
+          data[i].matchingAnswers ++
+        }   
+       }
+   }
+    
+    const config = {
+      data,
+      xField: 'value',
+      yField: 'matchingAnswers',
+      label: {
+        position: 'middle',
+        style: {
+          fill: '#FFFFFF',
+          opacity: 0.6,
+        },
+      },
+      xAxis: {
+        label: {
+          autoHide: true,
+          autoRotate: false,
+        },
+      },
+      meta: {
+        value: {
+          alias: 'Valor',
+        },
+        matchingAnswers: {
+          alias: 'Cantidad de respuestas',
+        },
+      },
+    };
+
     const columns = [
       {
         title: 'Usuario',
@@ -59,6 +119,14 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
            }else{
             return <p>{record.email}</p>
            }    
+        }
+      },
+      {
+        title: 'Fecha de respuesta',
+        key: 'createdAt',
+        sorter: (a, b) => a?.answerDate.localeCompare(b?.answerDate),
+        render: (record) =>{
+                return record.answerDate.slice(0,10)    
         }
       },
       {
@@ -83,6 +151,10 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     <div className='containerTable'>
     <Table columns={columns}  dataSource={question.userAnswers} pagination={{pageSize: 5}}>
     </Table>
+
+    <div className="mt-5">
+     <Column {...config} />
+    </div>
     </div>
     </>
   }
@@ -90,7 +162,6 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
   const SingleOptionComponent = () => {
     const data = []
     question.possibleAnswers.map((i)=> data.push({type: i, value: 0}))
-
     const userAnswersArray = []
     let destructuring = question.userAnswers.map((i)=> i.userAnswer)
 
@@ -137,6 +208,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     
     return <>
      <p className="mt-3">{questionNumber }- {question.question}</p>
+     <p className='text-muted fst-italic'>Pregunta de opción única.</p>
       <Form disabled={true}>
         <Radio.Group style={{display:'flex', flexDirection: 'column'}}>
         {radioButtons}
@@ -156,7 +228,6 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     destructuring = destructuring.map((i)=> i[0].answers)
 
     const userAnswersArray = destructuring.flat(1)
-    console.log(userAnswersArray);
     const CheckboxButtons = data.map((i)=> <Checkbox className="ms-0" key={i.type} value={i.type}>{i.type}</Checkbox>)
 
    for (let i = 0; i < data.length; i++) {
@@ -192,11 +263,10 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
         position: 'bottom',
       },
     };
-
-
-    
+ 
     return <>
      <p className="mt-3">{questionNumber }- {question.question}</p>
+     <p className='text-muted fst-italic'>Pregunta de opción multiple.</p>
       <Form disabled={true}>
         <Checkbox.Group style={{display:'flex', flexDirection: 'column'}}>
         {CheckboxButtons}

@@ -58,7 +58,7 @@ const onChange = (date, dateString) => {
 };
 
 const validateQuestion = (data) =>{
-  const questionRegex = /^[a-zA-Z\s\d\p{P}]{0,45}$/
+  const questionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{0,45}$/
   if(!data.every(i => questionRegex.test(i.question))){
     setQuestionsErrorMessage(<AlertDismissible message={'Has ingresado una pregunta invalida'} state={true}/>)
     setSubmitError((prevArray)=>{
@@ -134,7 +134,7 @@ const validateDate =(dateBool, date) =>{
 }
 
 const validateSurveyTitle =(value) =>{
-  const surveyTitleRegex = /^[a-zA-Z\s\d\p{P}]{0,55}$/
+  const surveyTitleRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{0,55}$/
   setSurveyTitleErrorMessage()
   if(surveyTitleRegex.test(value) ){
     setSurveyTitle(value)
@@ -256,7 +256,7 @@ const validateEmptyCategory = (category) =>{
 }
 
 const validateSurveyDescription = (value)=>{
-  const surveyDescriptionRegex = /^[a-zA-Z\s\d\p{P}]{0,220}$/
+  const surveyDescriptionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{0,220}$/
   setSurveyDescriptionErrorMessage()
   setSurveyDescriptionCounter(value.length)
   if (surveyDescriptionRegex.test(value)) {
@@ -297,6 +297,7 @@ const validateSurveyDescription = (value)=>{
   })
  }
 }
+
 const componentQuestionsHandler=()=>{
     setErrorMessage()
     setSurveyQuestions((prevArray) => {
@@ -312,16 +313,16 @@ setKeyCounter(keyCounter + 1)
 const handleSubmit  = () =>{ 
   const flatSubmitError = submitError.flat(2)
   const filterBool = flatSubmitError.filter((i)=> i == true)
-
+  
   if (filterBool.length == 0) {
    const postObject = {
-    'name': surveyTitle ,
-    'description': surveyDescription ,
+    'name': surveyTitle.charAt(0).toUpperCase() + surveyTitle.slice(1) ,
+    'description': surveyDescription.charAt(0).toUpperCase() + surveyDescription.slice(1) ,
     'categories': category,
     'endDate': date,
-    'questions': data ,
+    'questions': data,
    }
-   
+
    Swal.fire({
     title: 'Estas seguro de guardar esta encuesta?',
     text: "No podras modificar la encuesta una vez guardada",
@@ -361,33 +362,6 @@ const handleSubmit  = () =>{
         )
         setLoading(false)
       }
-
-      //  await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/question',{
-      //   method:'POST' ,
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
-      //   },
-      //   body: JSON.stringify(postObject)
-        
-      // }).then(res=> res.json()).then(body=>{
-      //   Swal.fire(
-      //       '',
-      //        'Tu encuesta ha sido guardada existosamente!',
-      //        'success'
-      //      )
-      //      setTimeout(()=>{
-      //       window.location.href='/mysurveys'
-      //     }, 1000 )
-      // }).catch(error=>{
-      //   Swal.fire(
-      //       '',
-      //       'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
-      //       'error'
-      //     )
-      //     setLoading(false)
-      // })
-
     }
   })
  }
@@ -430,15 +404,15 @@ const handleSubmit  = () =>{
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>Ingrese el titulo de su encuesta</Form.Label>
-              <Form.Control type="text" placeholder="" onChange={(e)=> validateSurveyTitle(e.target.value)} />
-              <Form.Text muted>
+              <Form.Control type="text" placeholder=""  required maxLength='55' onChange={(e)=> validateSurveyTitle(e.target.value)} />
+              <Form.Text muted>         
         El titulo debe tener un maximo de 55 caracteres y no puede contener caracteres especiales. 
              </Form.Text>
              {surveyTitleErrorMessage}
             </Form.Group>
             <Form.Group className="mb-3">
             <Form.Label>Ingrese una descripción de su encuesta</Form.Label>
-             <Form.Control as="textarea" rows={2} onChange={(e)=> validateSurveyDescription(e.target.value)}/>
+             <Form.Control as="textarea" required maxLength='220' rows={2} onChange={(e)=> validateSurveyDescription(e.target.value)}/>
              <div className="d-flex">
              <Form.Text muted>
        La descripción debe tener un maximo de 220 caracteres y no puede contener caracteres especiales. 
