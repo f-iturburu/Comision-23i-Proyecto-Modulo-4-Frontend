@@ -4,6 +4,8 @@ import Badge from 'react-bootstrap/Badge';
 import { Link } from "react-router-dom";
 import { ClockCircleOutlined } from '@ant-design/icons';
 import TooltipQuestionmark from '../../../layouts/tooltip';
+import css from './surveyCard.css' ;
+
 
 function SurveyCard({surveyTitle,surveyCategory, id, surveyEndDate,surveyDescription,createdAt}) {
   return (
