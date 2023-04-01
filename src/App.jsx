@@ -16,9 +16,10 @@ import SignUp from "./views/signUp/signUp";
 import Survey from "./views/survey/survey";
 import MySurveys from "./views/mySurveys/mySurveys";
 import AdminView from "./views/admin/admin";
-import SurveyDetails from "./surveyDetails/surveyDetails";
+import SurveyDetails from "./views/surveyDetails/surveyDetails";
 import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
 import Footer from "./layouts/Footer";
+import UserDashboard from "./views/userDashboard/userDashboard";
 
 
 const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
@@ -78,10 +79,18 @@ const App = () => {
             }
           />
             <Route
+            path="/userdashboard"
+            element={
+              <ProtectedRoute>
+                <UserDashboard URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
             path="/admin"
             element={
               <ProtectedAdminRoute>
-                <AdminView />
+                <AdminView URL={URL} token={token}/>
               </ProtectedAdminRoute>
             }
           />

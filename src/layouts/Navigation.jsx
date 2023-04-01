@@ -35,9 +35,14 @@ const Navigation = ({adminLoginKey,userLoginKey }) => {
                 <> 
                   <NavLink
                     className="nav-link"
+                    to="/survey/newsurvey">
+                    Crear encuesta
+                  </NavLink>        
+                  <NavLink
+                    className="nav-link"
                     to="/mysurveys">
                     Mis encuestas
-                  </NavLink>            
+                  </NavLink>     
                 </>
               ) : (
              null
@@ -56,7 +61,7 @@ const Navigation = ({adminLoginKey,userLoginKey }) => {
              <i class="bi bi-person-circle"></i>
              </a>
              <ul class="dropdown-menu dropdown-menu-end">
-               <li ><Link className="nav-link" to="/userdashboard">Opciones</Link></li>
+               <li ><NavLink className="nav-link" to="/userdashboard">Opciones <i class="bi bi-gear"></i></NavLink></li>
                <li> <NavLink className="nav-link" onClick={logout}>Cerrar sesión <i class="bi bi-box-arrow-in-left"></i></NavLink></li>
              </ul>
            </li> : <>

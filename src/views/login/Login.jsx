@@ -61,6 +61,8 @@ function Login ({ URL }) {
               placeholder="Ingrese su nombre de usuario o dirección de correo electrónico"
               name="email"
               ref= {userInput}
+              required
+              maxLength='30'
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -69,6 +71,8 @@ function Login ({ URL }) {
               type="password"
               placeholder="Ingrese su contraseña"
               name="password"
+              required
+              maxLength='30'
               ref= {passwordInput}   
             />
           </Form.Group>

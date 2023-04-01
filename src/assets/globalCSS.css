@@ -11,9 +11,21 @@
   width: 3rem !important;
 }
 .containerTable{
-  max-width: 100vw !important;
-  overflow-x: auto;
+
+    max-width: 100vw !important;
+    overflow-x: auto;
 }
+
+@media all and (max-width: 576px) {
+    .imgcarousel {
+      object-fit: cover;
+    }
+  }
+  
+  .imgcarousel{
+    /* max-height: 75vh; */
+    object-fit: cover;
+  }
 
  #root {
     background-color: #000000;

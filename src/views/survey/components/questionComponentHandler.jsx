@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, InputNumber,Radio, Checkbox } from 'antd';
 
-
-
 const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surveyDescription}) => {
   const [form] = Form.useForm();
 
@@ -28,7 +26,7 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
     const [isAnswerValid, setIsAnswerValid] = useState(false);
 
     const handleData = (values) => {
-      const regex = /^[a-zA-Z\s\p{P}]{2,30}$/
+      const regex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{2,30}$/
       const isValid = regex.test(values);
       if (isValid) {
         const updatedObject = { ...questionObject ,
@@ -138,6 +136,7 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
            <h5>{surveyDescription}</h5>
          </div>
          <h5>{question.question}</h5>
+         <p className='text-muted'>Solo puedes seleccionar una opción.</p>
     <Form.Item  
      style={{width:'50%'}}
       name={"Radio"+ question.question}
@@ -174,6 +173,7 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
       <h5>{surveyDescription}</h5>
       </div>
       <h5>{question.question}</h5>
+      <p className='text-muted'>Puedes seleccionar una o mas opciones.</p>
     <Form.Item
      style={{width:'50%'}}
       name={"Checkbox"+ question.question}

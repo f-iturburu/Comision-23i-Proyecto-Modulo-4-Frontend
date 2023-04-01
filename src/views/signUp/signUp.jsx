@@ -51,7 +51,6 @@ const SignUp = ({URL}) => {
         }, 1000 )
       }
     } catch (error) {
-      console.log(error);
       setLoading(false)
       setErrorMessage()
       if (error.response?.status == 400) {
@@ -78,6 +77,8 @@ const SignUp = ({URL}) => {
               type="text"
               placeholder="Ingrese su nombre de usuario"
               name="name"
+              required
+              maxLength='15'
               ref = {usernameRef}
             />
              <Form.Text muted>
@@ -90,6 +91,8 @@ const SignUp = ({URL}) => {
               type="text"
               placeholder="Ingrese su direccion de correo electrónico"
               name="email"
+              required
+              maxLength='30'
               ref={emailRef}
             />
           </Form.Group>
@@ -99,6 +102,8 @@ const SignUp = ({URL}) => {
               type="password"
               placeholder="Ingrese su contraseña"
               name="password"
+              required
+              maxLength='30'
               ref={passwordRef}
             />
               <Form.Text muted>
