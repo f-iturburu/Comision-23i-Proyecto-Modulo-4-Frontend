@@ -33,9 +33,14 @@ const Navigation = ({adminLoginKey,userLoginKey }) => {
                 <> 
                   <NavLink
                     className="nav-link"
+                    to="/survey/newsurvey">
+                    Crear encuesta
+                  </NavLink>        
+                  <NavLink
+                    className="nav-link"
                     to="/mysurveys">
                     Mis encuestas
-                  </NavLink>            
+                  </NavLink>     
                 </>
               ) : (
              null

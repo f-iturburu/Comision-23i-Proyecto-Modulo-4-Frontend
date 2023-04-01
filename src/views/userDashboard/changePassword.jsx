@@ -35,7 +35,6 @@ const ChangePasswordComponent = ({URL,token}) =>{
             oldPassword: oldPassword.current.value,
             newPassword: newPassword.current.value
         }
-        console.log(resBody);
         try {
             const res = await axios.patch(`${URL}/user/password`,resBody,{
                 headers:{
