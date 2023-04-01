@@ -23,7 +23,7 @@ function CreateQuestionSurvey({id, data, setData , setSurveyQuestions, showDelet
 
 useEffect(() =>{
   const updatedObject = { ...object ,
-        'question': question, 
+        'question': question.charAt(0).toUpperCase() + question.slice(1), 
         'type':questionTypeString.current?.value,
         'possibleAnswers' : questionAnswers,
         }
@@ -44,7 +44,6 @@ useEffect(()=>{
     });
  },[object])
 
-
 const componentHandler = (questionTypeString)=>{
   switch (questionTypeString) {
    case "singleOption":
@@ -64,7 +63,7 @@ const componentHandler = (questionTypeString)=>{
   }
 }
 
- const SingleOptionComponent =() => {
+const SingleOptionComponent =() => {
   const optionsRef = useRef([]);
   const [radioSelectors, setRadioSelectors] = useState([]);
   const [errorMessage , setErrorMessage] = useState()
@@ -75,7 +74,7 @@ const componentHandler = (questionTypeString)=>{
 
   const optionsHandler = ()=>{
     setErrorMessage()
-    const optionsRegex = /^[\p{L}0-9? ]{1,30}$/u
+    const optionsRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{1,30}$/u
     setRadioSelectors((prevArray) =>{
       const optionFound = prevArray.find((i) => i == optionsRef.current.value)
       if (!optionsRegex.test(optionsRef.current.value)) {
@@ -88,7 +87,7 @@ const componentHandler = (questionTypeString)=>{
         setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
         return [...prevArray]
       } else {
-        return[...prevArray,optionsRef.current.value]
+        return[...prevArray,optionsRef.current.value.charAt(0).toUpperCase() + optionsRef.current.value.slice(1)]
       }
     } )
   }
@@ -116,6 +115,8 @@ const componentHandler = (questionTypeString)=>{
              </Form.Text>
       <Col xs={5}>
         <Form.Control
+        required
+         maxLength='30'
           ref={optionsRef}
           type="text"
           placeholder="Agregar opción"
@@ -142,14 +143,13 @@ const MultipleOptionsComponent = () => {
     const optionsRef = useRef([]);
     const [errorMessage , setErrorMessage] = useState()
     const [checboxSelectors, setChecboxSelectors] = useState([]);
-
     useEffect(()=>{
       setQuestionAnswers(checboxSelectors)
     },[checboxSelectors])
     const optionsHandler = ()=>{
       setErrorMessage('')
       
-      const optionsRegex = /^[\p{L}0-9? ]{1,30}$/u
+      const optionsRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{1,30}$/u
       setChecboxSelectors((prevArray) =>{
         const optionFound = prevArray.find((i) => i == optionsRef.current.value)
         if (!optionsRegex.test(optionsRef.current.value)) {
@@ -162,7 +162,7 @@ const MultipleOptionsComponent = () => {
           setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
           return [...prevArray]
         } else {
-          return[...prevArray,optionsRef.current.value]
+          return[...prevArray,optionsRef.current.value.charAt(0).toUpperCase() + optionsRef.current.value.slice(1)]
         }
       } )
     }
@@ -190,7 +190,8 @@ const MultipleOptionsComponent = () => {
              </Form.Text>
         <Col xs={5}>
           <Form.Control
-          
+          required 
+          maxLength='30'
             ref={optionsRef}
             type="text"
             placeholder="Agregar opción"
@@ -214,7 +215,6 @@ const MultipleOptionsComponent = () => {
 }
 
 const TextComponent =() => {
-
   useEffect(()=>{
     setQuestionAnswers([])
   },[])
@@ -254,7 +254,7 @@ const NumbersComponents =() => {
         )
 }
 
- const deleteQuestionsHandler = () =>{
+const deleteQuestionsHandler = () =>{
   setSurveyQuestions((prevArray) =>{
       let filteredSurveyQuestionsArray = prevArray.filter((i) => i.key !== id.toString() );
     return [...filteredSurveyQuestionsArray]
@@ -272,10 +272,10 @@ const NumbersComponents =() => {
       <Form.Group className="mb-3">
         <Row>
           <Col xs={'5'}>
-            <Form.Control onChange={(e)=>setQuestion(e.target.value)} type="text" placeholder="Pregunta" />
+            <Form.Control onChange={(e)=>setQuestion(e.target.value)} required maxLength='45' type="text" placeholder="Pregunta" />
           </Col>
           <Col xs={'1'}>
-          <TooltipQuestionmark  message={'La pregunta debe ser de entre 1 y 45 caracteres, no puede contener caracteres.'} item={<i className="bi bi-question-circle"></i>}/>
+          <TooltipQuestionmark message={'La pregunta debe ser de entre 1 y 45 caracteres, no puede contener caracteres.'} item={<i className="bi bi-question-circle"></i>}/>
           </Col>
           <Col xs={'5'}>
             <Form.Select

@@ -3,6 +3,8 @@ import { Table, Switch, Button } from 'antd';
 import Swal from 'sweetalert2'
 import { DeleteOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import todayDate from '../../../helpers/todayDate';
+import compareDates from '../../../helpers/compareDates';
 import axios from 'axios';
 
 const SurveysTable = ({URL, token}) => {
@@ -11,6 +13,7 @@ const SurveysTable = ({URL, token}) => {
   const [data, setData] = useState([]);
   const [fetchApi, setFetchApi] = useState(true)
 
+  
   useEffect(()=>{
     if (fetchApi) {
       fetchMySurveys().then(()=>{
@@ -130,7 +133,7 @@ const SurveysTable = ({URL, token}) => {
       sorter: (a, b) => a.categories[0].localeCompare(b.categories[0]),
     },
     {
-      title: 'Fecha de subida',
+      title: 'Fecha de creacion',
       dataIndex: 'createDate',
       key: 'createDate',
       sorter: (a, b) => a.createDate?.localeCompare(b?.createDate),
@@ -156,14 +159,33 @@ const SurveysTable = ({URL, token}) => {
         key: 'published',
         sorter: (a, b) => a.published.toString().localeCompare(b.published.toString()),
         render: (record) =>{
-           return  (
-              <Switch
-                checked={record.published}
-                onChange={(checked) =>handleSwitchChange(checked, record)}
-                loading={loading }
+
+          if (record.endDate) {
+            if (compareDates(record.endDate.slice(0,10),todayDate())) {
+               return  (<Switch
+                checked={false}
+                disabled={true}
               />
-            )
-  
+             )
+            }else{
+              return  (
+                <Switch
+                  checked={record.published}
+                  onChange={(checked) =>handleSwitchChange(checked, record)}
+                  loading={loading }
+                />
+              )
+            }
+          }else{
+            return  (
+               <Switch
+                 checked={record.published}
+                 onChange={(checked) =>handleSwitchChange(checked, record)}
+                 loading={loading }
+               />
+             )
+
+          }
         } 
         ,
       filters: [
@@ -182,12 +204,10 @@ const SurveysTable = ({URL, token}) => {
         title: 'Eliminar',
         render: (record) =>{
            return  <div className='d-flex justify-content-center'>
-            <Button type="primary" danger icon={<DeleteOutlined />} loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
-                Eliminar
+            <Button type="primary" danger loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
+                Eliminar <i class="bi bi-trash3 ms-2"></i>
             </Button>
             </div>
-            
-  
         } 
       },
       {
@@ -197,7 +217,8 @@ const SurveysTable = ({URL, token}) => {
         render(record){
           return  <div className='d-flex justify-content-center'>
             <Link  to={`/survey/details/${record._id}`}>
-            <i class="bi bi-graph-down"></i>
+            <Button type='primary'> Detalles <i className="bi bi-graph-down ms-2"></i>
+            </Button>
         </Link>
           </div>
         

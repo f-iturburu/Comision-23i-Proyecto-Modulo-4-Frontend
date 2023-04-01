@@ -3,68 +3,78 @@ import { Table, Switch, Button } from 'antd';
 import Swal from 'sweetalert2'
 import { DeleteOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import todayDate from '../../../helpers/todayDate';
+import compareDates from '../../../helpers/compareDates';
+import axios from 'axios';
 
-const AdminSurveysTable = ({fetchApi, setFetchApi}) => {
+const AdminSurveysTable = ({URL, token}) => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [data, setData] = useState([]);
-  
+  const [fetchApi, setFetchApi] = useState(true)
 
+  
   useEffect(()=>{
-    if(fetchApi){
-        fetchMySurveys().then(()=>{
-          setDeleteLoading(false);
-          setFetchApi(false)
-        })
+    if (fetchApi) {
+      getAllSurveys().then(()=>{
+        setDeleteLoading(false);
+        setFetchApi(false)
+      })   
+      
     }
 },[fetchApi])
 
-  const fetchMySurveys = async ()=>{
-    await fetch('https://comision-23i-proyecto-modulo-4-backend.onrender.com/surveys',{
-        method:'GET' ,
-        headers: {
+  const getAllSurveys = async ()=>{
+    try {
+      const res = await axios.get(`${URL}/survey`,{
+        headers:{
           "Content-Type": "application/json",
-          'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTc2MjQ3fQ.AR7PXqETqCZ44DYMcw0GBarpYmDd9RS09u8YlIc9oeY'
+          'auth-token': token.token
         }
-    })
-    .then(res => res.json())
-    .then(body => {
-      setData(body) 
-    })
-  }
-
-  const handleSwitchChange = (checked, record) => {
-    setLoading(true);
-        updateData(record._id, checked)
-        .then(res => res.json()).then(() =>{
-          setLoading(false);
-          setData(
-            data.map((prevArray) => {
-              if (prevArray._id === record._id) {
-                return { ...prevArray, published: checked };
-              }
-              return prevArray;
-            })
-          );
-        }).catch((error)=>{
-        setLoading(false);
-        Swal.fire(
-            '',
-            'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
-            'error'
-          )
       })
-  };
 
-  const updateData = (id, published) => {
-    return fetch(`https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/${id}/published`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTc2MjQ3fQ.AR7PXqETqCZ44DYMcw0GBarpYmDd9RS09u8YlIc9oeY'
-      },
-      body: JSON.stringify({ published: published }),
-    });
+      if (res.status == 200) {
+        const data = res.data; 
+        setData(data) 
+      }
+    } catch (error) {
+      console.log(error);
+    }
+ }
+
+  const handleSwitchChange = async (checked, record) => {
+    setLoading(true);
+    const patchObj = {
+      'published': checked
+    }
+    try {
+      const res = await axios.patch(`${URL}/survey/${record._id}/published`,patchObj,{
+        headers:{
+          'Content-Type': 'application/json',
+          'auth-token': token.token
+        }
+      })
+
+      if (res.status == 200) {
+        setLoading(false);
+        setData(
+          data.map((prevArray) => {
+            if (prevArray._id === record._id) {
+              return { ...prevArray, published: checked };
+            }
+            return prevArray;
+          })
+        );
+
+      }
+    } catch (error) {
+      setLoading(false);
+      Swal.fire(
+          '',
+          'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
+          'error'
+        )
+    }
   };
 
   const handleDeleteSurvey =(record)=>{
@@ -80,35 +90,38 @@ const AdminSurveysTable = ({fetchApi, setFetchApi}) => {
       reverseButtons: true
     }).then(async (result) => {
       if (result.isConfirmed) {
-        
         setDeleteLoading(true)
-         await deleteSurvey(record._id)
-        .then(res => res.json()).then(() =>{
+        try {
+          const res = await axios.delete(`${URL}/survey/${record._id}`,{
+            headers:{
+              'Content-Type': 'application/json',
+              'auth-token': token.token
+            }
+          })
+
+          if (res.status == 200) {
             setFetchApi(true)
-          }).catch((error)=>{
-              setDeleteLoading(false);
+          }
+        } catch (error) {
+          setDeleteLoading(false);
               Swal.fire(
                   '',
                   'Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.',
                   'error'
                 )
-          })
+        }
       }
         
   })
   }
   
-  const deleteSurvey = (id)=>{
-    return fetch (`https://comision-23i-proyecto-modulo-4-backend.onrender.com/survey/${id}`,{
-        method:'DELETE',
-        headers:{
-            'Content-Type': 'application/json',
-            'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDEzZjZiNmNjZDAyMWJlNmM3YWNjZjAiLCJ1c2VyUm9sZSI6MCwidXNlckVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc5MTk5MTI1fQ.QhHQXwFRW92K1tKhtIygagsBACOEbb_MEEPNxRLO0mY'
-        }
-    })
-  }
-
   const columns = [
+    {
+      title: 'Autor/a',
+      dataIndex: 'authorEmail',
+      key: 'authorEmail',
+      sorter: (a, b) => a.authorEmail.localeCompare(b.authorEmail),
+    },
     {
       title: 'Nombre de la encuesta',
       key: 'name',
@@ -124,6 +137,15 @@ const AdminSurveysTable = ({fetchApi, setFetchApi}) => {
       dataIndex: 'categories',
       key: 'categories',
       sorter: (a, b) => a.categories[0].localeCompare(b.categories[0]),
+    },
+    {
+      title: 'Fecha de creacion',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      sorter: (a, b) => a.createdAt?.localeCompare(b?.createdAt),
+      render: (record) =>{
+              return record?.slice(0,10)      
+      }
     },
     {
         title: 'Fecha de finalización',
@@ -143,14 +165,33 @@ const AdminSurveysTable = ({fetchApi, setFetchApi}) => {
         key: 'published',
         sorter: (a, b) => a.published.toString().localeCompare(b.published.toString()),
         render: (record) =>{
-           return  (
-              <Switch
-                checked={record.published}
-                onChange={(checked) =>handleSwitchChange(checked, record)}
-                loading={loading }
+
+          if (record.endDate) {
+            if (compareDates(record.endDate.slice(0,10),todayDate())) {
+               return  (<Switch
+                checked={false}
+                disabled={true}
               />
-            )
-  
+             )
+            }else{
+              return  (
+                <Switch
+                  checked={record.published}
+                  onChange={(checked) =>handleSwitchChange(checked, record)}
+                  loading={loading }
+                />
+              )
+            }
+          }else{
+            return  (
+               <Switch
+                 checked={record.published}
+                 onChange={(checked) =>handleSwitchChange(checked, record)}
+                 loading={loading }
+               />
+             )
+
+          }
         } 
         ,
       filters: [
@@ -166,23 +207,40 @@ const AdminSurveysTable = ({fetchApi, setFetchApi}) => {
       onFilter: (value, record) => record.published === value,
       },
       {
-        title: 'Acciones',
+        title: 'Eliminar',
         render: (record) =>{
-           return  (
-            <Button type="primary" danger icon={<DeleteOutlined />} loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
-                Eliminar
-            </Button>
-            )
+           return  <div className='d-flex justify-content-center'>
+           <Button type="primary" danger loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
+               Eliminar <i class="bi bi-trash3 ms-2"></i>
+           </Button>
+           </div>
+            
   
         } 
+      },
+      {
+        title: 'Informacion detallada',
+        key: `name`,
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        render(record){
+          return  <div className='d-flex justify-content-center'>
+            <Link  to={`/survey/details/${record._id}`}>
+            <Button type='primary'> Detalles <i className="bi bi-graph-down ms-2"></i>
+            </Button>
+        </Link>
+          </div>
+        
+        }
       },
 
   ];
 
 
   return (
+    <div className='containerTable'>
     <Table columns={columns}  dataSource={data} pagination={{pageSize: 10}}>
     </Table>
+    </div>
   );
 };
 

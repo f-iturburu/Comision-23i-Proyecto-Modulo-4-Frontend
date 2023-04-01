@@ -9,7 +9,7 @@ import AlertDismissible from "../../../layouts/alert";
 
 const { Step } = Steps;
 
-const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,formDisabled }) => {
+const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,formDisabled,formDisabledExpiredDate }) => {
   const {id} = useParams()
   const [data, setData] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -165,6 +165,7 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
       </div>
         <div className="mt-2">
           {formDisabled? <AlertDismissible message={'Ya has respondido a esta encuesta'} state={true}/> : null}
+          {formDisabledExpiredDate? <AlertDismissible message={'Esta encuesta ha finalizado'} state={true}/> : null}
         </div>
     </Form>
   );

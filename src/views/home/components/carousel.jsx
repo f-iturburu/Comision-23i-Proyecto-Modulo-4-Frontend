@@ -2,11 +2,11 @@ import Carousel from 'react-bootstrap/Carousel';
 
 function CarouselHome() { 
   return (
-    <Carousel variant="dark">
+    <Carousel>
       <Carousel.Item>
         <img
           className="d-block w-100 imgcarousel"
-          src="/src/assets/img/prueba1.jpg"
+          src="/src/assets/img/Carousel1.jpg"
           alt="First slide"
         />
 
@@ -14,14 +14,14 @@ function CarouselHome() {
       <Carousel.Item>
         <img
           className="d-block w-100 imgcarousel"
-          src="/src/assets/img/carodef3.jpg"
+          src="/src/assets/img/Carousel2.jpg"
           alt="Second slide"
         />
       </Carousel.Item>
       <Carousel.Item>
         <img
           className="d-block w-100 imgcarousel"
-          src="/src/assets/img/prueba1.jpg"
+          src="/src/assets/img/Carousel3.jpg"
           alt="Third slide"
         />
       </Carousel.Item>

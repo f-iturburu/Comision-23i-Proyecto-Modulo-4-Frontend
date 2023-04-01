@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import QuestionComponentSurveyDetails from "./components/questionComponentSurveyDetails";
-import Loader from '../components/loader/loader'
+import Loader from '../../components/loader/loader'
 import { Container } from "react-bootstrap";
 import SurveyActivity from "./components/SurveyActivityChart";
 
