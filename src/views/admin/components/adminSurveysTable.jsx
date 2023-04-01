@@ -7,6 +7,9 @@ import todayDate from '../../../helpers/todayDate';
 import compareDates from '../../../helpers/compareDates';
 import axios from 'axios';
 
+import css from "./MySurveysTable.css"
+
+
 const AdminSurveysTable = ({URL, token}) => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false)
@@ -214,8 +217,6 @@ const AdminSurveysTable = ({URL, token}) => {
                Eliminar <i class="bi bi-trash3 ms-2"></i>
            </Button>
            </div>
-            
-  
         } 
       },
       {

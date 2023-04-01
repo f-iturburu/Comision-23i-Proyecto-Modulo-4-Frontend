@@ -6,6 +6,9 @@ import { Pagination } from "antd";
 import axios from "axios";
 import Loader from "../../components/loader/loader";
 import CarouselHome from "./components/carousel";
+import css from './Home.css';
+
+
 
 const { Search } = Input;
 
@@ -167,7 +170,7 @@ const Home = ({ URL }) => {
                   pageSize={pageSize}
                   total={surveysComponents.length}
                   onChange={(page) => setCurrentPage(page)}
-                  className="ms-auto"
+                  className="ms-auto pagNum"
                 />
               </div>
             </div>
@@ -176,6 +179,7 @@ const Home = ({ URL }) => {
       </div>
     </>
   );
+
 };
 
 export default Home;
