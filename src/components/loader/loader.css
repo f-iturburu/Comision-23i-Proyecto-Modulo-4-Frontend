@@ -6,7 +6,7 @@
 }
 
 .wrapperContainer{
-  height: 60vh;
+  height: 20vh;
 }
 
 .circle {
@@ -14,7 +14,7 @@
   height: 20px;
   position: absolute;
   border-radius: 50%;
-  background-color: #ff0000;
+  background-color: #7531f9;
   left: 15%;
   transform-origin: 50%;
   animation: circle7124 .5s alternate infinite ease;
@@ -54,7 +54,7 @@
   width: 20px;
   height: 4px;
   border-radius: 50%;
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgba(255, 255, 255, 0.9);
   position: absolute;
   top: 62px;
   transform-origin: 50%;

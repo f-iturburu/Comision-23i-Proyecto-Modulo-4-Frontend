@@ -101,17 +101,18 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
   
 
   return (
-    <Form form={form} disabled={formDisabled}>
+    <div className="glass-bg p-4">
+    <Form form={form} disabled={formDisabled} style={{minHeight:"30vh"}}>
       <div className="row">
-        <div className="col-1 col-md-12">
-          <Steps current={currentStep}>
+        <div className="col-12 col-md-12">
+          <Steps current={currentStep} >
             {questionsForm?.map((item) => (
               <Step key={item.question} />
             ))}
           </Steps>
         </div>
 
-        <div className="col-11 col-md-12 ps-4 ps-md-0">
+        <div className="col-12 col-md-12 ps-4 ps-md-0">
           <QuestionComponent
             question={questionsForm ? questionsForm[currentStep] : null}
             data={data}
@@ -125,7 +126,7 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
 
       <div className="d-md-flex border-top pt-3">
         <div>
-          <Checkbox onChange={anonymousResponseHandler}>
+          <Checkbox className="text-light" onChange={anonymousResponseHandler}>
             Responder esta encuesta de forma anonima
           </Checkbox>
         </div>
@@ -168,6 +169,7 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
           {formDisabledExpiredDate? <AlertDismissible message={'Esta encuesta ha finalizado'} state={true}/> : null}
         </div>
     </Form>
+    </div>
   );
 };
 

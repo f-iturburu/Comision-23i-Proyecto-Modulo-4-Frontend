@@ -3,6 +3,8 @@ import { Alert, Container, Form } from "react-bootstrap";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import Wave from "react-wavify";
+import {Image} from "react-bootstrap";
 import axios from "axios";
 
 const SignUp = ({URL}) => {
@@ -67,12 +69,25 @@ const SignUp = ({URL}) => {
 
   return (
     <div>
-      <Container className="py-5">
-        <h1>Sign up</h1>
-        <hr />
+            <div className='bannerContainer'>
+<Image
+className="mb-2 mt-2"
+style={{maxHeight:'12vh'}}
+fluid={true}
+src="/src/assets/img/Sign up/register negro.png"
+/>
+</div>
+<Wave  fill='#7531f9'
+style={{transform:'rotateX(180deg)'}}
+paused={false} options={{
+height: 15,
+amplitude: 50,
+speed: 0.15,
+points: 5,}} />;
+      <Container className="p-4 glass-bg">
         <Form className="my-5" onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicUserName">
-            <Form.Label>Nombre de usuario</Form.Label>
+            <Form.Label className="text-light">Nombre de usuario</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese su nombre de usuario"
@@ -81,12 +96,12 @@ const SignUp = ({URL}) => {
               maxLength='15'
               ref = {usernameRef}
             />
-             <Form.Text muted>
+             <Form.Text className="text-light" muted>
              Su nombre de usuario debe ser de entre 6 y 15 caracteres, no se permiten espacios ni caracteres especiales.
              </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email</Form.Label>
+            <Form.Label className="text-light">Email</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese su direccion de correo electrónico"
@@ -97,7 +112,7 @@ const SignUp = ({URL}) => {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Contraseña</Form.Label>
+            <Form.Label className="text-light">Contraseña</Form.Label>
             <Form.Control
               type="password"
               placeholder="Ingrese su contraseña"
@@ -106,17 +121,21 @@ const SignUp = ({URL}) => {
               maxLength='30'
               ref={passwordRef}
             />
-              <Form.Text muted>
+              <Form.Text className="text-light" muted>
               Su contraseña debe ser de un minimo de 8 caracteres y debe contener al menos una letra y un número.
              </Form.Text>
           </Form.Group>
+          <div className="d-flex">
           <Button
+          className="ms-auto"
               type="primary"
               loading={loading}
               onClick={handleSubmit}
             >
               Registrarme
             </Button>
+            
+          </div>
         </Form>
         {errorMessage}
       </Container>

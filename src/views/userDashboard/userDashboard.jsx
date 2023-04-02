@@ -4,13 +4,31 @@ import ChangePasswordComponent from "./changePassword";
 import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import MyInfo from "./myInfo";
+import Wave from "react-wavify";
+import {Image} from "react-bootstrap";
 
 function UserDashboard({ URL, token }) {
   const [currentComponent, setCurrentComponent] = useState(
     <MyInfo URL={URL} token={token} />
   );
 
-  return (
+  return <div>
+           <div className='bannerContainer'>
+         <Image
+    className="mb-2 mt-2"
+     style={{maxHeight:'12vh'}}
+      fluid={true}
+      src="/src/assets/img/Panel de opciones/panel de opciones negro.png"
+    />
+    </div>
+    <Wave  fill='#7531f9'
+        style={{transform:'rotateX(180deg)'}}
+       paused={false} options={{
+        height: 15,
+    amplitude: 50,
+    speed: 0.15,
+    points: 5,}} />
+
     <div className="mt-4 container" style={{ minHeight: "80vh" }}>
       <Row>
         <Col md={4}>
@@ -55,7 +73,7 @@ function UserDashboard({ URL, token }) {
         </Col>
       </Row>
     </div>
-  );
+  </div>
 }
 
 export default UserDashboard;

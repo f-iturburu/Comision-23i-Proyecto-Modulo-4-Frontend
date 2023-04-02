@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import AlertDismissible from "../../layouts/alert";
 import Swal from "sweetalert2";
+import Wave from "react-wavify";
+import {Image} from "react-bootstrap";
 import axios from "axios";
 
 function Login ({ URL }) {
@@ -48,14 +50,27 @@ function Login ({ URL }) {
     }
   };
 
-  return (
+  return <>
+      <div className='bannerContainer'>
+<Image
+className="mb-2 mt-2"
+style={{maxHeight:'12vh'}}
+fluid={true}
+src="/src/assets/img/Sign in/ingreso negro.png"
+/>
+</div>
+<Wave  fill='#7531f9'
+style={{transform:'rotateX(180deg)'}}
+paused={false} options={{
+height: 15,
+amplitude: 50,
+speed: 0.15,
+points: 5,}} />;
     <div>
-      <Container className="py-5">
-        <h1>Login</h1>
-        <hr />
+      <Container className="p-4 glass-bg">
         <Form className="my-5">
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email o nombre de usuario</Form.Label>
+            <Form.Label className="text-light">Email o nombre de usuario</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese su nombre de usuario o dirección de correo electrónico"
@@ -66,7 +81,7 @@ function Login ({ URL }) {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password*</Form.Label>
+            <Form.Label className="text-light">Contraseña</Form.Label>
             <Form.Control
               type="password"
               placeholder="Ingrese su contraseña"
@@ -84,6 +99,7 @@ function Login ({ URL }) {
           </Link>
           <div className="text-center">
 
+<div className="text-end">
           <Button
               type="primary"
               loading={loginLoading}
@@ -91,12 +107,14 @@ function Login ({ URL }) {
             >
               Ingresar
             </Button>
+  
+</div>
           </div>
         </Form>
           {errorMessage}
       </Container>
     </div>
-  );
+  </>
 };
 
 export default Login

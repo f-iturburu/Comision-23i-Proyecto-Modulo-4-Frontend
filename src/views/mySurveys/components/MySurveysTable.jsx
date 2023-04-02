@@ -3,21 +3,26 @@ import { Table, Switch, Button } from "antd";
 import Swal from "sweetalert2";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import todayDate from '../../../helpers/todayDate';
-import compareDates from '../../../helpers/compareDates';
-import axios from 'axios';
+import todayDate from "../../../helpers/todayDate";
+import compareDates from "../../../helpers/compareDates";
+import axios from "axios";
+import Loader from "../../../components/loader/loader";
+import { Image } from "react-bootstrap";
 
 const SurveysTable = ({ URL, token }) => {
   const [loading, setLoading] = useState(false);
+  const [viewLoading, setViewLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [data, setData] = useState([]);
   const [fetchApi, setFetchApi] = useState(true);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     if (fetchApi) {
       fetchMySurveys().then(() => {
         setDeleteLoading(false);
         setFetchApi(false);
+        setViewLoading(false);
       });
     }
   }, [fetchApi]);
@@ -36,7 +41,7 @@ const SurveysTable = ({ URL, token }) => {
         setData(data);
       }
     } catch (error) {
-      console.log(error);
+      setFetchError(true);
     }
   };
 
@@ -80,8 +85,7 @@ const SurveysTable = ({ URL, token }) => {
 
   const handleDeleteSurvey = (record) => {
     Swal.fire({
-      title:
-        "Estas seguro que deses eliminar esta encuesta?",
+      title: "Estas seguro que deses eliminar esta encuesta?",
       text: "Esta acción es irreversible",
       icon: "warning",
       showCancelButton: true,
@@ -94,15 +98,12 @@ const SurveysTable = ({ URL, token }) => {
       if (result.isConfirmed) {
         setDeleteLoading(true);
         try {
-          const res = await axios.delete(
-            `${URL}/survey/${record._id}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                "auth-token": token.token,
-              },
-            }
-          );
+          const res = await axios.delete(`${URL}/survey/${record._id}`, {
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token": token.token,
+            },
+          });
 
           if (res.status == 200) {
             setFetchApi(true);
@@ -125,35 +126,29 @@ const SurveysTable = ({ URL, token }) => {
       key: "name",
       sorter: (a, b) => a.name.localeCompare(b.name),
       render(record) {
-        return (
-          <Link to={`/survey/${record._id}`}>
-            {record.name}
-          </Link>
-        );
+        return <Link to={`/survey/${record._id}`}>{record.name}</Link>;
       },
     },
     {
       title: "Categorias",
       dataIndex: "categories",
       key: "categories",
-      sorter: (a, b) =>
-        a.categories[0].localeCompare(b.categories[0]),
+      sorter: (a, b) => a.categories[0].localeCompare(b.categories[0]),
     },
     {
-      title: 'Fecha de creacion',
-      dataIndex: 'createDate',
-      key: 'createDate',
+      title: "Fecha de creacion",
+      dataIndex: "createDate",
+      key: "createDate",
       sorter: (a, b) => a.createDate?.localeCompare(b?.createDate),
-      render: (record) =>{
-              return record.slice(0,10)      
-      }
+      render: (record) => {
+        return record.slice(0, 10);
+      },
     },
     {
       title: "Fecha de finalización",
       dataIndex: "endDate",
       key: "endDate",
-      sorter: (a, b) =>
-        a.endDate?.localeCompare(b?.endDate),
+      sorter: (a, b) => a.endDate?.localeCompare(b?.endDate),
       render: (record) => {
         if (record) {
           return record.slice(0, 10);
@@ -161,40 +156,35 @@ const SurveysTable = ({ URL, token }) => {
           return "No fue asignada";
         }
       },
-      {
-        title: 'Estado de publicación',
-        key: 'published',
-        sorter: (a, b) => a.published.toString().localeCompare(b.published.toString()),
-        render: (record) =>{
-
-          if (record.endDate) {
-            if (compareDates(record.endDate.slice(0,10),todayDate())) {
-               return  (<Switch
-                checked={false}
-                disabled={true}
+    },
+    {
+      title: "Estado de publicación",
+      key: "published",
+      sorter: (a, b) =>
+        a.published.toString().localeCompare(b.published.toString()),
+      render: (record) => {
+        if (record.endDate) {
+          if (compareDates(record.endDate.slice(0, 10), todayDate())) {
+            return <Switch checked={false} disabled={true} />;
+          } else {
+            return (
+              <Switch
+                checked={record.published}
+                onChange={(checked) => handleSwitchChange(checked, record)}
+                loading={loading}
               />
-             )
-            }else{
-              return  (
-                <Switch
-                  checked={record.published}
-                  onChange={(checked) =>handleSwitchChange(checked, record)}
-                  loading={loading }
-                />
-              )
-            }
-          }else{
-            return  (
-               <Switch
-                 checked={record.published}
-                 onChange={(checked) =>handleSwitchChange(checked, record)}
-                 loading={loading }
-               />
-             )
-
+            );
           }
-        } 
-        ,
+        } else {
+          return (
+            <Switch
+              checked={record.published}
+              onChange={(checked) => handleSwitchChange(checked, record)}
+              loading={loading}
+            />
+          );
+        }
+      },
       filters: [
         {
           text: "Active",
@@ -206,39 +196,76 @@ const SurveysTable = ({ URL, token }) => {
         },
       ],
       onFilter: (value, record) => record.published === value,
-      },
-      {
-        title: 'Eliminar',
-        render: (record) =>{
-           return  <div className='d-flex justify-content-center'>
-            <Button type="primary" danger loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
-                Eliminar <i class="bi bi-trash3 ms-2"></i>
+    },
+    {
+      title: "Eliminar",
+      render: (record) => {
+        return (
+          <div className="d-flex justify-content-center">
+            <Button
+              type="primary"
+              danger
+              loading={deleteLoading}
+              onClick={() => handleDeleteSurvey(record)}
+            >
+              Eliminar <i class="bi bi-trash3 ms-2"></i>
             </Button>
-            </div>
-        } 
+          </div>
+        );
       },
-      {
-        title: 'Informacion detallada',
-        key: `name`,
-        sorter: (a, b) => a.name.localeCompare(b.name),
-        render(record){
-          return  <div className='d-flex justify-content-center'>
-            <Link  to={`/survey/details/${record._id}`}>
-            <Button type='primary'> Detalles <i className="bi bi-graph-down ms-2"></i>
-            </Button>
-        </Link>
+    },
+    {
+      title: "Informacion detallada",
+      key: `name`,
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      render(record) {
+        return (
+          <div className="d-flex justify-content-center">
+            <Link to={`/survey/details/${record._id}`}>
+              <Button type="primary">
+                {" "}
+                Detalles <i className="bi bi-graph-down ms-2"></i>
+              </Button>
+            </Link>
           </div>
         );
       },
     },
   ];
 
+  const RenderHandler = () => {
+    if (viewLoading) {
+      return <Loader />;
+    } else if (fetchError) {
+      return (
+        <div className="text-center">
+          <Image fluid={true} src="/src/assets/img/Error message/error1.png" />
+        </div>
+      );
+    } else if (data.length == 0) {
+      return (
+        <div className="text-center">
+          <Image
+            fluid={true}
+            src="/src/assets/img/No survey/Vaya, parece que no has creado una encuesta todavía (5).png"
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className='containerTable'>
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={{ pageSize: 10 }}
+        ></Table>      
+        </div>
+      );
+    }
+  };
   return (
-    <div className="containerTable">
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={{ pageSize: 10 }}></Table>
+    <div style={{ minHeight: "40vh" }}>
+      <RenderHandler />
     </div>
   );
 };

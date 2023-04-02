@@ -1,62 +1,46 @@
-.footer {
-    background: #000;
-    color: #fff;
-    padding: 4rem 6rem;
-  }
-  
-  .top {
-    display: flex;
-    align-items: center;
-    text-align: start;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  .top i {
-    color: #fff;
-    font-size: 2rem;
-    margin-left: 1rem;
-  }
-  
-  .top i:hover {
-    color: #01959a;
-  }
-  
-  .bottom {
-    padding-top: 2rem;
-    text-align: start;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  .bottom div {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .bottom h4 {
-    font-size: 1.3rem;
-    padding: 1rem 0 0.8rem 0;
-  }
-  
-  .bottom a {
-    text-decoration: none;
-    color: #fafafa;
-    padding-bottom: 0.4rem;
-    font-size: 1.1rem;
-  }
-  
-  @media screen and (max-width: 850px) {
-    .footer {
-      padding: 4rem 2rem;
-    }
-  
-    .footer i {
-      margin: 1rem 1rem 0 0;
-    }
-  
-    .bottom div {
-      width: 50%;
-    }
-  }
-  
+.bgFooter {
+  background-color: #0a0a0a;
+}
+
+.fa-twitter:hover {
+  transform: scale(1.2);
+  color: rgb(29 161 242);
+  transition-duration: 0.7s;
+}
+
+.fa-facebook-f:hover {
+  transform: scale(1.2);
+  color: rgb(1, 101, 225);
+  transition-duration: 0.7s;
+}
+
+.fa-youtube:hover {
+  transform: scale(1.2);
+  color: rgb(255 0 0);
+  transition-duration: 0.7s;
+}
+
+
+.fa-instagram:hover {
+  transform: scale(1.2);
+  background: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  -webkit-background-clip: text;
+
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  transition-duration: 0.7s;
+}
+
+.itemFooter:hover {
+  color: white !important;
+  transition-duration: 0.4s;
+}
+

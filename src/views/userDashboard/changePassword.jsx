@@ -6,6 +6,7 @@ import AlertDismissible from '../../layouts/alert';
 import axios from 'axios';
 import {Spinner} from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import {Image} from 'react-bootstrap';
 
 const ChangePasswordComponent = ({URL,token}) =>{  
     const [showOldPassword, setShowOldPassword] = useState(false)
@@ -60,7 +61,16 @@ const ChangePasswordComponent = ({URL,token}) =>{
             }
         }
     }
-       return <div className='d-flex flex-column mx-auto'>
+       return <>
+               <div className="text-center">
+         <Image
+    className="mb-2 mt-2"
+     style={{maxHeight:'14vh'}}
+      fluid={true}
+      src="/src/assets/img/Change password/Cambiar contraseña blanco .png"
+    />
+   </div>
+       <div className='d-flex flex-column mx-auto'>
         <Form.Label>Contraseña actual</Form.Label>
      <InputGroup className="mb-3">
        <Form.Control
@@ -110,6 +120,8 @@ const ChangePasswordComponent = ({URL,token}) =>{
          <Button disabled={disabled ? disabled : loading} onClick={submitHandler}>{loading? <><Spinner animation="border" size="sm"/> Guardar cambios</>: "Guardar cambios" }</Button>
      </div>
        </div>
+       </>
+       
 
 }
 

@@ -5,6 +5,8 @@ import QuestionComponentSurveyDetails from "./components/questionComponentSurvey
 import Loader from '../../components/loader/loader'
 import { Container } from "react-bootstrap";
 import SurveyActivity from "./components/SurveyActivityChart";
+import {Image} from "react-bootstrap";
+import Wave from "react-wavify";
 
 function SurveyDetails({ URL, token }) {
   const [data, setData] = useState();
@@ -56,9 +58,23 @@ function SurveyDetails({ URL, token }) {
     }
   }
   return <>
-  <Container >
+          <div className='bannerContainer'>
+<Image
+className="mb-2 mt-2"
+style={{maxHeight:'12vh'}}
+fluid={true}
+src="/src/assets/img/Survey details/Información detallada negro.png"
+/>
+</div>
+<Wave  fill='#7531f9'
+style={{transform:'rotateX(180deg)'}}
+paused={false} options={{
+height: 15,
+amplitude: 50,
+speed: 0.15,
+points: 5,}} />;
+  <Container style={{minHeight:'40vh'}}>
      <RenderHandler/>
-     
 </Container>
   </>
 }
