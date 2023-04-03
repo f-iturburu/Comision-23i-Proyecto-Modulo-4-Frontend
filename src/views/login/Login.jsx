@@ -95,7 +95,7 @@ points: 5,}} />;
             </InputGroup>
           </Form.Group>
           <Link
-            to="/register"
+            to="/signUp"
             className="btn-primary text-decoration-none"
           >
             No tienes una cuenta? Registrate!

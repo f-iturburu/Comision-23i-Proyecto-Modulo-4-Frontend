@@ -60,7 +60,7 @@ const onChange = (date, dateString) => {
 };
 
 const validateQuestion = (data) =>{
-  const questionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{0,45}$/
+  const questionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{0,80}$/
   if(!data.every(i => questionRegex.test(i.question))){
     setQuestionsErrorMessage(<AlertDismissible message={'Has ingresado una pregunta invalida'} state={true}/>)
     setSubmitError((prevArray)=>{
