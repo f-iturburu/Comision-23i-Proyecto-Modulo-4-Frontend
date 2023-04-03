@@ -240,7 +240,7 @@ const SurveysTable = ({ URL, token }) => {
     } else if (fetchError) {
       return (
         <div className="text-center">
-          <Image fluid={true} src="/public/assets/img/Error message/error1.png" />
+          <Image fluid={true} src="/assets/img/Error message/error1.png" />
         </div>
       );
     } else if (data.length == 0) {
@@ -248,7 +248,7 @@ const SurveysTable = ({ URL, token }) => {
         <div className="text-center">
           <Image
             fluid={true}
-            src="/public/assets/img/No survey/Vaya, parece que no has creado una encuesta todavía (5).png"
+            src="/assets/img/No survey/Vaya, parece que no has creado una encuesta todavía (5).png"
           />
         </div>
       );
