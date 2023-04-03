@@ -21,7 +21,7 @@ const Navigation = ({adminLoginKey,userLoginKey }) => {
     return (
       <Navbar className="nav" expand="lg">
         <Container>
-          <Navbar.Brand href="/" > <Image  fluid={true} style={{maxHeight:"5vh"}} src="/public/assets/img/Logo/Rolling Nav.png"/></Navbar.Brand>
+          <Navbar.Brand href="/" > <Image  fluid={true} style={{maxHeight:"5vh"}} src="/assets/img/Logo/Rolling Nav.png"/></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar.nav" />
           <Navbar.Collapse>
             <Nav className="me-auto">

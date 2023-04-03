@@ -19,7 +19,7 @@ function UserDashboard({ URL, token }) {
     className="mb-2 mt-2"
      style={{maxHeight:'12vh'}}
       fluid={true}
-      src="/public/assets/img/Panel de opciones/panel de opciones negro.png"
+      src="/assets/img/Panel de opciones/panel de opciones negro.png"
     />
     </div>
     <Wave  fill='#7531f9'

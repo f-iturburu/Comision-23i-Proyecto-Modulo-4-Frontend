@@ -37,7 +37,7 @@ const MyInfo = ({URL, token}) =>{
     className="mb-2 mt-2"
      style={{maxHeight:'12vh'}}
       fluid={true}
-      src="/public/assets/img/My info/mi info white.png"
+      src="/assets/img/My info/mi info white.png"
     />
    </div>
 

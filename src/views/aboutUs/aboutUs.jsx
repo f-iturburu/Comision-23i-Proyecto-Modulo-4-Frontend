@@ -47,7 +47,7 @@ const AboutUs = () => {
           className="mb-2 mt-2"
           style={{ maxHeight: "12vh" }}
           fluid={true}
-          src="/public/assets/img/About us/sobre nosotros negro.png"
+          src="/assets/img/About us/sobre nosotros negro.png"
         />
       </div>
       <Wave

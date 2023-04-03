@@ -68,7 +68,7 @@ const Survey = ({URL,token}) =>{
 className="mb-2 mt-2"
 style={{maxHeight:'12vh'}}
 fluid={true}
-src="/public/assets/img/survey/responder encuesta negro.png"
+src="/assets/img/survey/responder encuesta negro.png"
 />
 </div>
 <Wave  fill='#7531f9'
