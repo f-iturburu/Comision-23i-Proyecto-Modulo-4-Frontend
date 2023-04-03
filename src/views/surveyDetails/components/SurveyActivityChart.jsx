@@ -4,6 +4,7 @@ import { Line } from "@ant-design/plots";
 
 const SurveyActivity = ({ questions }) => {
     const data = []
+
     const userAnswers = questions?.surveyQuestions[0].userAnswers
     const answersDates = []
    
@@ -22,11 +23,11 @@ const SurveyActivity = ({ questions }) => {
         }
     }
 
-data.push({ date: "2023-04-1", answers: 5 })
-data.push({ date: "2023-04-2", answers: 2 })
-data.push({ date: "2023-04-3", answers: 4 })
-data.push({ date: "2023-04-4", answers: 1 })
-data.push({ date: "2023-04-5", answers: 9})
+//     data.push({ date: "2023-03-29", answers: 5 })
+// data.push({ date: "2023-03-30", answers: 2 })
+// data.push({ date: "2023-03-31", answers: 4 })
+data.push({ date: "2023-04-1", answers: 1 })
+data.push({ date: "2023-04-2", answers: 9})
 
 
   const config = {

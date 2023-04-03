@@ -55,7 +55,9 @@ const Survey = ({URL,token}) =>{
 
   const RenderHandler =() =>{
       if(error){
-      return <h1>Error</h1>
+       return <div className="text-center">
+         <Image fluid="true" src="/public/assets/img/Error message/error1.png"/>
+       </div>
     } else if (loading){
         return <Loader />
     }

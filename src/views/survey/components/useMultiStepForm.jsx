@@ -54,9 +54,12 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
     };
     setSubmitLoading(true);
 
+    const messageTitle = questions?.length == 1 ? 'Estas seguro que deseas enviar tu respuesta?' : 'Estas seguro que deseas enviar tus respuestas?'
+    const messageText =  questions?.length == 1 ? "No podras modificar la respuesta una vez enviada": "No podras modificar las respuestas una vez enviadas"
+    
     Swal.fire({
-      title: 'Estas seguro que deseas enviar esta respuesta?',
-      text: "No podras modificar la respuesta una vez enviada",
+      title: messageTitle ,
+      text: messageText,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -99,7 +102,6 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
     })
   };
 
-  
 
   return (
     <div className="glass-bg p-4">

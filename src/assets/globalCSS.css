@@ -70,6 +70,7 @@
 }
 
 .ant-pagination-item-active{
+  color: white !important;
   border: 1px solid #7531f9 !important;
 }
 
