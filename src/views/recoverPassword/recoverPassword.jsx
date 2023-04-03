@@ -1,8 +1,8 @@
 import { Image } from "react-bootstrap";
 import Wave from "react-wavify";
-import Form from "antd/es/form/Form";
-import Container from "react-bootstrap";
-import {Input} from "react-bootstrap"
+import InputGroup from 'react-bootstrap/InputGroup';
+import  { Container, Form } from "react-bootstrap";
+
 
 function RecoverPassword (){
 return <>
@@ -23,21 +23,16 @@ speed: 0.15,
 points: 5,}} />
 
 <Container>
-<Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label className="text-light">Contraseña</Form.Label>
-            <InputGroup>
+<Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label className="text-light">Email o nombre de usuario</Form.Label>
             <Form.Control
-               type={showPassword? 'text': 'password'}
-              placeholder="Ingrese su contraseña"
-              name="password"
+              type="text"
+              placeholder="Ingrese su nombre de usuario o dirección de correo electrónico"
+              name="email"
               required
               maxLength='30'
-              ref= {passwordInput}   
             />
-            <Button className="sign-in-button" variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
-            </InputGroup>
           </Form.Group>
-
 </Container>
 <div style={{minHeight:'40vh'}}>
     
