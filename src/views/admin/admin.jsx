@@ -10,7 +10,7 @@ function AdminView({URL, token}) {
 className="mb-2 mt-2"
 style={{maxHeight:'15vh'}}
 fluid={true}
-src="/src/assets/img/admin/admin negro.png"
+src="/public/assets/img/admin/admin negro.png"
 />
     </div>
 

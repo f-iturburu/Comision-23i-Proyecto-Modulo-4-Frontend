@@ -83,7 +83,7 @@ function Contact() {
           className="mb-2 mt-2"
           style={{ maxHeight: "12vh" }}
           fluid={true}
-          src="/src/assets/img/Contacto/contacto negro.png"
+          src="/public/assets/img/Contacto/contacto negro.png"
         />
       </div>
       <Wave

@@ -67,7 +67,7 @@ const ChangeUsernameComponent = ({URL,token}) =>{
     className="mb-2 mt-2"
      style={{maxHeight:'14vh'}}
       fluid={true}
-      src="/src/assets/img/Change username/nombre blanco.png"
+      src="/public/assets/img/Change username/nombre blanco.png"
     />
    </div>
         

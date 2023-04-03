@@ -19,7 +19,7 @@ const Error404 = () => {
         <Image
           style={{ maxHeight: "75vh" }}
           fluid={true}
-          src="/src/assets/img/404/404.png"
+          src="/public/assets/img/404/404.png"
         />
       </div>
     </div>
