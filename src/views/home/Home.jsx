@@ -148,7 +148,7 @@ const RenderHandler = () =>{
     return  <Loader />
   }else if (fetchError){
     return  <div className="text-center">
-      <Image fluid={true} src="/src/assets/img/Error message/error1.png"/>
+      <Image fluid={true} src="/public/assets/img/Error message/error1.png"/>
     </div>
     
   }else{
@@ -186,7 +186,7 @@ const RenderHandler = () =>{
         className="mb-2"
          style={{maxHeight:'15vh'}}
           fluid={true}
-          src="/src/assets/img/Home/Últimas encuestas blanco.png"
+          src="/public/assets/img/Home/Últimas encuestas blanco.png"
         />
 </div>
 

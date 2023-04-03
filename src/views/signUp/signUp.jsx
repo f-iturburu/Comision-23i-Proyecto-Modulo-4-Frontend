@@ -82,7 +82,7 @@ const SignUp = ({URL}) => {
 className="mb-2 mt-2"
 style={{maxHeight:'12vh'}}
 fluid={true}
-src="/src/assets/img/Sign up/register negro.png"
+src="/public/assets/img/Sign up/register negro.png"
 />
 </div>
 <Wave  fill='#7531f9'

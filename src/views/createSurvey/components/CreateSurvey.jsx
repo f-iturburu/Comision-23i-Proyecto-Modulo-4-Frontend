@@ -376,7 +376,7 @@ const handleSubmit  = () =>{
 className="mb-2 mt-2"
 style={{maxHeight:'15vh'}}
 fluid={true}
-src="/src/assets/img/Create survey/crea tu propia encuesta negro.png"
+src="/public/assets/img/Create survey/crea tu propia encuesta negro.png"
 />
 </div>
 <Wave  fill='#7531f9'
