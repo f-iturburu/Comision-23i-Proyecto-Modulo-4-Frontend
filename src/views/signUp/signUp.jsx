@@ -1,18 +1,22 @@
 import React, { useRef, useState } from "react";
 import { Alert, Container, Form } from "react-bootstrap";
-import { Button } from "antd";
+import {Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Wave from "react-wavify";
 import {Image} from "react-bootstrap";
 import axios from "axios";
+import InputGroup from 'react-bootstrap/InputGroup';
+import {Spinner} from "react-bootstrap";
 
 const SignUp = ({URL}) => {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword,setShowPassword] = useState(false)
   const usernameRef = useRef()
   const emailRef = useRef()
   const passwordRef = useRef()
+  const repeatPasswordRef= useRef()
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -22,7 +26,6 @@ const SignUp = ({URL}) => {
 
   function AlertDismissible({message}) {
     const [show, setShow] = useState(true);
-  
     if (show) {
       return (
         <Alert variant="danger" className="p-1 m-1" onClose={() => setShow(false)} dismissible>
@@ -42,6 +45,11 @@ const SignUp = ({URL}) => {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
+
+    if (passwordRef.current.value !== repeatPasswordRef.current.value) {
+      return setErrorMessage(<AlertDismissible message={'Las contraseñas no coinciden.'}/>)
+    }
+
     try {  
       const res = await axios.post(`${URL}/user`,newUser)      
       if (res.status === 201) {
@@ -69,7 +77,7 @@ const SignUp = ({URL}) => {
 
   return (
     <div>
-            <div className='bannerContainer'>
+   <div className='bannerContainer'>
 <Image
 className="mb-2 mt-2"
 style={{maxHeight:'12vh'}}
@@ -111,28 +119,54 @@ points: 5,}} />;
               ref={emailRef}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group className="mb-3">
             <Form.Label className="text-light">Contraseña</Form.Label>
+            <InputGroup>
             <Form.Control
-              type="password"
+              type={showPassword? 'text': 'password'}
               placeholder="Ingrese su contraseña"
               name="password"
               required
               maxLength='30'
               ref={passwordRef}
             />
+              <Button className="sign-in-button" variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
+               </InputGroup>
               <Form.Text className="text-light" muted>
               Su contraseña debe ser de un minimo de 8 caracteres y debe contener al menos una letra y un número.
              </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label className="text-light">Vuelva a ingresar su contraseña</Form.Label>
+            <Form.Control
+              autocomplete="new-password"
+              type={showPassword? 'text': 'password'}
+              placeholder="Ingrese su contraseña"
+              name="password"
+              required
+              maxLength='30'
+              onPaste={(e)=>e.preventDefault()}
+              ref={repeatPasswordRef}
+            />
           </Form.Group>
           <div className="d-flex">
           <Button
           className="ms-auto"
               type="primary"
-              loading={loading}
               onClick={handleSubmit}
             >
-              Registrarme
+              {!loading? 'Registrarme':  <>
+              <Spinner
+              className="me-2"
+          as="span"
+          animation="border"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        /> 
+            Registrarme
+              </> 
+        }
             </Button>
             
           </div>

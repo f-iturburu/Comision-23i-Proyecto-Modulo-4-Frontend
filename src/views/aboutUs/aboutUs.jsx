@@ -10,7 +10,7 @@ const AboutUs = () => {
       name: "Leonardo Del Brio",
       description: "Fullstack Developer",
       avatar: "/src/assets/img/icons/icon2.png",
-      linkedin: "https://www.linkedin.com/in/leodelbrio//",
+      linkedin: "https://www.linkedin.com/in/leodelbrio/",
       github: "https://github.com/leodelbrio",
     },
     {
@@ -24,13 +24,14 @@ const AboutUs = () => {
       name: "Lucas Ibañez",
       description: "Fullstack Developer",
       avatar: "/src/assets/img/icons/icon3.png",
-      linkedin: "https://www.linkedin.com/",
+      linkedin: "https://www.linkedin.com/in/lucas-iba%C3%B1ez-644756106",
       github: "https://github.com/Lucasi17",
     },
   ];
 
   const CardComponents = us.map((i) => (
     <AboutUSCard
+      key={i.name}
       name={i.name}
       description={i.description}
       avatar={i.avatar}

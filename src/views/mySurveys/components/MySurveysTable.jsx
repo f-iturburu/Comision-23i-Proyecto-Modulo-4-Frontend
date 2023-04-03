@@ -8,6 +8,7 @@ import compareDates from "../../../helpers/compareDates";
 import axios from "axios";
 import Loader from "../../../components/loader/loader";
 import { Image } from "react-bootstrap";
+import css from "./mySurveysTable.css"
 
 const SurveysTable = ({ URL, token }) => {
   const [loading, setLoading] = useState(false);
@@ -264,7 +265,7 @@ const SurveysTable = ({ URL, token }) => {
     }
   };
   return (
-    <div style={{ minHeight: "40vh" }}>
+    <div className="my-surveys-table" style={{ minHeight: "40vh" }}>
       <RenderHandler />
     </div>
   );

@@ -28,7 +28,6 @@ const MyInfo = ({URL, token}) =>{
             }
         } catch (error) {
             setLoading(false)
-            console.log(error);
         }
     }
 
@@ -45,7 +44,7 @@ const MyInfo = ({URL, token}) =>{
     {loading? <div className="w-100 d-flex justify-content-center mt-5 pt-2">
     <Spinner animation="border" style={{color:'#7531f9'}} />
     </div>: <div className='d-flex flex-column mx-auto'>
-    <Form.Label className='mb-0'>Nombre de usuario</Form.Label>
+    <Form.Label className='mb-0 text-light'>Nombre de usuario</Form.Label>
         <InputGroup className="mb-3">
         <Form.Control
            disabled={true}
@@ -53,7 +52,7 @@ const MyInfo = ({URL, token}) =>{
           aria-label="Username"
         />
       </InputGroup>
-      <Form.Label className='mb-0'>Email</Form.Label>
+      <Form.Label className='mb-0 text-light'>Email</Form.Label>
       <InputGroup className="mb-3">
         <Form.Control
            disabled={true}

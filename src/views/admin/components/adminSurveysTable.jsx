@@ -265,7 +265,7 @@ const RenderHandler = () =>{
     </div>
   }
 }
-  return <div style={{minHeight:'40vh'}}>
+  return <div className='admin-table' style={{minHeight:'40vh'}}>
     <RenderHandler />
   </div> 
 };

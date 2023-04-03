@@ -7,6 +7,7 @@ import todayDate from "../../helpers/todayDate";
 import compareDates from "../../helpers/compareDates";
 import { Image } from "react-bootstrap";
 import Wave from "react-wavify";
+import css from './components/survey.css'
 
 const Survey = ({URL,token}) =>{
     const [data, setData] = useState()
@@ -77,7 +78,7 @@ height: 15,
 amplitude: 50,
 speed: 0.15,
 points: 5,}} />;
-    <div className="container mt-5" style={{minHeight:'32vh'}}>
+    <div className="container mt-5 survey-form" style={{minHeight:'32vh'}}>
       <RenderHandler />
     </div>
     </>

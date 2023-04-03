@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import axios from "axios";
 import AlertDismissible from "../../../layouts/alert";
+import css from './survey.css'
 
 const { Step } = Steps;
 
@@ -126,7 +127,7 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
 
       <div className="d-md-flex border-top pt-3">
         <div>
-          <Checkbox className="text-light" onChange={anonymousResponseHandler}>
+          <Checkbox className="text-light checkbox-class" onChange={anonymousResponseHandler}>
             Responder esta encuesta de forma anonima
           </Checkbox>
         </div>

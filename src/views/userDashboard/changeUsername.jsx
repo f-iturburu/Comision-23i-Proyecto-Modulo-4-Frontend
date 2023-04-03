@@ -72,7 +72,7 @@ const ChangeUsernameComponent = ({URL,token}) =>{
    </div>
         
         <div className='d-flex flex-column mx-auto'>
-             <Form.Label className='mb-0'>Nombre de usuario actual</Form.Label>
+             <Form.Label className='mb-0 text-light'>Nombre de usuario actual</Form.Label>
          <InputGroup className="mb-3">
         <Form.Control
         disabled={disabled}
@@ -83,7 +83,7 @@ const ChangeUsernameComponent = ({URL,token}) =>{
        type='text'
         />
       </InputGroup>
-         <Form.Label className='mb-0'>Nuevo nombre de usuario</Form.Label>
+         <Form.Label className='mb-0 text-light'>Nuevo nombre de usuario</Form.Label>
          <Form.Text muted>
              Su nombre de usuario debe ser de entre 6 y 15 caracteres, no se permiten espacios ni caracteres especiales.
              </Form.Text>
@@ -97,7 +97,7 @@ const ChangeUsernameComponent = ({URL,token}) =>{
           type='text'
         />
       </InputGroup>
-      <Form.Label className='mb-0'>Contraseña</Form.Label>
+      <Form.Label className='mb-0 text-light'>Contraseña</Form.Label>
       <InputGroup className="mb-3">
         <Form.Control
         disabled={disabled}

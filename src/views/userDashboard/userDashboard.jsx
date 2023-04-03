@@ -6,13 +6,14 @@ import { Row, Col } from "react-bootstrap";
 import MyInfo from "./myInfo";
 import Wave from "react-wavify";
 import {Image} from "react-bootstrap";
+import css from './userDashboard.css'
 
 function UserDashboard({ URL, token }) {
   const [currentComponent, setCurrentComponent] = useState(
     <MyInfo URL={URL} token={token} />
   );
 
-  return <div>
+  return <div className="user-dashboard">
            <div className='bannerContainer'>
          <Image
     className="mb-2 mt-2"
@@ -29,12 +30,12 @@ function UserDashboard({ URL, token }) {
     speed: 0.15,
     points: 5,}} />
 
-    <div className="mt-4 container" style={{ minHeight: "80vh" }}>
+    <div className="mt-4 container glass-bg p-5">
       <Row>
         <Col md={4}>
           <div className="d-flex flex-column text-center container">
             <Button
-            className="my-2"
+            className="my-2 btn-dashboard"
               variant="primary"
               onClick={() =>
                 setCurrentComponent(
@@ -45,7 +46,7 @@ function UserDashboard({ URL, token }) {
               Mi información
             </Button>
             <Button
-            className="my-2"
+            className="my-2 btn-dashboard"
               variant="primary"
               onClick={() =>
                 setCurrentComponent(
@@ -56,7 +57,7 @@ function UserDashboard({ URL, token }) {
               Cambiar nombre de usuario
             </Button>
             <Button
-            className="my-2"
+            className="my-2 btn-dashboard"
               variant="primary"
               onClick={() =>
                 setCurrentComponent(

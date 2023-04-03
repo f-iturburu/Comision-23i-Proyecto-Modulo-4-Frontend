@@ -71,7 +71,7 @@ const ChangePasswordComponent = ({URL,token}) =>{
     />
    </div>
        <div className='d-flex flex-column mx-auto'>
-        <Form.Label>Contraseña actual</Form.Label>
+        <Form.Label className='text-light'>Contraseña actual</Form.Label>
      <InputGroup className="mb-3">
        <Form.Control
        disabled={disabled}
@@ -84,7 +84,7 @@ const ChangePasswordComponent = ({URL,token}) =>{
        />
        <Button disabled={disabled} variant="outline-primary" onClick={()=> setShowOldPassword(!showOldPassword)}> {showOldPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
      </InputGroup>
-       <Form.Label className='mb-0'>Nueva contraseña</Form.Label>
+       <Form.Label className='mb-0 text-light'>Nueva contraseña</Form.Label>
        <Form.Text className='mb-1 mt-0' muted>
               Su nueva contraseña debe ser de un minimo de 8 caracteres y debe contener al menos una letra y un número.
              </Form.Text>

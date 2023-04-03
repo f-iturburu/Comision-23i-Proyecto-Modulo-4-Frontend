@@ -8,8 +8,10 @@ import SurveyActivity from "./components/SurveyActivityChart";
 import {Image} from "react-bootstrap";
 import Wave from "react-wavify";
 
+
 function SurveyDetails({ URL, token }) {
   const [data, setData] = useState();
+  const [error, setError] = useState(false)
   const [components,setComponents] = useState()
   const [loader, setLoader] = useState()
   const { id } = useParams();
@@ -39,18 +41,27 @@ function SurveyDetails({ URL, token }) {
             setData(data)
       }
     } catch (error) {
-        console.log(error);
+      setError(true)
     }
   };
 
   const RenderHandler = () =>{
     if (loader) {
       return <Loader/>
-    } else{
-      return <div>
+    } else if(error){
+      return <div className="text-center">
+      <Image fluid={true} src="/src/assets/img/Error message/error1.png" />
+    </div>
+    }else if(data?.surveyQuestions[0].userAnswers.length == 0){
+   return <div className="text-center">
+     <Image fluid={true} src="/src/assets/img/survey with no answers/Vaya, parece que no has creado una encuesta todavía.png" />
+   </div>
+   
+    }else{
+      return <div className="glass-bg p-5">
         <div className="d-md-flex w-100 border-bottom mt-3">
-        <h4 className="me-auto w-75">{data?.name}</h4>
-          <p><i className="mx-1 bi bi-clock"></i> Fecha de subida  <span className="text-muted">{data?.createDate.slice(0,10)} </span></p>
+        <h4 className="me-auto w-75 text-light fw-bold">{data?.name}</h4>
+          <p className="text-light"><i className="mx-1 bi bi-clock"></i> Fecha de subida  <span className="text-muted fw-bold">{data?.createDate.slice(0,10)} </span></p>
         </div>
         {components}
         <SurveyActivity questions={data}/>
@@ -73,7 +84,7 @@ height: 15,
 amplitude: 50,
 speed: 0.15,
 points: 5,}} />;
-  <Container style={{minHeight:'40vh'}}>
+  <Container className="survey-details-components" style={{minHeight:'40vh'}}>
      <RenderHandler/>
 </Container>
   </>

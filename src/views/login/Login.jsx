@@ -2,19 +2,20 @@ import React, { useRef } from "react";
 import { useState } from "react";
 import { Alert, Container, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { Button } from "react-bootstrap";
 import AlertDismissible from "../../layouts/alert";
 import Swal from "sweetalert2";
 import Wave from "react-wavify";
 import {Image} from "react-bootstrap";
 import axios from "axios";
-
+import InputGroup from 'react-bootstrap/InputGroup';
+import {Spinner} from "react-bootstrap";
 function Login ({ URL }) {
   const userInput = useRef()
   const passwordInput = useRef()
   const [errorMessage, setErrorMessage] = useState('');
   const [loginLoading, setLoginLoading] = useState(false)
-
+  const [showPassword,setShowPassword] = useState(false)
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -46,7 +47,6 @@ function Login ({ URL }) {
         setLoginLoading(false)
         return setErrorMessage(<AlertDismissible message={'Lo sentimos, ha ocurrido un error, intente de nuevo mas tarde.'} state={true}/>)
       }
-  
     }
   };
 
@@ -82,14 +82,17 @@ points: 5,}} />;
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label className="text-light">Contraseña</Form.Label>
+            <InputGroup>
             <Form.Control
-              type="password"
+               type={showPassword? 'text': 'password'}
               placeholder="Ingrese su contraseña"
               name="password"
               required
               maxLength='30'
               ref= {passwordInput}   
             />
+            <Button className="sign-in-button" variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
+            </InputGroup>
           </Form.Group>
           <Link
             to="/register"
@@ -99,16 +102,26 @@ points: 5,}} />;
           </Link>
           <div className="text-center">
 
-<div className="text-end">
+          <div className="text-end">
           <Button
               type="primary"
               loading={loginLoading}
               onClick={handleSubmit}
             >
-              Ingresar
+             {!loginLoading? 'Ingresar' : <>
+             <Spinner
+              className="me-2"
+          as="span"
+          animation="border"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        /> 
+            Ingresar
+             </> }
             </Button>
   
-</div>
+         </div>
           </div>
         </Form>
           {errorMessage}
