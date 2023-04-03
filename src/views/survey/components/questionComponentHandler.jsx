@@ -44,12 +44,12 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
     };
 
     return (
-      <Form form={form} >
+      <Form className="text-light" form={form} >
       <div className='w-100 text-center pt-3'>
-      <h3>{surveyTitle}</h3>
-      <h5>{surveyDescription}</h5>
+      <h3 className='fw-bold'>{surveyTitle}</h3>
+      <h5 className='fw-normal'>{surveyDescription}</h5>
       </div>
-    <h5>{question.question}</h5>
+      <h5 className='fw-light'>{question.question}</h5>
     <Form.Item 
      style={{width:'50%'}}
       name={'text'+ question.question}
@@ -90,15 +90,14 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
     };
 
       return (
-        <Form form={form} initialValues={0}>
+        <Form className="text-light" form={form} initialValues={0}>
         <div className='w-100 text-center pt-3'>
-              <h3>{surveyTitle}</h3>
-              <h5>{surveyDescription}</h5>
-              </div>
-        <h5>{question.question}</h5>
+        <h3 className='fw-bold'>{surveyTitle}</h3>
+      <h5 className='fw-normal'>{surveyDescription}</h5>
+      </div>
+      <h5 className='fw-light'>{question.question}</h5>
             <Form.Item
-
-              name={"Numbers"+ question.question}
+            name={"Numbers"+ question.question}
              rules={[
                 {
                   required: true,
@@ -110,7 +109,7 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
       hasFeedback
       
             >
-            <Input style={{width:"30%"}} placeholder="Ingrese un valor númerico" min={1} onChange={(e)=> handleData(e.target.value)}/>
+            <Input style={{width:"30%"}} placeholder="Ingrese un valor númerico" min={1} onChange={(e)=> handleData(e.target.value)} maxLength={5}/>
               </Form.Item>
               </Form>
       )
@@ -128,14 +127,14 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
         setButtonDisabled(false)
     };
 
-    const radioButtons = question.possibleAnswers?.map((i)=>  <Radio style={{marginLeft:'0'}} key={i} value={i}>{i}</Radio>)
+    const radioButtons = question.possibleAnswers?.map((i)=>  <Radio className='text-light' style={{marginLeft:'0'}} key={i} value={i}>{i}</Radio>)
     return (
-       <Form form={form} >
+       <Form className="text-light" form={form} >
          <div className='w-100 text-center pt-3'>
-           <h3>{surveyTitle}</h3>
-           <h5>{surveyDescription}</h5>
-         </div>
-         <h5>{question.question}</h5>
+         <h3 className='fw-bold'>{surveyTitle}</h3>
+      <h5 className='fw-normal'>{surveyDescription}</h5>
+      </div>
+      <h5 className='fw-light'>{question.question}</h5>
          <p className='text-muted'>Solo puedes seleccionar una opción.</p>
     <Form.Item  
      style={{width:'50%'}}
@@ -164,15 +163,15 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
       }
     };
     
-    const checkboxButtons = question.possibleAnswers?.map((i)=> <Checkbox style={{marginLeft:'0'}} key={i} value={i}>{i}</Checkbox>)
+    const checkboxButtons = question.possibleAnswers?.map((i)=> <Checkbox className='text-light checkbox-class' style={{marginLeft:'0'}} key={i} value={i}>{i}</Checkbox>)
     const CheckboxGroup = Checkbox.Group;
     return(
-    <Form  form={form} >
+    <Form  className="text-light" form={form} >
     <div className='w-100 text-center pt-3'>
-      <h3>{surveyTitle}</h3>
-      <h5>{surveyDescription}</h5>
+      <h3 className='fw-bold'>{surveyTitle}</h3>
+      <h5 className='fw-normal'>{surveyDescription}</h5>
       </div>
-      <h5>{question.question}</h5>
+      <h5 className='fw-light'>{question.question}</h5>
       <p className='text-muted'>Puedes seleccionar una o mas opciones.</p>
     <Form.Item
      style={{width:'50%'}}

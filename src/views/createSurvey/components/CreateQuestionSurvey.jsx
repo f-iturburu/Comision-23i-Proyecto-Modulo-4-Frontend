@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import AlertDismissible from "../../../layouts/alert";
 import TooltipQuestionmark from "../../../layouts/tooltip";
-
+import css from "./createSurvey.css"
 
 
 function CreateQuestionSurvey({id, data, setData , setSurveyQuestions, showDeleteState}) {
@@ -267,7 +267,7 @@ const deleteQuestionsHandler = () =>{
  }
 
   return (
-    <Stack>
+    <Stack className=" create-survey">
     <Form className="border-top border-dark pt-3">
       <Form.Group className="mb-3">
         <Row>

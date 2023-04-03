@@ -7,7 +7,7 @@ import {
 import Navigation from "./layouts/Navigation";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import ProtectedAdminRoute from "./routes/ProtectedAdminRoutes";
-import About from "./views/about/About";
+import AboutUs from "./views/aboutUs/aboutUs";
 import Contact from "./views/contact/Contact";
 import Error404 from "./views/error404/Error404";
 import Home from "./views/home/Home";
@@ -18,10 +18,8 @@ import MySurveys from "./views/mySurveys/mySurveys";
 import AdminView from "./views/admin/admin";
 import SurveyDetails from "./views/surveyDetails/surveyDetails";
 import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
-import Footer from "./layouts/Footer";
+import Footer from "./layouts/footer/Footer";
 import UserDashboard from "./views/userDashboard/userDashboard";
-
-
 
 const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
 const USER_LOGIN_KEY = import.meta.env.VITE_USER_LOGIN_KEY;
@@ -40,7 +38,6 @@ const App = () => {
       <main>
         <Routes>
           <Route exact path="/" element={<Home URL={URL}/>} />
-          <Route exact path="/about" element={<About />} />
           <Route
             path="/survey/:id"
             element={
@@ -60,7 +57,7 @@ const App = () => {
 
           <Route
             exact
-            path="/contact"
+            path="/contactUs"
             element={<Contact />}
           />
           <Route
@@ -101,6 +98,13 @@ const App = () => {
             path="/login"
             element={
               <Login URL={URL} />
+            }
+          />
+            <Route
+            exact
+            path="/aboutUs"
+            element={
+              <AboutUs />
             }
           />
           <Route

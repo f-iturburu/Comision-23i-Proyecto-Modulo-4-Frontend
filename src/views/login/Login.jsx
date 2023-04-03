@@ -2,17 +2,20 @@ import React, { useRef } from "react";
 import { useState } from "react";
 import { Alert, Container, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { Button } from "react-bootstrap";
 import AlertDismissible from "../../layouts/alert";
 import Swal from "sweetalert2";
+import Wave from "react-wavify";
+import {Image} from "react-bootstrap";
 import axios from "axios";
-
+import InputGroup from 'react-bootstrap/InputGroup';
+import {Spinner} from "react-bootstrap";
 function Login ({ URL }) {
   const userInput = useRef()
   const passwordInput = useRef()
   const [errorMessage, setErrorMessage] = useState('');
   const [loginLoading, setLoginLoading] = useState(false)
-
+  const [showPassword,setShowPassword] = useState(false)
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -44,18 +47,30 @@ function Login ({ URL }) {
         setLoginLoading(false)
         return setErrorMessage(<AlertDismissible message={'Lo sentimos, ha ocurrido un error, intente de nuevo mas tarde.'} state={true}/>)
       }
-  
     }
   };
 
-  return (
+  return <>
+      <div className='bannerContainer'>
+<Image
+className="mb-2 mt-2"
+style={{maxHeight:'12vh'}}
+fluid={true}
+src="/src/assets/img/Sign in/ingreso negro.png"
+/>
+</div>
+<Wave  fill='#7531f9'
+style={{transform:'rotateX(180deg)'}}
+paused={false} options={{
+height: 15,
+amplitude: 50,
+speed: 0.15,
+points: 5,}} />;
     <div>
-      <Container className="py-5">
-        <h1>Login</h1>
-        <hr />
+      <Container className="p-4 glass-bg">
         <Form className="my-5">
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email o nombre de usuario</Form.Label>
+            <Form.Label className="text-light">Email o nombre de usuario</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese su nombre de usuario o dirección de correo electrónico"
@@ -66,15 +81,18 @@ function Login ({ URL }) {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password*</Form.Label>
+            <Form.Label className="text-light">Contraseña</Form.Label>
+            <InputGroup>
             <Form.Control
-              type="password"
+               type={showPassword? 'text': 'password'}
               placeholder="Ingrese su contraseña"
               name="password"
               required
               maxLength='30'
               ref= {passwordInput}   
             />
+            <Button className="sign-in-button" variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
+            </InputGroup>
           </Form.Group>
           <Link
             to="/register"
@@ -84,19 +102,32 @@ function Login ({ URL }) {
           </Link>
           <div className="text-center">
 
+          <div className="text-end">
           <Button
               type="primary"
               loading={loginLoading}
               onClick={handleSubmit}
             >
-              Ingresar
+             {!loginLoading? 'Ingresar' : <>
+             <Spinner
+              className="me-2"
+          as="span"
+          animation="border"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+        /> 
+            Ingresar
+             </> }
             </Button>
+  
+         </div>
           </div>
         </Form>
           {errorMessage}
       </Container>
     </div>
-  );
+  </>
 };
 
 export default Login

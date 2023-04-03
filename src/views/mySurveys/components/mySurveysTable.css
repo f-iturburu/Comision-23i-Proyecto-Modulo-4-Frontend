@@ -1,0 +1,10 @@
+.my-surveys-table .ant-pagination-item {
+    border: 1px solid #ffffff;
+    color: black !important;
+    background: #ffffff !important;
+    border-radius: px solid black !important;
+  }
+  
+ .my-surveys-table .ant-pagination-item-active{
+    border: 1px solid #ffffff !important;
+  }

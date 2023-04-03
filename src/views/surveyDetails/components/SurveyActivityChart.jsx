@@ -31,6 +31,7 @@ data.push({ date: "2023-04-5", answers: 9})
 
   const config = {
     data,
+    theme: 'dark',
     padding: "auto",
     xField: "date",
     yField: "answers",
@@ -43,7 +44,7 @@ data.push({ date: "2023-04-5", answers: 9})
   };
 
   return <div className="mt-4 mb-4">
-    <h4>Actividad de la encuesta</h4>
+    <h4 className="text-light">Actividad de la encuesta</h4>
     <p className="text-muted pb-3">Cantidad de respuestas en funcion del tiempo</p>
       <Line {...config} />
   </div>

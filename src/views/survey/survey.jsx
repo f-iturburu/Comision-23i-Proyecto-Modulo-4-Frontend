@@ -5,6 +5,9 @@ import Loader from "../../components/loader/loader";
 import axios from "axios";
 import todayDate from "../../helpers/todayDate";
 import compareDates from "../../helpers/compareDates";
+import { Image } from "react-bootstrap";
+import Wave from "react-wavify";
+import css from './components/survey.css'
 
 const Survey = ({URL,token}) =>{
     const [data, setData] = useState()
@@ -60,7 +63,22 @@ const Survey = ({URL,token}) =>{
   }
 
     return <>
-    <div className="container mt-5">
+          <div className='bannerContainer'>
+<Image
+className="mb-2 mt-2"
+style={{maxHeight:'12vh'}}
+fluid={true}
+src="/src/assets/img/survey/responder encuesta negro.png"
+/>
+</div>
+<Wave  fill='#7531f9'
+style={{transform:'rotateX(180deg)'}}
+paused={false} options={{
+height: 15,
+amplitude: 50,
+speed: 0.15,
+points: 5,}} />;
+    <div className="container mt-5 survey-form" style={{minHeight:'32vh'}}>
       <RenderHandler />
     </div>
     </>

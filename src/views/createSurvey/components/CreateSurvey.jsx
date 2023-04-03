@@ -11,6 +11,8 @@ import compareDates from "../../../helpers/compareDates";
 import TooltipQuestionmark from "../../../layouts/tooltip";
 import Swal from 'sweetalert2'
 import SpinnerLoader from "../../../components/spinner/spinner";
+import Wave from "react-wavify";
+import { Image } from "react-bootstrap";
 import axios from "axios";
 
 function CreateNewSurveyForm({URL, token}) {
@@ -369,7 +371,22 @@ const handleSubmit  = () =>{
   
   return (
     <>  
-          <Container className="mt-5 mb-3 p-4 border border-1 border-dark rounded-4">
+    <div className='bannerContainer'>
+<Image
+className="mb-2 mt-2"
+style={{maxHeight:'15vh'}}
+fluid={true}
+src="/src/assets/img/Create survey/crea tu propia encuesta negro.png"
+/>
+</div>
+<Wave  fill='#7531f9'
+style={{transform:'rotateX(180deg)'}}
+paused={false} options={{
+height: 15,
+amplitude: 50,
+speed: 0.15,
+points: 5,}} />;   
+          <Container className="mt-5 mb-3 p-4 glass-bg rounded-4 text-light">
           <Form.Select
            className="w-50 mb-2"
               defaultValue={"default"}
@@ -437,17 +454,15 @@ const handleSubmit  = () =>{
           {emptyQuestionErrorMessage}
           {emptyCategoryErrorMessage}
           </div>
-   
-      
+
         <Stack className="container-fluid" direction="horizontal" gap={3}>
-         <Button variant="outline-success" onClick={componentQuestionsHandler}>Añadir pregunta</Button>
+         <Button className="add-survey-button" variant="outline-success" onClick={componentQuestionsHandler}>Añadir pregunta</Button>
          <h5 className="my-auto me-auto">{SurveyQuestions.length}/7</h5>
           <Button variant="primary" onClick={handleSubmit}>
             {isLoading? <SpinnerLoader /> : 'Guardar'}
           </Button>
       </Stack>
           </Container>
-       
           </>
 
 )

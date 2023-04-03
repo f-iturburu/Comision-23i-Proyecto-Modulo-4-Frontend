@@ -8,15 +8,21 @@
   border-radius: 1rem;
   border: 1px solid rgba(0, 0, 0, 0);
   background: rgba(27, 27, 27, 0);
+  font-weight: 600 !important;
   color: white ;
 }
 
 .nav-link:hover {
-    transform: scale(1.05);
-    border: 1px solid black;
-    box-shadow: 0 0.2rem #00000042;
-    transition-duration: 0.5s;
-    background-color: rgba(255, 0, 179, 0);
+  color: white !important;
+  transition-duration: 0.4s;
+}
+
+.active{
+  color: white !important
+}
+.dropdownItem:hover{
+  color: #7531f9 !important;
+  transition-duration: 0.4s;
 }
 
 

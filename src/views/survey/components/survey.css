@@ -1,0 +1,18 @@
+.survey-form input:disabled::placeholder{
+    color: rgb(158, 158, 158) !important;
+    background-color: transparent !important;
+  }
+
+  .survey-form input:disabled{
+    background-color: transparent !important;
+  }
+
+  .survey-form input{
+    color: black !important;
+    background-color: transparent !important;
+  }
+
+
+.survey-form .checkbox-class span {
+ color: white !important;
+}

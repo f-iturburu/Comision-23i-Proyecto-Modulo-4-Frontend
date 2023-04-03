@@ -6,6 +6,7 @@ import AlertDismissible from '../../layouts/alert';
 import axios from 'axios';
 import {Spinner} from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import {Image} from 'react-bootstrap';
 
 const ChangePasswordComponent = ({URL,token}) =>{  
     const [showOldPassword, setShowOldPassword] = useState(false)
@@ -60,8 +61,17 @@ const ChangePasswordComponent = ({URL,token}) =>{
             }
         }
     }
-       return <div className='d-flex flex-column mx-auto'>
-        <Form.Label>Contraseña actual</Form.Label>
+       return <>
+               <div className="text-center">
+         <Image
+    className="mb-2 mt-2"
+     style={{maxHeight:'14vh'}}
+      fluid={true}
+      src="/src/assets/img/Change password/Cambiar contraseña blanco .png"
+    />
+   </div>
+       <div className='d-flex flex-column mx-auto'>
+        <Form.Label className='text-light'>Contraseña actual</Form.Label>
      <InputGroup className="mb-3">
        <Form.Control
        disabled={disabled}
@@ -74,7 +84,7 @@ const ChangePasswordComponent = ({URL,token}) =>{
        />
        <Button disabled={disabled} variant="outline-primary" onClick={()=> setShowOldPassword(!showOldPassword)}> {showOldPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
      </InputGroup>
-       <Form.Label className='mb-0'>Nueva contraseña</Form.Label>
+       <Form.Label className='mb-0 text-light'>Nueva contraseña</Form.Label>
        <Form.Text className='mb-1 mt-0' muted>
               Su nueva contraseña debe ser de un minimo de 8 caracteres y debe contener al menos una letra y un número.
              </Form.Text>
@@ -110,6 +120,8 @@ const ChangePasswordComponent = ({URL,token}) =>{
          <Button disabled={disabled ? disabled : loading} onClick={submitHandler}>{loading? <><Spinner animation="border" size="sm"/> Guardar cambios</>: "Guardar cambios" }</Button>
      </div>
        </div>
+       </>
+       
 
 }
 

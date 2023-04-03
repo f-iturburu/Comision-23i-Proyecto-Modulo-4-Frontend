@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Form, Input, Button, InputNumber,Radio, Checkbox, Table, Switch } from 'antd';
 import { Pie } from "@ant-design/plots";
 import { Column } from '@ant-design/plots';
+import css from './surveyComponents.css'
 
 const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
 
@@ -42,7 +43,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     ];
 
     return <>
-    <p className="mt-3">{questionNumber}- {question.question}</p>
+    <p className="mt-3 text-light">{questionNumber}- {question.question}</p>
     <Form disabled={true}>
     <Form.Item 
     style={{width:'50%'}}
@@ -85,6 +86,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
       data,
       xField: 'value',
       yField: 'matchingAnswers',
+      theme: 'dark',
       label: {
         position: 'middle',
         style: {
@@ -142,7 +144,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     ];
 
     return <>
-    <p className="mt-3">{questionNumber}- {question.question}</p>
+    <p className="mt-3 text-light">{questionNumber}- {question.question}</p>
     <Form disabled={true}>
     <Form.Item>
 <Input style={{width:"45%"}} placeholder="Valor númerico"/>
@@ -151,10 +153,9 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     <div className='containerTable'>
     <Table columns={columns}  dataSource={question.userAnswers} pagination={{pageSize: 5}}>
     </Table>
-
-    <div className="mt-5">
-     <Column {...config} />
     </div>
+    <div className="mt-5 mb-4">
+     <Column {...config} />
     </div>
     </>
   }
@@ -165,7 +166,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     const userAnswersArray = []
     let destructuring = question.userAnswers.map((i)=> i.userAnswer)
 
-    const radioButtons = data.map((i)=> <Radio key={i.type} value={i.type}>{i.type}</Radio>)
+    const radioButtons = data.map((i)=> <Radio className="text-light" key={i.type} value={i.type}>{i.type}</Radio>)
     for (let i = 0; i < destructuring.length; i++) {
        destructuring[i].map((i)=>{
         return userAnswersArray.push(i.answers.toString())
@@ -183,6 +184,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     const config = {
       appendPadding: 10,
       data,
+      theme: 'dark',
       angleField: 'value',
       colorField: 'type',
       radius: 0.9,
@@ -207,15 +209,18 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
 
     
     return <>
-     <p className="mt-3">{questionNumber }- {question.question}</p>
+     <p className="mt-3 text-light">{questionNumber }- {question.question}</p>
      <p className='text-muted fst-italic'>Pregunta de opción única.</p>
       <Form disabled={true}>
-        <Radio.Group style={{display:'flex', flexDirection: 'column'}}>
+        <Radio.Group className="mb-3" style={{display:'flex', flexDirection: 'column'}}>
         {radioButtons}
 
         </Radio.Group>
       </Form>
+      <div className="mb-4">
     <Pie {...config} />
+        
+      </div>
     </>
     
   };
@@ -228,7 +233,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     destructuring = destructuring.map((i)=> i[0].answers)
 
     const userAnswersArray = destructuring.flat(1)
-    const CheckboxButtons = data.map((i)=> <Checkbox className="ms-0" key={i.type} value={i.type}>{i.type}</Checkbox>)
+    const CheckboxButtons = data.map((i)=> <Checkbox className="ms-0 text-light" key={i.type} value={i.type}>{i.type}</Checkbox>)
 
    for (let i = 0; i < data.length; i++) {
        for (let j = 0; j < userAnswersArray.length; j++) {
@@ -241,6 +246,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     const config = {
       appendPadding: 0,
       data,
+      theme: 'dark',
       angleField: 'value',
       colorField: 'type',
       autoFit: 'true', 
@@ -265,14 +271,17 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     };
  
     return <>
-     <p className="mt-3">{questionNumber }- {question.question}</p>
+     <p className="mt-3 text-light">{questionNumber }- {question.question}</p>
      <p className='text-muted fst-italic'>Pregunta de opción multiple.</p>
       <Form disabled={true}>
-        <Checkbox.Group style={{display:'flex', flexDirection: 'column'}}>
+        <Checkbox.Group className="mb-3" style={{display:'flex', flexDirection: 'column'}}>
         {CheckboxButtons}
         </Checkbox.Group>
       </Form>
+      <div className="mb-4">
     <Pie {...config} />
+        
+      </div>
     </>
     
   }

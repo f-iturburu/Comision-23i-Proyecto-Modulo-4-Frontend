@@ -6,9 +6,9 @@ import { Pagination } from "antd";
 import axios from "axios";
 import Loader from "../../components/loader/loader";
 import CarouselHome from "./components/carousel";
-import css from './Home.css';
-
-
+import Image from "react-bootstrap/Image";
+import Wave from 'react-wavify'
+import css from "./Home.css";
 
 const { Search } = Input;
 
@@ -19,6 +19,7 @@ const Home = ({ URL }) => {
   const [searchName, setSearchName] = useState("");
   const [searchCategories, setSearchCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(false)
 
   useEffect(() => {
     setLoading(true);
@@ -48,14 +49,14 @@ const Home = ({ URL }) => {
                 id={i._id}
                 surveyDescription={i.description}
                 surveyEndDate={i?.endDate}
-                createdAt={i?.createdAt.slice(0,10)}
+                createdAt={i?.createdAt.slice(0, 10)}
               />
             ))
             .reverse()
         );
       }
     } catch (error) {
-      console.log(error);
+      setFetchError(true)
     }
   };
 
@@ -142,25 +143,17 @@ const Home = ({ URL }) => {
   const endIndex = startIndex + pageSize;
   const currentPageSurveys = surveysComponents.slice(startIndex, endIndex);
 
-  return (
-    <>
-      <CarouselHome />
-      <div className="container mt-3">
-        <div className="d-md-flex mb-3 justify-content-center">
-          <Search
-            className="w-50"
-            placeholder="Buscar por titulo de la encuesta"
-            onSearch={onSearch}
-          />
-          <Dropdown menu={{ items }} placement="bottom" className="ms-3">
-            <Button>Buscar por categoria</Button>
-          </Dropdown>
-        </div>
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            <div className=" d-flex flex-column justify-content-center">
+const RenderHandler = () =>{
+  if (loading) {
+    return  <Loader />
+  }else if (fetchError){
+    return  <div className="text-center">
+      <Image fluid={true} src="/src/assets/img/Error message/error1.png"/>
+    </div>
+    
+  }else{
+    return  <>
+        <div className=" d-flex flex-column justify-content-center">
               {currentPageSurveys}
             </div>
             <div className="d-flex w-100 justify-content-center mb-3">
@@ -174,12 +167,44 @@ const Home = ({ URL }) => {
                 />
               </div>
             </div>
-          </>
-        )}
-      </div>
     </>
-  );
+  }
+}
+  return  <>
+      <CarouselHome />
+       <Wave  fill='#7531f9'
+        style={{transform:'rotateX(180deg)'}}
+       paused={false} options={{
+        height: 15,
+    amplitude: 50,
+    speed: 0.15,
+    points: 5,}} />
 
+      
+<div className="text-center">
+        <Image
+        className="mb-2"
+         style={{maxHeight:'15vh'}}
+          fluid={true}
+          src="/src/assets/img/Home/Últimas encuestas blanco.png"
+        />
+</div>
+
+      <div className="container mt-3">
+        <div className="d-md-flex mb-3 justify-content-center">
+          <Search
+            className="w-50"
+            placeholder="Buscar por titulo de la encuesta"
+            onSearch={onSearch}
+          />
+          <Dropdown menu={{ items }} placement="bottom" className="ms-3">
+            <Button>Buscar por categoria</Button>
+          </Dropdown>
+        </div> 
+      </div>
+
+      <RenderHandler />
+    </>
 };
 
 export default Home;

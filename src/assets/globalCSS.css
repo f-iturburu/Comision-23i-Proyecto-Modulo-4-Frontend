@@ -2,8 +2,37 @@
   font-family: "Montserrat", sans-serif;
 }
 
+.bannerContainer{
+  background-color: #7531f9;
+  display: flex;
+  justify-content: center;
+}
 .ant-picker-dropdown {
   z-index: 5000;
+}
+
+.flipContainer{
+  transform: rotateX(180deg);
+}
+
+.sign-up-button{
+  background-color: #5f26d1 !important;
+  border: 1px solid #5f26d1 !important;
+}
+
+.sign-up-button:hover{
+  background-color: #5717d6 !important;
+  border: 1px solid #5717d6 !important;
+  box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.62);
+  -webkit-box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.62);
+  -moz-box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.62);
+}
+
+.sign-in-button:hover{
+   background-color: transparent !important;
+   box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.62);
+-webkit-box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.62);
+-moz-box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.62);
 }
 
 .bi {
@@ -11,25 +40,17 @@
   width: 3rem !important;
 }
 .containerTable{
-
     max-width: 100vw !important;
     overflow-x: auto;
 }
 
-@media all and (max-width: 576px) {
-    .imgcarousel {
-      object-fit: cover;
-    }
-  }
-  
   .imgcarousel{
-    /* max-height: 75vh; */
     object-fit: cover;
   }
 
  #root {
     background-color: #000000;
-    opacity: 0.8;
+    opacity: 0.9;
     background-image: radial-gradient(#ffffff17 2px, #000000 2px);
     background-size: 40px 40px;
   }  
@@ -43,7 +64,135 @@
 }
 
 .ant-pagination-item {
+  border: 1px solid #7531f9;
   background: #915AFA !important;
   border-radius: px solid black !important;
+}
+
+.ant-pagination-item-active{
+  border: 1px solid #7531f9 !important;
+}
+
+button:disabled{
+ background-color: #a5a5a5 !important;
+ color: #000000 !important;
+}
+.ant-steps-item-icon{
+  background-color: #7531f9 !important;
+  border: 1px solid #7531f9;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon{
+  background-color: #7531f9 !important;
+border: 1px solid #7531f9 !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon{
+  color: white !important;
+}
+
+.ant-steps-item-active .ant-steps-item-icon{
+  border: 1px solid #7531f9 !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-title::after{
+  background-color: #7531f9 !important;
+}
+
+.glass-bg{
+/* From https://css.glass */
+background: rgba(66, 65, 65, 0.205);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(75, 75, 75, 0.1);
+backdrop-filter: blur(2.9px);
+-webkit-backdrop-filter: blur(2.9px);
+}
+
+.swal2-modal{
+  background-color: #3d3d3d !important;
+  color: white !important;
+}
+
+.ant-steps-vertical {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.add-survey-button{
+ color: #ffffff !important;
+ border: 1px solid #ffffff !important;
+}
+
+.add-survey-button:hover{
+  color: white !important;
+  background-color: #7531f9 !important;
+  border: 1px solid #7531f9 !important;
+ }
+
+
+ input , textarea, select {
+  color: white !important;
+  background-color: rgb(0, 0, 0) !important;
+ }
+
+ ::placeholder{
+  color: rgb(122, 122, 122) !important;
+  }
+
+  :disabled{
+    background-color: grey !important;
+  }
+
+  .ant-picker-input input{
+    color: rgb(0, 0, 0) !important;
+    background-color: rgb(255, 255, 255) !important;
+   }
+
+   .ant-picker-input input::placeholder{
+    color: rgb(0, 0, 0) !important;
+   }
+
+   .btn-outline-primary{
+    color: white !important;
+    border: 1px solid white !important;
+   }
+
+   .btn-outline-primary:focus{
+    background-color: #7531f9 !important;
+    border: 1px solid #7531f9 !important;
+   }
+
+   .ant-picker-panel{
+    background-color: #353535 !important;
+   }
+
+   .ant-picker-panel button{
+    color: white !important;
+   }
+   .ant-picker-body th , td{
+    color: white !important;
+   }
+
+.ant-table{
+   background: rgba(66, 65, 65, 0.205) !important;
+    box-shadow: 0 4px 30px rgba(75, 75, 75, 0.1) !important;
+    backdrop-filter: blur(2.9px) !important;
+    -webkit-backdrop-filter: blur(2.9px) !important;
+}
+.ant-table-thead th{
+  background: rgba(105, 105, 105, 0.74) !important;
+  backdrop-filter: blur(2.9px) !important;
+  -webkit-backdrop-filter: blur(2.9px) !important;
+}
+
+.ant-table-cell-row-hover{
+  background-color: inherit !important;
+}
+
+@media (max-width: 576px){
+  .ant-steps-item-tail{
+   display: none !important;
+  }
+
 }
 

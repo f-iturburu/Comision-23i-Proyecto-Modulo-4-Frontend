@@ -6,12 +6,15 @@ import { Link } from "react-router-dom";
 import todayDate from '../../../helpers/todayDate';
 import compareDates from '../../../helpers/compareDates';
 import axios from 'axios';
-
+import Loader from '../../../components/loader/loader';
 import css from "./MySurveysTable.css"
+import { Image } from 'react-bootstrap';
 
 
 const AdminSurveysTable = ({URL, token}) => {
   const [loading, setLoading] = useState(false);
+  const [viewLoading, setViewLoading] = useState(true)
+  const [fetchError, setFetchError] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [data, setData] = useState([]);
   const [fetchApi, setFetchApi] = useState(true)
@@ -22,6 +25,7 @@ const AdminSurveysTable = ({URL, token}) => {
       getAllSurveys().then(()=>{
         setDeleteLoading(false);
         setFetchApi(false)
+        setViewLoading(false)
       })   
       
     }
@@ -41,7 +45,7 @@ const AdminSurveysTable = ({URL, token}) => {
         setData(data) 
       }
     } catch (error) {
-      console.log(error);
+      setFetchError(true)
     }
  }
 
@@ -236,13 +240,34 @@ const AdminSurveysTable = ({URL, token}) => {
 
   ];
 
-
-  return (
-    <div className='containerTable'>
+const RenderHandler = () =>{
+  if (viewLoading) {
+    return <Loader />;
+  } else if (fetchError) {
+    return (
+      <div className="text-center">
+        <Image fluid={true} src="/src/assets/img/Error message/error1.png" />
+      </div>
+    );
+  } else if (data.length == 0) {
+    return (
+      <div className="text-center">
+        <Image
+          fluid={true}
+          src="/src/assets/img/No survey/Vaya, parece que no has creado una encuesta todavía (5).png"
+        />
+      </div>
+    );
+  } else {
+    return  <div className='containerTable'>
     <Table columns={columns}  dataSource={data} pagination={{pageSize: 10}}>
     </Table>
     </div>
-  );
+  }
+}
+  return <div className='admin-table' style={{minHeight:'40vh'}}>
+    <RenderHandler />
+  </div> 
 };
 
 export default AdminSurveysTable;

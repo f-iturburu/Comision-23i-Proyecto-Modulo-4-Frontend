@@ -1,80 +1,128 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
-import "./FooterStyles.css";
+import css from "./FooterStyles.css"
 
 
 const Footer = () => {
   return (
-    <>
-      <div className="footer">
-        <div className="top">
-          <div>
-            <h1>Rolling Surveys</h1>
-            <p>Creando datos, simplificando tus decisiones</p>
-          </div>
-          <div>
-            <a href="https://facebook.com/">
-              <i className="fa-brands fa-facebook-square"></i>
-            </a>
-            <a href="https://instagram.com/">
-              <i className="fa-brands fa-instagram-square"></i>
-            </a>
-            <a href="https://www.linkedin.com/">
-              <i className="fa-brands fa-linkedin "></i>
-            </a>
-            <a href="https://twitter.com/?lang=es">
-              <i className="fa-brands fa-twitter-square"></i>
-            </a>
-          </div>
-        </div>
+    <footer class="bg-black">
+      <div class="container mt-5">
+        <div class="row pb-1 text-white">
+          <div class="col-12 text-center p-4 py-2">
+            <div class="d-flex justify-content-center">
+              <div class="w-100 d-flex justify-content-center">
+                <div class="py-5 py-md-2 mx-3">
+                  <NavLink className="h5 text-secondary text-decoration-none "
+                    to="https://www.instagram.com/"
+                    target="_blank">
+                    
+                  <i class="fa-brands fa-instagram fa-2x"></i>
+                  </NavLink>    
+                </div>
+                <div class="py-5 py-md-2 mx-3">
+                  <NavLink
+                  className="h5 text-secondary text-decoration-none "
+                  to="https://www.facebook.com/"
+                  target="_blank"
+                  >
+                  <i class="fa-brands fa-facebook-f fa-2x"></i>
 
-        <div className="bottom">
-          <div>
-            <h4 className="text-uppercase fw-bold mb-4">Encuestas</h4>
-            <NavLink className="nav-link" to="/mysurveys">
-                Mis Encuestas
-            </NavLink>
-            <NavLink className="nav-link" to="/mysurveys">
-                Mis Encuestas
-            </NavLink>
-            <NavLink className="nav-link" to="/mysurveys">
-                Mis Encuestas
+                  </NavLink>
+                </div>
+                <div class="py-5 py-md-2 mx-3">
+                  <NavLink
+                   className="h5 text-secondary text-decoration-none"
+                   to="https://twitter.com"
+                   target="_blank">
+
+                  <i class="fa-brands fa-twitter fa-2x"></i>
+                  </NavLink>
+                </div>
+                <div class="py-5 py-md-2 mx-3">
+                <NavLink
+                 className="h5 text-secondary text-decoration-none  color-transparent"
+                 to="https://www.youtube.com/"
+                 target="_blank">
+                 <i class="fa-brands fa-youtube fa-2x"></i>
+                </NavLink>  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 p-4 py-2 text-center">
+            <NavLink to="/">
+              <img
+                src="/src/assets/img/Logo/RollingBlancofooter.png"
+                alt="Logo de RollingSurveys"
+                className="img-fluid logoFooter"
+              />
             </NavLink>
           </div>
-          <div>
-            <h4 className="text-uppercase fw-bold mb-4">Community</h4>
-            <NavLink className="nav-link" to="/home">
-                Inicio
-            </NavLink>
-            <NavLink className="nav-link" to="/about">
-                Sobre Nosotros
-            </NavLink>
-            <NavLink className="nav-link me-auto" to="/contact">
+
+          <div class="col-12 col-md-4 py-3 text-center text-md-start">
+            <div class="mb-1">
+              <div class="mb-1">
+                <NavLink
+                className="text-secondary text-start text-decoration-none itemFooter"
+                to="/aboutUs">
+                Sobre nosotros
+                </NavLink>
+              </div>
+              <div class="mb-1">
+                <NavLink
+                 className="text-secondary text-decoration-none itemFooter"
+                 to="/contactUs"
+                >
                 Contacto
-            </NavLink>
+                </NavLink>
+              </div>
+              <div class="mb-1">
+                <NavLink
+                className="text-secondary text-decoration-none itemFooter"
+                to="/help"
+                >
+                     Centro de ayuda
+                </NavLink>
+              </div>
+            </div>
           </div>
-          <div>
-            <h4 className="text-uppercase fw-bold mb-4">Ayuda</h4>
-            <a href="*">Terms of Service</a>
-            <a href="*">Privacy Policy</a>
-            <a href="*">License</a>
+          <div class="col-12 col-md-4 py-3 text-center text-md-start">
+            <div class="mb-1">
+              <div class="mb-1">
+                <NavLink
+                 className="text-secondary text-decoration-none itemFooter"
+                 to="/privacyPolicy"
+                >
+                Politica de privacidad
+                </NavLink>
+              </div>
+              <div class="mb-1">
+                <NavLink
+                 className="text-secondary text-decoration-none itemFooter"
+                 to="/cookiesPolicy"
+                >
+                    Preferencias de cookies
+                </NavLink>
+              </div>
+              <div class="mb-1">
+                <NavLink
+                 className="text-secondary text-decoration-none itemFooter"
+                 to="/legal"
+                >
+                Avisos legales
+                </NavLink>
+              </div>
+            </div>
           </div>
-          <div>
-            <h4 className="text-uppercase fw-bold mb-4">Contáctenos</h4>
-              <p><i className="fas fa-envelope me-3"></i>rollingsurveys@gmail.com</p>
-              <p><i className="fas fa-phone me-3"></i> 011 0303 456</p>
-              <p><i className="fas fa-home me-3"></i> Av. Presidente Julio A. Roca 609, CABA</p>
+          <div class="col-12 pt-2 border-top border-2">
+            <p class="text-white text-center">
+              &copy; 2023 <b>Rolling Surveys</b> - Todos los Derechos
+              Reservados.
+            </p>
           </div>
         </div>
-        <hr/>
-        <div className="bg-red py-4">
-        <p className="m-0 fs-5 text-center">
-          Rolling Surveys. All rights reserved &copy;
-        </p>
       </div>
-      </div>
-    </>
+    </footer>
   );
 };
 
