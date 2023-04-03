@@ -1,0 +1,9 @@
+.user-dashboard input:disabled::placeholder{
+  color: rgb(0, 0, 0) !important;
+}
+   
+.btn-dashboard:hover{
+   background-color: #7531f9 !important;
+   color: white !important;
+   border: 1px solid #7531f9 !important ;
+}

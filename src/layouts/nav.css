@@ -1,0 +1,29 @@
+.nav {
+  font-family: "Montserrat", sans-serif;
+  background: #7531F9; 
+}
+
+.nav-link {
+  margin: 5px;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0);
+  background: rgba(27, 27, 27, 0);
+  font-weight: 600 !important;
+  color: white ;
+}
+
+.nav-link:hover {
+  color: white !important;
+  transition-duration: 0.4s;
+}
+
+.active{
+  color: white !important
+}
+.dropdownItem:hover{
+  color: #7531f9 !important;
+  transition-duration: 0.4s;
+}
+
+
+

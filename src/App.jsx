@@ -1,34 +1,125 @@
-import { useState } from 'react'
-import reactLogo from './assets/img/react.svg'
-import './App.css'
+import React from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Navigation from "./layouts/Navigation";
+import ProtectedRoute from "./routes/ProtectedRoutes";
+import ProtectedAdminRoute from "./routes/ProtectedAdminRoutes";
+import AboutUs from "./views/aboutUs/aboutUs";
+import Contact from "./views/contact/Contact";
+import Error404 from "./views/error404/Error404";
+import Home from "./views/home/Home";
+import Login from "./views/login/Login";
+import SignUp from "./views/signUp/signUp";
+import Survey from "./views/survey/survey";
+import MySurveys from "./views/mySurveys/mySurveys";
+import AdminView from "./views/admin/admin";
+import SurveyDetails from "./views/surveyDetails/surveyDetails";
+import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
+import Footer from "./layouts/footer/Footer";
+import UserDashboard from "./views/userDashboard/userDashboard";
 
-function App() {
-  const [count, setCount] = useState(0)
+const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
+const USER_LOGIN_KEY = import.meta.env.VITE_USER_LOGIN_KEY;
+const URL = import.meta.env.VITE_BASE_API_URL;
+
+const App = () => {
+ const token = JSON.parse(localStorage.getItem("user-token")) || []
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <Navigation
+        adminLoginKey={ADMIN_LOGIN_KEY}
+        userLoginKey={USER_LOGIN_KEY}
+      />
 
-export default App
+      <main>
+        <Routes>
+          <Route exact path="/" element={<Home URL={URL}/>} />
+          <Route
+            path="/survey/:id"
+            element={
+              <ProtectedRoute>
+                <Survey URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/survey/newsurvey"
+            element={
+              <ProtectedRoute>
+                <CreateNewSurveyForm URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            exact
+            path="/contactUs"
+            element={<Contact />}
+          />
+          <Route
+            path="/mysurveys"
+            element={
+              <ProtectedRoute>
+                <MySurveys URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/survey/details/:id"
+            element={
+              <ProtectedRoute>
+                <SurveyDetails URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/userdashboard"
+            element={
+              <ProtectedRoute>
+                <UserDashboard URL={URL} token={token}/>
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <AdminView URL={URL} token={token}/>
+              </ProtectedAdminRoute>
+            }
+          />
+
+          <Route
+            exact
+            path="/login"
+            element={
+              <Login URL={URL} />
+            }
+          />
+            <Route
+            exact
+            path="/aboutUs"
+            element={
+              <AboutUs />
+            }
+          />
+          <Route
+            exact
+            path="/signup"
+            element={
+              <SignUp URL={URL}/>
+            }
+          />
+          <Route exact path="*" element={<Error404 />} />
+        </Routes>
+      </main>
+      <Footer/>
+    </BrowserRouter>
+  );
+};
+
+export default App;
