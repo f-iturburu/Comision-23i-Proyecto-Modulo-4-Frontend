@@ -50,11 +50,11 @@ function SurveyDetails({ URL, token }) {
       return <Loader/>
     } else if(error){
       return <div className="text-center">
-      <Image fluid={true} src="/public/assets/img/Error message/error1.png" />
+      <Image fluid={true} src="/assets/img/Error message/error1.png" />
     </div>
     }else if(data?.surveyQuestions[0].userAnswers.length == 0){
    return <div className="text-center">
-     <Image fluid={true} src="/public/assets/img/survey with no answers/Vaya, parece que no has creado una encuesta todavía.png" />
+     <Image fluid={true} src="/assets/img/survey with no answers/Vaya, parece que no has creado una encuesta todavía.png" />
    </div>
    
     }else{
@@ -74,7 +74,7 @@ function SurveyDetails({ URL, token }) {
 className="mb-2 mt-2"
 style={{maxHeight:'12vh'}}
 fluid={true}
-src="/public/assets/img/Survey details/Información detallada negro.png"
+src="/assets/img/Survey details/Información detallada negro.png"
 />
 </div>
 <Wave  fill='#7531f9'

@@ -67,7 +67,7 @@ const ChangePasswordComponent = ({URL,token}) =>{
     className="mb-2 mt-2"
      style={{maxHeight:'14vh'}}
       fluid={true}
-      src="/public/assets/img/Change password/Cambiar contraseña blanco .png"
+      src="/assets/img/Change password/Cambiar contraseña blanco .png"
     />
    </div>
        <div className='d-flex flex-column mx-auto'>

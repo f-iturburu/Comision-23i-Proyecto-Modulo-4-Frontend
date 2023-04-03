@@ -56,7 +56,7 @@ function Login ({ URL }) {
 className="mb-2 mt-2"
 style={{maxHeight:'12vh'}}
 fluid={true}
-src="/public/assets/img/Sign in/ingreso negro.png"
+src="/assets/img/Sign in/ingreso negro.png"
 />
 </div>
 <Wave  fill='#7531f9'
