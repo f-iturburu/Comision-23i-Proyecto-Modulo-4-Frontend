@@ -80,8 +80,8 @@ const SingleOptionComponent =() => {
       if (!optionsRegex.test(optionsRef.current.value)) {
         setErrorMessage(<AlertDismissible message={'La opcion ingresada es invalida'} state={true}/>)
         return [...prevArray]
-      }else if(radioSelectors.length >= 5 ){
-        setErrorMessage(<AlertDismissible message={'Has ingresado demasiadas opciones (máximo 5)'} state={true}  />)
+      }else if(radioSelectors.length >= 7 ){
+        setErrorMessage(<AlertDismissible message={'Has ingresado demasiadas opciones (máximo 7)'} state={true}  />)
         return [...prevArray]
       }else if (optionFound){ 
         setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
@@ -155,8 +155,8 @@ const MultipleOptionsComponent = () => {
         if (!optionsRegex.test(optionsRef.current.value)) {
           setErrorMessage(<AlertDismissible message={'La opcion ingresada es invalida'} state={true}/>)
           return [...prevArray]
-        }else if(checboxSelectors.length >= 5 ){
-          setErrorMessage(<AlertDismissible message={'Has ingresado demasiadas opciones (máximo 5)'} state={true}  />)
+        }else if(checboxSelectors.length >= 7 ){
+          setErrorMessage(<AlertDismissible message={'Has ingresado demasiadas opciones (máximo 7)'} state={true}  />)
           return [...prevArray]
         }else if (optionFound){ 
           setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
@@ -272,10 +272,10 @@ const deleteQuestionsHandler = () =>{
       <Form.Group className="mb-3">
         <Row>
           <Col xs={'5'}>
-            <Form.Control onChange={(e)=>setQuestion(e.target.value)} required maxLength='45' type="text" placeholder="Pregunta" />
+            <Form.Control onChange={(e)=>setQuestion(e.target.value)} required maxLength='80' type="text" placeholder="Pregunta" />
           </Col>
           <Col xs={'1'}>
-          <TooltipQuestionmark message={'La pregunta debe ser de entre 1 y 45 caracteres, no puede contener caracteres.'} item={<i className="bi bi-question-circle"></i>}/>
+          <TooltipQuestionmark message={'La pregunta debe ser de entre 1 y 80 caracteres, no puede contener caracteres.'} item={<i className="bi bi-question-circle"></i>}/>
           </Col>
           <Col xs={'5'}>
             <Form.Select

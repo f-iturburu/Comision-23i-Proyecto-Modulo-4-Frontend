@@ -20,6 +20,7 @@ import SurveyDetails from "./views/surveyDetails/surveyDetails";
 import CreateNewSurveyForm from "./views/createSurvey/components/CreateSurvey";
 import Footer from "./layouts/footer/Footer";
 import UserDashboard from "./views/userDashboard/userDashboard";
+import RecoverPassword from "./views/recoverPassword/recoverPassword";
 
 const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
 const USER_LOGIN_KEY = import.meta.env.VITE_USER_LOGIN_KEY;
@@ -112,6 +113,13 @@ const App = () => {
             path="/signup"
             element={
               <SignUp URL={URL}/>
+            }
+          />
+           <Route
+            exact
+            path="/recoverPassword"
+            element={
+              <RecoverPassword />
             }
           />
           <Route exact path="*" element={<Error404 />} />

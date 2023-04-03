@@ -10,6 +10,7 @@ import {Image} from "react-bootstrap";
 import axios from "axios";
 import InputGroup from 'react-bootstrap/InputGroup';
 import {Spinner} from "react-bootstrap";
+
 function Login ({ URL }) {
   const userInput = useRef()
   const passwordInput = useRef()
@@ -95,7 +96,7 @@ points: 5,}} />;
             </InputGroup>
           </Form.Group>
           <Link
-            to="/register"
+            to="/signUp"
             className="btn-primary text-decoration-none"
           >
             No tienes una cuenta? Registrate!
