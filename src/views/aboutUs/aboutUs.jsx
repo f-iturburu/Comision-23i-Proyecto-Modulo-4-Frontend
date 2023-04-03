@@ -9,21 +9,21 @@ const AboutUs = () => {
     {
       name: "Leonardo Del Brio",
       description: "Fullstack Developer",
-      avatar: "/src/assets/img/icons/icon2.png",
+      avatar: "/public/assets/img/icons/icon2.png",
       linkedin: "https://www.linkedin.com/in/leodelbrio/",
       github: "https://github.com/leodelbrio",
     },
     {
       name: "Francisco Iturburu",
       description: "Fullstack Developer",
-      avatar: "/src/assets/img/icons/icon1.png",
+      avatar: "/public/assets/img/icons/icon1.png",
       linkedin: "https://www.linkedin.com/in/francisco-iturburu/",
       github: "https://github.com/f-iturburu",
     },
     {
       name: "Lucas Ibañez",
       description: "Fullstack Developer",
-      avatar: "/src/assets/img/icons/icon3.png",
+      avatar: "/public/assets/img/icons/icon3.png",
       linkedin: "https://www.linkedin.com/in/lucas-iba%C3%B1ez-644756106",
       github: "https://github.com/Lucasi17",
     },
@@ -47,7 +47,7 @@ const AboutUs = () => {
           className="mb-2 mt-2"
           style={{ maxHeight: "12vh" }}
           fluid={true}
-          src="/src/assets/img/About us/sobre nosotros negro.png"
+          src="/public/assets/img/About us/sobre nosotros negro.png"
         />
       </div>
       <Wave

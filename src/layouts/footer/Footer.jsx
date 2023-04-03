@@ -52,7 +52,7 @@ const Footer = () => {
           <div class="col-12 col-md-4 p-4 py-2 text-center">
             <NavLink to="/">
               <img
-                src="/src/assets/img/Logo/RollingBlancofooter.png"
+                src="/public/assets/img/Logo/RollingBlancofooter.png"
                 alt="Logo de RollingSurveys"
                 className="img-fluid logoFooter"
               />
