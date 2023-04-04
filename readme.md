@@ -44,6 +44,7 @@ Este proyecto fue desarrollado dentro del marco del  curso de Fullstack Develope
 
 - [React Wavify](https://github.com/woofers/react-wavify)
 
+
 ---
 
 ## Para iniciar el proyecto localmente
