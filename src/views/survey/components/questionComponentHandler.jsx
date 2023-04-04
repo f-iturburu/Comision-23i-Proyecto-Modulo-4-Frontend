@@ -26,7 +26,7 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
     const [isAnswerValid, setIsAnswerValid] = useState(false);
 
     const handleData = (values) => {
-      const regex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{2,30}$/
+      const regex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ().,;:¿¡?!/-_\s]{2,70}$/
       const isValid = regex.test(values);
       if (isValid) {
         const updatedObject = { ...questionObject ,
@@ -60,7 +60,8 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
         },
       ]}
       validateStatus={isAnswerValid ? 'error' : ''}
-      help={isAnswerValid && 'La respuesta debe ser de entre 2 y 30 caracteres, no se admiten caracteres especiales.'}
+      maxLength="70"
+      help={isAnswerValid && 'La respuesta debe ser de entre 2 y 70 caracteres, no se admiten caracteres especiales.'}
       hasFeedback
     >
       <Input placeholder="Ingrese su respuesta"  onChange={(e)=> handleData(e.target.value)}/>
@@ -73,7 +74,7 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
     const [isAnswerValid, setIsAnswerValid] = useState(false);
 
     const handleData = (values) => {
-     const regex = /^[0-9]{1,5}$/
+     const regex = /^[0-9]{1,7}$/
      const isValid = regex.test(values);
      if (isValid) {
        const updatedObject = { ...questionObject ,
@@ -105,11 +106,11 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
                   },
               ]}
       validateStatus={isAnswerValid ? 'error' : ''}
-      help={isAnswerValid && 'Solo se admiten números de entre 1 y 5 digitos'}
+      help={isAnswerValid && 'Solo se admiten números de entre 1 y 7 digitos'}
       hasFeedback
       
             >
-            <Input style={{width:"30%"}} placeholder="Ingrese un valor númerico" min={1} onChange={(e)=> handleData(e.target.value)} maxLength={5}/>
+            <Input style={{width:"30%"}} placeholder="Ingrese un valor númerico" min={1} onChange={(e)=> handleData(e.target.value)} maxLength={7}/>
               </Form.Item>
               </Form>
       )
