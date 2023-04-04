@@ -154,6 +154,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     <Table columns={columns}  dataSource={question.userAnswers} pagination={{pageSize: 5}}>
     </Table>
     </div>
+    
     <div className="mt-5 mb-4">
      <Column {...config} />
     </div>
@@ -181,6 +182,38 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
        }
    }
 
+   const columns = [
+    {
+      title: 'Usuario',
+      key: 'email',
+      dataIndex: 'user',
+      render(record){
+       if (record == 'Anonymous') {
+        return <p>Usuario anonimo</p>
+       }else{
+        return <p>{record.email}</p>
+       }
+      }
+    },
+    {
+      title: 'Fecha de respuesta',
+      key: 'createdAt',
+      sorter: (a, b) => a?.answerDate.localeCompare(b?.answerDate),
+      render: (record) =>{
+              return record.answerDate.slice(0,10)    
+      }
+    },
+    {
+      title: 'Respuesta',
+      key: 'userAnswers',
+      dataIndex: 'userAnswer',
+      render(record){
+        const answers = record.map((i)=> i.answers)
+        return  answers.map((i)=> <p>{i}</p>)      
+      }
+    },
+  ];
+   
     const config = {
       appendPadding: 10,
       data,
@@ -217,9 +250,12 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
 
         </Radio.Group>
       </Form>
+      <div className='containerTable'>
+    <Table columns={columns}  dataSource={question.userAnswers} pagination={{pageSize: 5}}>
+    </Table>    
+    </div>
       <div className="mb-4">
-    <Pie {...config} />
-        
+    <Pie {...config} /> 
       </div>
     </>
     
@@ -242,6 +278,39 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
         }   
        }
    }
+
+   const columns = [
+    {
+      title: 'Usuario',
+      key: 'email',
+      dataIndex: 'user',
+      render(record){
+       if (record == 'Anonymous') {
+        return <p>Usuario anonimo</p>
+       }else{
+        return <p>{record.email}</p>
+       }
+      }
+    },
+    {
+      title: 'Fecha de respuesta',
+      key: 'createdAt',
+      sorter: (a, b) => a?.answerDate.localeCompare(b?.answerDate),
+      render: (record) =>{
+              return record.answerDate.slice(0,10)    
+      }
+    },
+    {
+      title: 'Respuesta',
+      key: 'userAnswers',
+      dataIndex: 'userAnswer',
+      render(record){
+        const answers = record.map((i)=> i.answers)
+  
+        return  answers[0].map((i)=> <p className="">{i}</p>)    
+      }
+    },
+  ];
 
     const config = {
       appendPadding: 0,
@@ -278,9 +347,12 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
         {CheckboxButtons}
         </Checkbox.Group>
       </Form>
+      <div className='containerTable'>
+    <Table columns={columns}  dataSource={question.userAnswers} pagination={{pageSize: 5}}>
+    </Table>    
+    </div>
       <div className="mb-4">
-    <Pie {...config} />
-        
+    <Pie {...config} />      
       </div>
     </>
     
