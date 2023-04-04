@@ -23,9 +23,10 @@ src="/assets/img/admin/admin negro.png"
 amplitude: 50,
 speed: 0.15,
 points: 5,}} />;   
-    <Container className="mt-4">
+    <div className="mx-2 mx-md-5 mt-4">
         <AdminSurveysTable URL={URL} token={token}/>
-    </Container>
+        
+    </div>
     </>
     
 }
