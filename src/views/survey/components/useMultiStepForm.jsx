@@ -129,7 +129,7 @@ const MultiStepForm = ({ questions, surveyTitle,surveyDescription,URL,token,form
 
       <div className="d-md-flex border-top pt-3">
         <div>
-          <Checkbox className="text-light checkbox-class" onChange={anonymousResponseHandler}>
+          <Checkbox className="text-light checkbox-className" onChange={anonymousResponseHandler}>
             Responder esta encuesta de forma anonima
           </Checkbox>
         </div>

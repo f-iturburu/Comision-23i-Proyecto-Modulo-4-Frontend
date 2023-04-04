@@ -92,7 +92,7 @@ points: 5,}} />;
               maxLength='30'
               ref= {passwordInput}   
             />
-            <Button className="sign-in-button" variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
+            <Button className="sign-in-button" variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}  </Button>
             </InputGroup>
           </Form.Group>
           <Link

@@ -60,17 +60,17 @@ const Navigation = ({adminLoginKey,userLoginKey }) => {
             </Nav>
             <Nav>
            {token?.token? 
-             <li class="nav-item dropdown ">
-             <a class="nav-link dropdown-toggle fs-5 " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-             <i class="bi bi-person-circle"></i>
+             <li className="nav-item dropdown ">
+             <a className="nav-link dropdown-toggle fs-5 " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <i className="bi bi-person-circle"></i>
              </a>
-             <ul class="dropdown-menu dropdown-menu-end bg-dark">
-               <li className="dropdownItem" ><NavLink className="nav-link dropdownItem text-light" to="/userdashboard">Opciones <i class="bi bi-gear"></i></NavLink></li>
-               <li className="dropdownItem"> <NavLink className="nav-link dropdownItem text-light" onClick={logout}>Cerrar sesión <i class="bi bi-box-arrow-in-left"></i></NavLink></li>
+             <ul className="dropdown-menu dropdown-menu-end bg-dark">
+               <li className="dropdownItem" ><NavLink className="nav-link dropdownItem text-light" to="/userdashboard">Opciones <i className="bi bi-gear"></i></NavLink></li>
+               <li className="dropdownItem"> <NavLink className="nav-link dropdownItem text-light" onClick={logout}>Cerrar sesión <i className="bi bi-box-arrow-in-left"></i></NavLink></li>
              </ul>
            </li> : <>
-           <NavLink className="nav-link" to="/login"><Button variant="outline-primary sign-in-button">Ingresar <i class="bi bi-box-arrow-in-right"></i></Button></NavLink>     
-           <NavLink className="nav-link" to="/signup"><Button variant="primary sign-up-button">Registrase <i class="bi bi-clipboard2-data-fill"></i></Button></NavLink>     
+           <NavLink className="nav-link" to="/login"><Button variant="outline-primary sign-in-button">Ingresar <i className="bi bi-box-arrow-in-right"></i></Button></NavLink>     
+           <NavLink className="nav-link" to="/signup"><Button variant="primary sign-up-button">Registrase <i className="bi bi-clipboard2-data-fill"></i></Button></NavLink>     
            </>}
             </Nav>
           </Navbar.Collapse>
