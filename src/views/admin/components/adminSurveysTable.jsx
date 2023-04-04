@@ -140,6 +140,14 @@ const AdminSurveysTable = ({URL, token}) => {
       }
     },
     {
+      title: "Cantidad de respuestas",
+      key: "answersAmount",
+      sorter: (a, b) =>a.surveyQuestions[0].userAnswers.length - b.surveyQuestions[0].userAnswers.length ,
+      render(record){
+         return <p>{record?.surveyQuestions[0].userAnswers.length}</p>
+      }
+    },
+    {
       title: 'Categorias',
       dataIndex: 'categories',
       key: 'categories',
