@@ -400,9 +400,14 @@ points: 5,}} />;
               <option value="Encuesta academica">Encuesta academica</option>
               <option value="Encuesta medica">Encuesta medica</option>
               <option value="Gastronomia">Gastronomia</option>
+              <option value="Tecnología">Tecnología</option>
+              <option value="Videojuegos">Videojuegos</option>
+              <option value="Habitos y vida diaria">Habitos y vida diaria</option>
               <option value="Deporte">Deporte</option>
+              <option value="Moda">Moda</option>
               <option value="Economía">Economía</option>
               <option value="Política">Política</option>
+              <option value="Otro">Otro</option>
             </Form.Select>
           <Stack className="container-fluid p-0 pb-2 mb-2 border-bottom " direction="horizontal" >
           <Form.Check 
