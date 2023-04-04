@@ -60,7 +60,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
 
   const NumbersComponent =()=>{
     const data = []
-
+    
     const userAnswersArray = []
     let destructuring = question.userAnswers.map((i)=> i.userAnswer)
   
@@ -82,6 +82,8 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
        }
    }
     
+   data.sort((a, b) => a.value - b.value);
+   
     const config = {
       data,
       xField: 'value',
@@ -261,7 +263,7 @@ const QuestionComponentSurveyDetails = ({ question,questionNumber }) => {
     
   };
 
-  const MultipleOptionsComponent = () =>{
+  const MultipleOptionsComponent = () =>{ 
     const data = []
     question.possibleAnswers.map((i)=> data.push({type: i, value: 0}))
   
