@@ -191,7 +191,7 @@ const RenderHandler = () =>{
 </div>
 
       <div className="container mt-3">
-        <div className="d-md-flex mb-3 justify-content-center">
+        <div className="d-flex mb-3 justify-content-center">
           <Search
             className="w-50"
             placeholder="Buscar por titulo de la encuesta"

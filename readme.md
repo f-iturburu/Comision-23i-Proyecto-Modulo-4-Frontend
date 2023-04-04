@@ -38,9 +38,12 @@ Este proyecto fue desarrollado dentro del marco del  curso de Fullstack Develope
 
 [![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 
-[Sweet Alert 2](https://sweetalert2.github.io/)
+- [Axios](https://axios-http.com/)
 
-[React Wavify](https://github.com/woofers/react-wavify)
+- [Sweet Alert 2](https://sweetalert2.github.io/)
+
+- [React Wavify](https://github.com/woofers/react-wavify)
+
 
 ---
 

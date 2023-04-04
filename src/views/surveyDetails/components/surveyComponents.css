@@ -6,11 +6,11 @@
  color: white !important;
 }
 
-.survey-details-components .ant-pagination-item {
+.survey-details-components .ant-pagination-item{
     border: 1px solid #ffffff;
     color: black !important;
     background: #ffffff !important;
-    border-radius: px solid black !important;
+    border-radius: 1px solid black !important;
   }
   
  .survey-details-components .ant-pagination-item-active{
