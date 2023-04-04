@@ -60,7 +60,7 @@ const onChange = (date, dateString) => {
 };
 
 const validateQuestion = (data) =>{
-  const questionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{0,80}$/
+  const questionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ().,;:¿¡?!/-_\s]{0,80}$/
   if(!data.every(i => questionRegex.test(i.question))){
     setQuestionsErrorMessage(<AlertDismissible message={'Has ingresado una pregunta invalida'} state={true}/>)
     setSubmitError((prevArray)=>{
@@ -136,7 +136,7 @@ const validateDate =(dateBool, date) =>{
 }
 
 const validateSurveyTitle =(value) =>{
-  const surveyTitleRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{0,55}$/
+  const surveyTitleRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ().,;:¿¡?!/-_\s]{0,55}$/
   setSurveyTitleErrorMessage()
   if(surveyTitleRegex.test(value) ){
     setSurveyTitle(value)
@@ -258,7 +258,7 @@ const validateEmptyCategory = (category) =>{
 }
 
 const validateSurveyDescription = (value)=>{
-  const surveyDescriptionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{0,220}$/
+  const surveyDescriptionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ().,;:¿¡?!/-_\s]{0,220}$/
   setSurveyDescriptionErrorMessage()
   setSurveyDescriptionCounter(value.length)
   if (surveyDescriptionRegex.test(value)) {
@@ -318,7 +318,7 @@ const handleSubmit  = () =>{
   
   if (filterBool.length == 0) {
    const postObject = {
-    'name': surveyTitle.charAt(0).toUpperCase() + surveyTitle.slice(1) ,
+    'name': surveyTitle,
     'description': surveyDescription.charAt(0).toUpperCase() + surveyDescription.slice(1) ,
     'categories': category,
     'endDate': date,
