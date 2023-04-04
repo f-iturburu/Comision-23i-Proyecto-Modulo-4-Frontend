@@ -127,6 +127,36 @@ const Home = ({ URL }) => {
         <div onClick={() => setSearchCategories(["Política"])}>Política</div>
       ),
     },
+    {
+      key: "9",
+      label: (
+        <div onClick={() => setSearchCategories(["Tecnología"])}>Tecnología</div>
+      ),
+    },
+    {
+      key: "10",
+      label: (
+        <div onClick={() => setSearchCategories(["Videojuegos"])}>Videojuegos</div>
+      ),
+    },
+    {
+      key: "11",
+      label: (
+        <div onClick={() => setSearchCategories(["Habitos y vida diaria"])}>Habitos y vida diaria</div>
+      ),
+    },
+    {
+      key: "12",
+      label: (
+        <div onClick={() => setSearchCategories(["Moda"])}>Moda</div>
+      ),
+    },
+    {
+      key: "13",
+      label: (
+        <div onClick={() => setSearchCategories(["Otro"])}>Otro</div>
+      ),
+    },
   ];
 
   const onSearch = (value) => {
