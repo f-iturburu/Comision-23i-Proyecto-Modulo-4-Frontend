@@ -84,7 +84,7 @@ height: 15,
 amplitude: 50,
 speed: 0.15,
 points: 5,}} />;
-  <Container className="survey-details-components" style={{minHeight:'40vh'}}>
+  <Container className="survey-details-components" style={{minHeight:'45vh'}}>
      <RenderHandler/>
 </Container>
   </>
