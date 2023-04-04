@@ -17,6 +17,7 @@ const SurveysTable = ({ URL, token }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [data, setData] = useState([]);
   const [fetchApi, setFetchApi] = useState(true);
+ 
 
   useEffect(() => {
     if (fetchApi) {
@@ -135,6 +136,14 @@ const SurveysTable = ({ URL, token }) => {
       dataIndex: "categories",
       key: "categories",
       sorter: (a, b) => a.categories[0].localeCompare(b.categories[0]),
+    },
+    {
+      title: "Cantidad de respuestas",
+      key: "answersAmount",
+      sorter: (a, b) =>a.surveyQuestions[0].userAnswers.length - b.surveyQuestions[0].userAnswers.length ,
+      render(record){
+         return <p>{record?.surveyQuestions[0].userAnswers.length}</p>
+      }
     },
     {
       title: "Fecha de creacion",

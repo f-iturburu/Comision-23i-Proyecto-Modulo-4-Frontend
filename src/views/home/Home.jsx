@@ -20,6 +20,7 @@ const Home = ({ URL }) => {
   const [searchCategories, setSearchCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState(false)
+  const [surveysNotFound, setSurveysNotFound] = useState(false)
 
   useEffect(() => {
     setLoading(true);
@@ -29,6 +30,7 @@ const Home = ({ URL }) => {
   }, [searchName, searchCategories]);
 
   const fetchApi = async () => {
+    setSurveysNotFound(false)
     try {
       let searchBody = {
         name: searchName,
@@ -54,6 +56,10 @@ const Home = ({ URL }) => {
             ))
             .reverse()
         );
+
+        if (data?.length == 0) {
+          setSurveysNotFound(true)
+        }
       }
     } catch (error) {
       setFetchError(true)
@@ -181,6 +187,8 @@ const RenderHandler = () =>{
       <Image fluid={true} src="/assets/img/Error message/error1.png"/>
     </div>
     
+  }else if(surveysNotFound){
+    return <Image fluid={true} src="/public/assets/img/404/404.png"/>
   }else{
     return  <>
         <div className=" d-flex flex-column justify-content-center">
