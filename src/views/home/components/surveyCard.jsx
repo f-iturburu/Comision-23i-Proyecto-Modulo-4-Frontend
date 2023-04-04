@@ -26,7 +26,7 @@ function SurveyCard({surveyTitle,surveyCategory, id, surveyEndDate,surveyDescrip
         </Card.Text>
         <div className='d-flex'>
         <Card.Subtitle className="mb-2 text-muted">{surveyEndDate ? <div>
-          {surveyEndDate.slice(0,10)} <TooltipQuestionmark message={'Fecha de finalización de encuesta'} item={<i class="bi bi-hourglass-split"></i>}/> 
+          {surveyEndDate.slice(0,10)} <TooltipQuestionmark message={'Fecha de finalización de encuesta'} item={<i className="bi bi-hourglass-split"></i>}/> 
         </div>
         : ''}</Card.Subtitle>         
         </div>

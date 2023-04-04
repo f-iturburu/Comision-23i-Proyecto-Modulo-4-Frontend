@@ -164,7 +164,7 @@ const QuestionComponent = ({question, setData,surveyTitle,setButtonDisabled,surv
       }
     };
     
-    const checkboxButtons = question.possibleAnswers?.map((i)=> <Checkbox className='text-light checkbox-class' style={{marginLeft:'0'}} key={i} value={i}>{i}</Checkbox>)
+    const checkboxButtons = question.possibleAnswers?.map((i)=> <Checkbox className='text-light checkbox-className' style={{marginLeft:'0'}} key={i} value={i}>{i}</Checkbox>)
     const CheckboxGroup = Checkbox.Group;
     return(
     <Form  className="text-light" form={form} >

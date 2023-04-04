@@ -130,7 +130,7 @@ points: 5,}} />;
               maxLength='30'
               ref={passwordRef}
             />
-              <Button className="sign-in-button" variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
+              <Button className="sign-in-button" variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}  </Button>
                </InputGroup>
               <Form.Text className="text-light" muted>
               Su contraseña debe ser de un minimo de 8 caracteres y debe contener al menos una letra y un número, no se permiten espacios ni caracteres especiales.

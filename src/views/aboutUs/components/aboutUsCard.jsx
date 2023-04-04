@@ -21,10 +21,10 @@ function AboutUSCard ({name,description,avatar,linkedin,github}){
     </div>
     <div className="d-flex justify-content-around pb-3">
         <Link to={github}  target="_blank">
-    <i class="fa-brands fa-2x fa-github"></i>
+    <i className="fa-brands fa-2x fa-github"></i>
         </Link>
         <Link to={linkedin}  target="_blank">
-    <i class="fa-brands fa-2x fa-linkedin-in"></i> 
+    <i className="fa-brands fa-2x fa-linkedin-in"></i> 
         </Link>
     </div>
  </div> 

@@ -82,7 +82,7 @@ const ChangePasswordComponent = ({URL,token}) =>{
          type={showOldPassword? 'text':'password'}
          aria-label="password"
        />
-       <Button disabled={disabled} variant="outline-primary" onClick={()=> setShowOldPassword(!showOldPassword)}> {showOldPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
+       <Button disabled={disabled} variant="outline-primary" onClick={()=> setShowOldPassword(!showOldPassword)}> {showOldPassword? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}  </Button>
      </InputGroup>
        <Form.Label className='mb-0 text-light'>Nueva contraseña</Form.Label>
        <Form.Text className='mb-1 mt-0' muted>
@@ -98,7 +98,7 @@ const ChangePasswordComponent = ({URL,token}) =>{
          type={showNewPassword? 'text': 'password'}
          aria-label="password"
        />
-       <Button  disabled={disabled}  variant="outline-primary" onClick={()=> setShowNewPassword(!showNewPassword)}> {showNewPassword? <i class="bi bi-eye-slash"></i> : <i class="bi bi-eye"></i>}  </Button>
+       <Button  disabled={disabled}  variant="outline-primary" onClick={()=> setShowNewPassword(!showNewPassword)}> {showNewPassword? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}  </Button>
     
      </InputGroup>
      

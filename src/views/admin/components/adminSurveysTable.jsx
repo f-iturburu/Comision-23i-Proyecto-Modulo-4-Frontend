@@ -226,7 +226,7 @@ const AdminSurveysTable = ({URL, token}) => {
         render: (record) =>{
            return  <div className='d-flex justify-content-center'>
            <Button type="primary" danger loading={deleteLoading} onClick={()=> handleDeleteSurvey(record)}>
-               Eliminar <i class="bi bi-trash3 ms-2"></i>
+               Eliminar <i className="bi bi-trash3 ms-2"></i>
            </Button>
            </div>
         } 
