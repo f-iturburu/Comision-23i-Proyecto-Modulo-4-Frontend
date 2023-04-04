@@ -140,7 +140,7 @@ points: 5,}} />;
             <Form.Label className="text-light">Vuelva a ingresar su contraseña</Form.Label>
             <Form.Control
               autocomplete="new-password"
-              type={showPassword? 'text': 'password'}
+              type='password'
               placeholder="Ingrese su contraseña"
               name="password"
               required
