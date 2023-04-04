@@ -188,7 +188,11 @@ const RenderHandler = () =>{
     </div>
     
   }else if(surveysNotFound){
-    return <Image fluid={true} src="/public/assets/img/404/404.png"/>
+    return  <div className="text-center">
+      <Image fluid={true} src="/public/assets/img/Survey not found/Lo sentimos, no hemos podido encontrar la encusta que buscabas.png"/>     
+    </div>
+    
+    
   }else{
     return  <>
         <div className=" d-flex flex-column justify-content-center">
