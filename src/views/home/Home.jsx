@@ -189,7 +189,7 @@ const RenderHandler = () =>{
     
   }else if(surveysNotFound){
     return  <div className="text-center">
-      <Image fluid={true} src="/public/assets/img/Survey not found/Lo sentimos, no hemos podido encontrar la encusta que buscabas.png"/>     
+      <Image fluid={true} src="/assets/img/Survey not found/Lo sentimos, no hemos podido encontrar la encusta que buscabas.png"/>     
     </div>
     
     
