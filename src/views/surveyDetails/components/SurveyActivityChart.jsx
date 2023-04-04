@@ -29,8 +29,6 @@ const SurveyActivity = ({ questions }) => {
     }
 
 
-
-
   const config = {
     data,
     theme: 'dark',
@@ -47,8 +45,9 @@ const SurveyActivity = ({ questions }) => {
 
   return <div className="mt-4 mb-4">
     <h4 className="text-light">Actividad de la encuesta</h4>
-    <p className="text-muted pb-3">Cantidad de respuestas en funcion del tiempo</p>
+    <h5 className="text-light mb-5 fw-light">Cantidad total de respuestas: {questions?.surveyQuestions[0].userAnswers.length}</h5>
       <Line {...config} />
+    <p className="text-muted pt-2">Cantidad de respuestas en funcion del tiempo</p>
   </div>
 
 };

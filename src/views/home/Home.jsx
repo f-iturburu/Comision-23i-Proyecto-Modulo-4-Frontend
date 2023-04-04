@@ -130,7 +130,7 @@ const Home = ({ URL }) => {
   ];
 
   const onSearch = (value) => {
-    const regex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{1,55}$/;
+    const regex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ().,;:¿¡?!/-_\s]{1,55}$/;
     if (regex.test(value)) {
       setSearchName(value);
     } else {

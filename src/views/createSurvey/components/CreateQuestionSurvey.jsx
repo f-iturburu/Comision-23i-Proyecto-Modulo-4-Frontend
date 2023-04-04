@@ -74,7 +74,7 @@ const SingleOptionComponent =() => {
 
   const optionsHandler = ()=>{
     setErrorMessage()
-    const optionsRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{1,30}$/u
+    const optionsRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ().,;:¿¡?!/-_\s]{1,55}$/u
     setRadioSelectors((prevArray) =>{
       const optionFound = prevArray.find((i) => i == optionsRef.current.value)
       if (!optionsRegex.test(optionsRef.current.value)) {
@@ -116,14 +116,14 @@ const SingleOptionComponent =() => {
       <Col xs={5}>
         <Form.Control
         required
-         maxLength='30'
+         maxLength='55'
           ref={optionsRef}
           type="text"
           placeholder="Agregar opción"
         />
       </Col>
       <Col xs={1}>
-      <TooltipQuestionmark  message={'La opcion debe tener entre 1 y 30 caracteres y no puede contener caracteres especiales.'} item={<i className="bi bi-question-circle"></i>}/>
+      <TooltipQuestionmark  message={'La opcion debe tener entre 1 y 55 caracteres y no puede contener caracteres especiales.'} item={<i className="bi bi-question-circle"></i>}/>
       </Col>
       <Col xs={1}>
         <Button variant="outline-primary" onClick={optionsHandler}><i className="bi bi-plus-lg"></i></Button>
@@ -149,7 +149,7 @@ const MultipleOptionsComponent = () => {
     const optionsHandler = ()=>{
       setErrorMessage('')
       
-      const optionsRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\(\)\.,;:¿¡?!\s]{1,30}$/u
+      const optionsRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ().,;:¿¡?!/-_\s]{1,55}$/u
       setChecboxSelectors((prevArray) =>{
         const optionFound = prevArray.find((i) => i == optionsRef.current.value)
         if (!optionsRegex.test(optionsRef.current.value)) {
@@ -191,14 +191,14 @@ const MultipleOptionsComponent = () => {
         <Col xs={5}>
           <Form.Control
           required 
-          maxLength='30'
+          maxLength='55'
             ref={optionsRef}
             type="text"
             placeholder="Agregar opción"
           />
         </Col>
         <Col xs={1}>
-      <TooltipQuestionmark  message={'La opcion debe tener entre 1 y 30 caracteres y no puede contener caracteres especiales.'} item={<i className="bi bi-question-circle"></i>}/>
+      <TooltipQuestionmark  message={'La opcion debe tener entre 1 y 55 caracteres y no puede contener caracteres especiales.'} item={<i className="bi bi-question-circle"></i>}/>
       </Col>
         <Col xs={1}>
           <Button onClick={optionsHandler} variant="outline-primary"><i className="bi bi-plus-lg"></i></Button>
