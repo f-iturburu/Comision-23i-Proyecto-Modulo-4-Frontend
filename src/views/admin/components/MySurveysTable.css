@@ -9,8 +9,25 @@
     border: 1px solid #ffffff !important;
   }
 
+.ant-modal-content{
+  background-color: rgb(101,101,101) !important;
+  
+}
 
+#edit-modal label{
+  color: rgb(255, 255, 255) !important;
+}
 
+#edit-modal input, #edit-modal textarea{
+  color: rgb(0, 0, 0) !important;
+  background-color: white !important;
+}
 
+#edit-modal .ant-input-data-count{
+  color: rgb(255, 255, 255) !important;
+}
 
+#edit-modal .ant-form-item-tooltip{
+  color: #ffffff !important
+}
 

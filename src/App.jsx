@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./layouts/Navigation";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import ProtectedAdminRoute from "./routes/ProtectedAdminRoutes";
@@ -26,7 +22,7 @@ const USER_LOGIN_KEY = import.meta.env.VITE_USER_LOGIN_KEY;
 const URL = import.meta.env.VITE_BASE_API_URL;
 
 const App = () => {
- const token = JSON.parse(localStorage.getItem("user-token")) || []
+  const token = JSON.parse(localStorage.getItem("user-token")) || [];
 
   return (
     <BrowserRouter>
@@ -37,87 +33,65 @@ const App = () => {
 
       <main>
         <Routes>
-          <Route exact path="/" element={<Home URL={URL}/>} />
+          <Route exact path="/" element={<Home URL={URL} />} />
           <Route
             path="/survey/:id"
             element={
               <ProtectedRoute>
-                <Survey URL={URL} token={token}/>
+                <Survey URL={URL} token={token} />
               </ProtectedRoute>
             }
           />
-            <Route
+          <Route
             path="/survey/newsurvey"
             element={
               <ProtectedRoute>
-                <CreateNewSurveyForm URL={URL} token={token}/>
+                <CreateNewSurveyForm URL={URL} token={token} />
               </ProtectedRoute>
             }
           />
 
-          <Route
-            exact
-            path="/contactUs"
-            element={<Contact />}
-          />
+          <Route exact path="/contactUs" element={<Contact />} />
           <Route
             path="/mysurveys"
             element={
               <ProtectedRoute>
-                <MySurveys URL={URL} token={token}/>
+                <MySurveys URL={URL} token={token} />
               </ProtectedRoute>
             }
           />
-            <Route
+          <Route
             path="/survey/details/:id"
             element={
               <ProtectedRoute>
-                <SurveyDetails URL={URL} token={token}/>
+                <SurveyDetails URL={URL} token={token} />
               </ProtectedRoute>
             }
           />
-            <Route
+          <Route
             path="/userdashboard"
             element={
               <ProtectedRoute>
-                <UserDashboard URL={URL} token={token}/>
+                <UserDashboard URL={URL} token={token} />
               </ProtectedRoute>
             }
           />
-            <Route
+          <Route
             path="/admin"
             element={
               <ProtectedAdminRoute>
-                <AdminView URL={URL} token={token}/>
+                <AdminView URL={URL} token={token} />
               </ProtectedAdminRoute>
             }
           />
 
-          <Route
-            exact
-            path="/login"
-            element={
-              <Login URL={URL} />
-            }
-          />
-            <Route
-            exact
-            path="/aboutUs"
-            element={
-              <AboutUs />
-            }
-          />
-          <Route
-            exact
-            path="/signup"
-            element={
-              <SignUp URL={URL}/>
-            }
-          />
+          <Route exact path="/login" element={<Login URL={URL} />} />
+          <Route exact path="/aboutUs" element={<AboutUs />} />
+          <Route exact path="/signup" element={<SignUp URL={URL} />} />
           <Route exact path="*" element={<Error404 />} />
         </Routes>
       </main>
-      <Footer/>
+      <Footer />
     </BrowserRouter>
   );
 };

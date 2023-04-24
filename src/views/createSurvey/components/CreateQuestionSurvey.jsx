@@ -23,7 +23,7 @@ function CreateQuestionSurvey({id, data, setData , setSurveyQuestions, showDelet
 
 useEffect(() =>{
   const updatedObject = { ...object ,
-        'question': question.charAt(0).toUpperCase() + question.slice(1), 
+        'question': question ,
         'type':questionTypeString.current?.value,
         'possibleAnswers' : questionAnswers,
         }
@@ -87,7 +87,7 @@ const SingleOptionComponent =() => {
         setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
         return [...prevArray]
       } else {
-        return[...prevArray,optionsRef.current.value.charAt(0).toUpperCase() + optionsRef.current.value.slice(1)]
+        return[...prevArray,optionsRef.current.value]
       }
     } )
   }
@@ -162,7 +162,7 @@ const MultipleOptionsComponent = () => {
           setErrorMessage(<AlertDismissible  message={'Ya has ingresado esta opción'}state={true}/>)
           return [...prevArray]
         } else {
-          return[...prevArray,optionsRef.current.value.charAt(0).toUpperCase() + optionsRef.current.value.slice(1)]
+          return[...prevArray,optionsRef.current.value]
         }
       } )
     }

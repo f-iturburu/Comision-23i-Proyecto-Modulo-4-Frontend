@@ -29,10 +29,9 @@ function Contact() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
-  const nameRef = useRef()
-  const emailRef = useRef()
- const refForm = useRef()
-
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const refForm = useRef();
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -54,7 +53,8 @@ function Contact() {
       );
     }
 
-    emailjs.sendForm(
+    emailjs
+      .sendForm(
         "service_secvbq8",
         "template_w6p8k8f",
         refForm.current,
@@ -63,10 +63,10 @@ function Contact() {
       .then(
         (result) => {
           Swal.fire("", "Su mensaje ha sido enviado correctamente.", "success");
-          setLoading(false)
+          setLoading(false);
         },
         (error) => {
-          setLoading(false)
+          setLoading(false);
           Swal.fire(
             "",
             "Lo sentimos, ha ocurrido un error. Intente de nuevo mas tarde.",
@@ -106,7 +106,7 @@ function Contact() {
               type="text"
               placeholder="Ingrese su nombre"
               name="name"
-              ref = {nameRef}
+              ref={nameRef}
               required
               maxLength="30"
             />
@@ -117,7 +117,7 @@ function Contact() {
               type="email"
               placeholder="Ingrese su dirección de correo electrónico"
               name="email"
-              ref = {emailRef}
+              ref={emailRef}
               required
               maxLength="30"
             />
@@ -137,7 +137,13 @@ function Contact() {
             </div>
           </Form.Group>
           <div className="d-flex">
-            <Button loading={loading} type="primary" htmlType="submit" variant="primary" className="ms-auto">
+            <Button
+              loading={loading}
+              type="primary"
+              htmlType="submit"
+              variant="primary"
+              className="ms-auto"
+            >
               Enviar mensaje
             </Button>
           </div>
