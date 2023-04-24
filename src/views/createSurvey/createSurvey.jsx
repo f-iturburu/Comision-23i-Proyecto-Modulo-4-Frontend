@@ -1,9 +1,9 @@
-import CreateNewSurveyForm from "./components/CreateSurvey"
+import CreateNewSurveyForm from "./components/CreateSurvey";
 
-const CreateNewSurvey = () =>{ <>
+const CreateNewSurvey = () => {
+  <>
+    <CreateNewSurveyForm />
+  </>;
+};
 
-<CreateNewSurveyForm />
-</>
-}
-
-export default CreateNewSurvey
+export default CreateNewSurvey;
