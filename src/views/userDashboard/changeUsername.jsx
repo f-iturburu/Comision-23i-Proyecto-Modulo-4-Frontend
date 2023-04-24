@@ -70,7 +70,6 @@ const ChangeUsernameComponent = ({ URL, token }) => {
         let message = error.response.data.error;
         setErrorMessage(<AlertDismissible message={message} state={true} />);
       } else {
-        console.log(error);
         setErrorMessage(
           <AlertDismissible
             message={
