@@ -319,7 +319,7 @@ const handleSubmit  = () =>{
   if (filterBool.length == 0) {
    const postObject = {
     'name': surveyTitle,
-    'description': surveyDescription.charAt(0).toUpperCase() + surveyDescription.slice(1) ,
+    'description': surveyDescription,
     'categories': category,
     'endDate': date,
     'questions': data,

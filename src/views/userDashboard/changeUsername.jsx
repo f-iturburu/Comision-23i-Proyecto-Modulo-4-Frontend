@@ -1,124 +1,185 @@
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import { Button } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useRef } from 'react';
-import AlertDismissible from '../../layouts/alert';
-import {Spinner} from 'react-bootstrap';
-import {Image} from 'react-bootstrap';
+import Form from "react-bootstrap/Form";
+import Swal from "sweetalert2";
+import InputGroup from "react-bootstrap/InputGroup";
+import { Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useRef } from "react";
+import AlertDismissible from "../../layouts/alert";
+import { Spinner } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 
-const ChangeUsernameComponent = ({URL,token}) =>{
-     const [showPassword, setShowPassword] = useState(false)
-     const [loading,setLoading] = useState(false)
-     const [disabled,setDisabled] = useState(false)
-     const [errorMessage, setErrorMessage] = useState()
-     const currentUsername = useRef()
-     const newUsername = useRef()
-     const password = useRef()
-     const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
+const ChangeUsernameComponent = ({ URL, token }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
+  const currentUsername = useRef();
+  const newUsername = useRef();
+  const password = useRef();
+  const ADMIN_LOGIN_KEY = import.meta.env.VITE_ADMIN_LOGIN_KEY;
+  const formRef = useRef(null);
 
-     useEffect(()=>{
-        if (token.role == ADMIN_LOGIN_KEY) {
-            setDisabled(true)
-        }
-    },[])
-
-    const submitHandler = async () =>{
-        setLoading(true)
-        setErrorMessage()
-        if (currentUsername.current.value == newUsername.current.value) {
-            setLoading(false)
-            return setErrorMessage(<AlertDismissible message={'Ingrese un nombre de usuario distinto'} state={true}/>)
-        }
-        const resBody = {
-            username: newUsername.current.value,
-            password: password.current.value
-        }
-        try {
-            const res = await axios.patch(`${URL}/user/username`,resBody,{
-                headers:{
-                    'auth-token': token.token
-                }
-            })
-
-            if (res.status == 200) {
-                setLoading(false)
-                Swal.fire("", "Has cambiado tu nombre de usuario exitosamente.", "success");
-            }
-        } catch (error) {
-            setLoading(false)
-            setErrorMessage()
-            if (error.response?.status == 400) {
-              let message = error.response.data.message
-              setErrorMessage(<AlertDismissible message={message} state={true}/>)
-            }else if (error.response?.status == 401){
-              let message = error.response.data.error
-              setErrorMessage(<AlertDismissible message={message} state={true}/>)
-            }else{
-              setErrorMessage(<AlertDismissible message={'Lo sentimos, ha ocurrido un error. Vuelve a intentarlo mas tarde.'} state={true}/>)
-            }
-        }
+  useEffect(() => {
+    if (token.role == ADMIN_LOGIN_KEY) {
+      setDisabled(true);
     }
+  }, []);
 
-        return <>
-           <div className="text-center">
-         <Image
-    className="mb-2 mt-2"
-     style={{maxHeight:'14vh'}}
-      fluid={true}
-      src="/assets/img/Change username/nombre blanco.png"
-    />
-   </div>
-        
-        <div className='d-flex flex-column mx-auto'>
-             <Form.Label className='mb-0 text-light'>Nombre de usuario actual</Form.Label>
-         <InputGroup className="mb-3">
-        <Form.Control
-        disabled={disabled}
-        required 
-        maxLength={15}
-          ref={currentUsername}
-          placeholder={disabled? 'El administrador no puede cambiar sus credenciales': "Ingrese su nombre de usuario actual"}
-       type='text'
+  const submitHandler = async () => {
+    setLoading(true);
+    setErrorMessage();
+    if (currentUsername.current.value == newUsername.current.value) {
+      setLoading(false);
+      return setErrorMessage(
+        <AlertDismissible
+          message={"Ingrese un nombre de usuario distinto"}
+          state={true}
         />
-      </InputGroup>
-         <Form.Label className='mb-0 text-light'>Nuevo nombre de usuario</Form.Label>
-         <Form.Text muted>
-             Su nombre de usuario debe ser de entre 6 y 15 caracteres, no se permiten espacios ni caracteres especiales.
-             </Form.Text>
-      <InputGroup className="mb-3">
-        <Form.Control
-        disabled={disabled}
-           required 
-           maxLength={15}
-        ref={newUsername}
-          placeholder={disabled? 'El administrador no puede cambiar sus credenciales': "Ingrese su nuevo nombre de usuario"}
-          type='text'
-        />
-      </InputGroup>
-      <Form.Label className='mb-0 text-light'>Contraseña</Form.Label>
-      <InputGroup className="mb-3">
-        <Form.Control
-        disabled={disabled}
-           required 
-           maxLength={30}
-        ref={password}
-        placeholder={disabled? 'El administrador no puede cambiar sus credenciales': "Ingrese su contraseña"}
-          type={showPassword? 'text': 'password'}
-          aria-label="password"
-        />
-        <Button disabled={disabled} variant="outline-primary" onClick={()=> setShowPassword(!showPassword)}> {showPassword? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}  </Button>
-      </InputGroup>
-      <div className='mt-2 mb-2'>
-        {errorMessage}
-     </div>
-      <div className='mt-2 w-100 d-flex justify-content-center'>
-         <Button disabled={disabled ? disabled : loading} onClick={submitHandler}>{loading? <><Spinner animation="border" size="sm"/> Guardar cambios</>: "Guardar cambios" }</Button>
-     </div>
+      );
+    }
+    const resBody = {
+      currentUsername: currentUsername.current.value,
+      username: newUsername.current.value,
+      password: password.current.value,
+    };
+
+    try {
+      const res = await axios.patch(`${URL}/user/username`, resBody, {
+        headers: {
+          "auth-token": token.token,
+        },
+      });
+
+      if (res.status == 200) {
+        setLoading(false);
+        formRef.current.reset();
+        Swal.fire(
+          "",
+          "Has cambiado tu nombre de usuario exitosamente.",
+          "success"
+        );
+      }
+    } catch (error) {
+      setLoading(false);
+      setErrorMessage();
+      if (error.response?.status == 400) {
+        let message = error.response.data.message;
+        setErrorMessage(<AlertDismissible message={message} state={true} />);
+      } else if (error.response?.status == 401) {
+        let message = error.response.data.error;
+        setErrorMessage(<AlertDismissible message={message} state={true} />);
+      } else {
+        setErrorMessage(
+          <AlertDismissible
+            message={
+              "Lo sentimos, ha ocurrido un error. Vuelve a intentarlo mas tarde."
+            }
+            state={true}
+          />
+        );
+      }
+    }
+  };
+
+  return (
+    <>
+      <div className="text-center">
+        <Image
+          className="mb-2 mt-2"
+          style={{ maxHeight: "14vh" }}
+          fluid={true}
+          src="/assets/img/Change username/nombre blanco.png"
+          />
+      </div>
+
+          <Form ref={formRef}>
+      <div className="d-flex flex-column mx-auto">
+        <Form.Label className="mb-0 text-light">
+          Nombre de usuario actual
+        </Form.Label>
+        <InputGroup className="mb-3">
+          <Form.Control
+            disabled={disabled}
+            required
+            maxLength={15}
+            ref={currentUsername}
+            placeholder={
+              disabled
+                ? "El administrador no puede cambiar sus credenciales"
+                : "Ingrese su nombre de usuario actual"
+            }
+            type="text"
+          />
+        </InputGroup>
+        <Form.Label className="mb-0 text-light">
+          Nuevo nombre de usuario
+        </Form.Label>
+        <Form.Text muted>
+          Su nombre de usuario debe ser de entre 6 y 15 caracteres, no se
+          permiten espacios ni caracteres especiales.
+        </Form.Text>
+        <InputGroup className="mb-3">
+          <Form.Control
+            disabled={disabled}
+            required
+            maxLength={15}
+            ref={newUsername}
+            placeholder={
+              disabled
+                ? "El administrador no puede cambiar sus credenciales"
+                : "Ingrese su nuevo nombre de usuario"
+            }
+            type="text"
+          />
+        </InputGroup>
+        <Form.Label className="mb-0 text-light">Contraseña</Form.Label>
+        <InputGroup className="mb-3">
+          <Form.Control
+            disabled={disabled}
+            required
+            maxLength={30}
+            ref={password}
+            placeholder={
+              disabled
+                ? "El administrador no puede cambiar sus credenciales"
+                : "Ingrese su contraseña"
+            }
+            type={showPassword ? "text" : "password"}
+            aria-label="password"
+          />
+          <Button
+            disabled={disabled}
+            variant="outline-primary"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {" "}
+            {showPassword ? (
+              <i className="bi bi-eye-slash"></i>
+            ) : (
+              <i className="bi bi-eye"></i>
+            )}{" "}
+          </Button>
+        </InputGroup>
+        <div className="mt-2 mb-2">{errorMessage}</div>
+        <div className="mt-2 w-100 d-flex justify-content-center">
+          <Button
+            disabled={disabled ? disabled : loading}
+            onClick={submitHandler}
+          >
+            {loading ? (
+              <>
+                <Spinner animation="border" size="sm" /> Guardar cambios
+              </>
+            ) : (
+              "Guardar cambios"
+            )}
+          </Button>
         </div>
-        </>
-        
-}
+      </div>
+          </Form>
+    </>
+  );
+};
 
-export default ChangeUsernameComponent
+export default ChangeUsernameComponent;

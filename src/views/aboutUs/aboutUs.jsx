@@ -63,16 +63,18 @@ const AboutUs = () => {
       />
       ;
       <Container>
-        <h5 className="text-light mb-4 glass-bg p-4" style={{textAlign:"justify"}}>
+        <h5
+          className="text-light mb-4 glass-bg p-4"
+          style={{ textAlign: "justify" }}
+        >
           Somos un grupo de tres jovenes estudiantes de desarrollo web que
-          decidimos crear Rolling Surveys, una plataforma de encuestas donde lo que prime sea la transparencia.
-          
-        Juntos, estamos
-          comprometidos con la meta de ofrecerle al usuario una experiencia 
-          accesible y confiable. Nos enorgullece
-          trabajar en un proyecto que puede ayudar a la comunidad a tomar
-          decisiones informadas y a los usuarios a expresar sus opiniones de
-          manera clara y efectiva. ¡Gracias por ser parte de nuestra historia!
+          decidimos crear Rolling Surveys, una plataforma de encuestas donde lo
+          que prime sea la transparencia. Juntos, estamos comprometidos con la
+          meta de ofrecerle al usuario una experiencia accesible y confiable.
+          Nos enorgullece trabajar en un proyecto que puede ayudar a la
+          comunidad a tomar decisiones informadas y a los usuarios a expresar
+          sus opiniones de manera clara y efectiva. ¡Gracias por ser parte de
+          nuestra historia!
         </h5>
         <Row className="d-flex flex-row justify-content-center">
           {CardComponents}
